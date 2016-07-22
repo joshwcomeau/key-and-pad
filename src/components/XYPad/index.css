@@ -2,4 +2,5 @@
   cursor: crosshair;
   position: relative;
   border-radius: 8px;
+  background: rgba(0,0,0,0.075);
 }
