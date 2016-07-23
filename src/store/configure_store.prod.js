@@ -1,11 +1,14 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import rootReducer from 'reducers';
+
+import webAudioMiddleware from '../middlewares/web-audio.middleware';
+import rootReducer from '../reducers';
 
 
 export default function configureStore() {
   const middlewares = [
     thunkMiddleware,
+    webAudioMiddleware,
   ];
 
   const store = createStore(

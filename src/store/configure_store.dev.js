@@ -9,7 +9,7 @@ import DevTools from '../components/DevTools';
 export default function configureStore() {
   const middlewares = [
     thunkMiddleware,
-    webAudioMiddleware
+    webAudioMiddleware,
   ];
 
   const store = createStore(
