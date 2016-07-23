@@ -9,19 +9,25 @@ const webAudioMiddleware = store => next => action => {
     case PRESS_KEY: {
       const { frequency } = action;
 
-      // check to see if this frequency already exists in our oscillators
-      if (typeof oscillators[frequency] !== 'undefined') {
+      const osc = audioContext.createOscillator();
+      osc.frequency.value = frequency;
+      osc.type = 'square';
 
-      } else {
-        const osc = audioContext.createOscillator();
-        osc.frequency.value = frequency;
-        osc.type = 'triangle';
+      osc.start(0);
+      osc.connect(audioContext.destination);
 
-        osc.start(0);
-        osc.connect(audioContext.destination);
+      oscillators[frequency] = osc;
 
-        oscillators[frequency] = osc;
+      break;
+    }
+    case RELEASE_KEY: {
+      const { frequency } = action;
+
+      if (typeof oscillators[frequency] === 'undefined') {
+        break;
       }
+
+      oscillators[frequency].stop();
     }
   }
 
