@@ -5,8 +5,6 @@ import './index.css';
 
 
 const Key = ({ letter, keyStyle, ...data}) => {
-  console.log(letter, keyStyle, data);
-
   const classes = classNames('key', keyStyle);
 
   return (

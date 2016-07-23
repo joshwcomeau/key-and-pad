@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 
 import Key from '../Key';
-import KeySpacer from '../KeySpacer';
-
 import './index.css';
 
 

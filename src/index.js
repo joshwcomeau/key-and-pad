@@ -1,24 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import XYPad from './components/XYPad';
-import Keyboard from './components/Keyboard';
-import keyboardLayout from './data/keyboard_layout';
+import App from './components/App';
+import configureStore from './store';
 
-import './reset.css';
-import './index.css';
-
+// Needed for onTouchTap
+// Check this repo: https://github.com/zilverline/react-tap-event-plugin
 injectTapEventPlugin();
+
+const store = configureStore();
 
 
 ReactDOM.render(
-  <div>
-    <Keyboard layout={keyboardLayout} />
-    <XYPad
-      handlePress={({ x, y }) => console.log(x, y)}
-      handleRelease={(ev) => console.log('released!', ev)}
-    />
-  </div>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
