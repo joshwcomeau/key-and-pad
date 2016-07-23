@@ -6,7 +6,11 @@
   display: inline-block;
 }
 
-.keyboard .keyboard-row {
+.keyboard-row {
   margin-top: 6px;
   overflow: hidden;
+}
+
+.keyboard-row:nth-child(odd) {
+  margin-left: 23px;
 }

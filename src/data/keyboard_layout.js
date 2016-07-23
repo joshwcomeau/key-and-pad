@@ -1,6 +1,5 @@
 const keyboardLayout = [
   [
-    { letter: '1', keyStyle: 'placeholder' },
     { letter: '2', keyStyle: 'black' },
     { letter: '3', keyStyle: 'black' },
     { letter: '4', keyStyle: 'placeholder' },
@@ -22,7 +21,6 @@ const keyboardLayout = [
     { letter: 'O', keyStyle: 'white' },
     { letter: 'P', keyStyle: 'white' },
   ], [
-    { letter: 'A', keyStyle: 'placeholder' },
     { letter: 'S', keyStyle: 'black' },
     { letter: 'D', keyStyle: 'black' },
     { letter: 'F', keyStyle: 'placeholder' },
