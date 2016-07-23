@@ -47,7 +47,8 @@ export const pressKey = ({ letter, frequency}) => ({
   frequency,
 });
 
-export const releaseKey = letter => ({
+export const releaseKey = ({ letter, frequency}) => ({
   type: RELEASE_KEY,
   letter,
+  frequency,
 });

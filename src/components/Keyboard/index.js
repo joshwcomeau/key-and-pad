@@ -41,7 +41,9 @@ export class Keyboard extends Component {
 
   handleRelease(ev) {
     const letter = keycode(ev).toUpperCase();
-    this.props.releaseKey(letter);
+    const frequency = keyboardFrequencies[letter];
+
+    this.props.releaseKey({ letter, frequency });
   }
 
   renderKey(key) {
