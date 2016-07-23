@@ -1,5 +1,4 @@
 const keyboardLayout = [
-
   [
     { letter: '1', keyStyle: 'placeholder', frequency: null    },
     { letter: '2', keyStyle: 'black',       frequency: 554.365 },
@@ -37,13 +36,13 @@ const keyboardLayout = [
     { letter: 'Z', keyStyle: 'white',       frequency: 261.626 },
     { letter: 'X', keyStyle: 'white',       frequency: 293.665 },
     { letter: 'C', keyStyle: 'white',       frequency: 329.628 },
-    { letter: 'R', keyStyle: 'white',       frequency: 349.228 },
-    { letter: 'T', keyStyle: 'white',       frequency: 391.995 },
-    { letter: 'Y', keyStyle: 'white',       frequency: 440.000 },
-    { letter: 'U', keyStyle: 'white',       frequency: 493.883 },
-    { letter: 'I', keyStyle: 'white',       frequency: 523.251 },
-    { letter: 'O', keyStyle: 'white',       frequency: 587.330 },
-    { letter: 'P', keyStyle: 'white',       frequency: 659.255 },
+    { letter: 'V', keyStyle: 'white',       frequency: 349.228 },
+    { letter: 'B', keyStyle: 'white',       frequency: 391.995 },
+    { letter: 'N', keyStyle: 'white',       frequency: 440.000 },
+    { letter: 'M', keyStyle: 'white',       frequency: 493.883 },
+    { letter: ',', keyStyle: 'white',       frequency: 523.251 },
+    { letter: '.', keyStyle: 'white',       frequency: 587.330 },
+    { letter: '/', keyStyle: 'white',       frequency: 659.255 },
   ],
 ];
 
