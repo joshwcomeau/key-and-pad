@@ -1,9 +1,33 @@
 .key {
   position: relative;
-  width: 30px;
-  height: 30px;
+  width: 45px;
+  height: 45px;
+  margin: 3px;
+  padding: 5px;
   border-radius: 4px;
-  background: rgba(0,0,0,0.1);
+  cursor: default;
+}
+
+.key.white {
+  background: #FAFAFA;
   border-bottom: 4px solid rgba(0,0,0,0.2);
   border-right: 2px solid rgba(0,0,0,0.2);
+  border-left: 1px solid rgba(0,0,0,0.1);
+}
+
+.key.black {
+  background: #333333;
+  color: #FFFFFF;
+  border-bottom: 4px solid rgba(0,0,0,0.6);
+  border-right: 2px solid rgba(0,0,0,0.6);
+  border-left: 1px solid rgba(0,0,0,0.3);
+}
+
+.key.placeholder {
+  background: #333333;
+  color: #FFFFFF;
+  opacity: 0.25;
+  border-bottom: 4px solid rgba(0,0,0,0.6);
+  border-right: 2px solid rgba(0,0,0,0.6);
+  border-left: 1px solid rgba(0,0,0,0.3);
 }
