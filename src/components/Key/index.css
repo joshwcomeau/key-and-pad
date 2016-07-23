@@ -31,3 +31,7 @@
   border-right: 2px solid rgba(0,0,0,0.6);
   border-left: 1px solid rgba(0,0,0,0.3);
 }
+
+.key.active {
+  background: #F00 !important;
+}

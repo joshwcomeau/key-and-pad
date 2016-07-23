@@ -4,8 +4,8 @@ import classNames from 'classnames';
 import './index.css';
 
 
-const Key = ({ letter, keyStyle, ...data}) => {
-  const classes = classNames('key', keyStyle);
+const Key = ({ letter, keyStyle, active, ...data}) => {
+  const classes = classNames('key', keyStyle, { active });
 
   return (
     <div className={classes}>

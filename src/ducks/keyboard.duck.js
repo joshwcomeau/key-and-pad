@@ -19,8 +19,10 @@ export default function keyboardReducer(state = initialState, action) {
   switch (action.type) {
     case PRESS_KEY: {
       return {
-        ...state.keys,
-        [action.letter]: action.frequency,
+        keys: {
+          ...state.keys,
+          [action.letter]: action.frequency,
+        },
       };
     }
 
