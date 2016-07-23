@@ -41,14 +41,16 @@ export default function keyboardReducer(state = initialState, action) {
 // ////////////////////////
 // ACTION CREATORS ///////
 // //////////////////////
-export const pressKey = ({ letter, frequency}) => ({
+export const pressKey = ({ letter, note, frequency}) => ({
   type: PRESS_KEY,
   letter,
+  note,
   frequency,
 });
 
-export const releaseKey = ({ letter, frequency}) => ({
+export const releaseKey = ({ letter, note, frequency}) => ({
   type: RELEASE_KEY,
   letter,
+  note,
   frequency,
 });

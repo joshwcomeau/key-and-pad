@@ -30,21 +30,23 @@ export class Keyboard extends Component {
 
   handlePress(ev) {
     const letter = keycode(ev).toUpperCase();
-    const frequency = toFreq(keyboardNotes[letter]);
+    const note = keyboardNotes[letter]
+    const frequency = toFreq(note);
 
     const isValidKeyPressed = !!frequency;
     const isAlreadyPlaying = !!this.props.keys[letter];
 
     if (isValidKeyPressed && !isAlreadyPlaying) {
-      this.props.pressKey({ letter, frequency })
+      this.props.pressKey({ letter, note, frequency })
     }
   }
 
   handleRelease(ev) {
     const letter = keycode(ev).toUpperCase();
-    const frequency = toFreq(keyboardNotes[letter]);
+    const note = keyboardNotes[letter]
+    const frequency = toFreq(note);
 
-    this.props.releaseKey({ letter, frequency });
+    this.props.releaseKey({ letter, note, frequency });
   }
 
   renderKey(key) {

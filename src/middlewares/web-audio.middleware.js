@@ -1,14 +1,12 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
 
-// eslint-disable-next-line no-undef
-const audioContext = new (AudioContext || webkitAudioContext)();
 
 const oscillators = {};
 
 const webAudioMiddleware = store => next => action => {
   switch (action.type) {
     case PRESS_KEY: {
-      const { frequency } = action;
+      const { note, frequency } = action;
 
       const osc = audioContext.createOscillator();
       osc.frequency.value = frequency;
@@ -22,7 +20,7 @@ const webAudioMiddleware = store => next => action => {
       break;
     }
     case RELEASE_KEY: {
-      const { frequency } = action;
+      const { note, frequency } = action;
 
       if (typeof oscillators[frequency] === 'undefined') {
         break;
