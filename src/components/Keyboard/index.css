@@ -1,0 +1,7 @@
+.keyboard {
+  position: relative;
+}
+
+.keyboard .key, .keyboard .key-spacer {
+  display: inline-block;
+}

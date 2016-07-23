@@ -4,20 +4,20 @@ import './index.css';
 class XYPad extends Component {
   constructor(props) {
     super(props);
-    this.click = this.click.bind(this);
-    this.touch = this.touch.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handlePress = this.handlePress.bind(this);
     this.release = this.release.bind(this);
   }
 
-  click(ev) {
+  handleClick(ev) {
     // If, and only if, the mouse button is held down, we want to delegate
     // to the `touch` event.
     if (ev.buttons === 1) {
-      this.touch(ev);
+      this.handlePress(ev);
     }
   }
 
-  touch(ev) {
+  handlePress(ev) {
     // We need to calculate the relative position of the event, and pass it
     // onto our supplied touch handler.
     const boundingBox = this.elem.getBoundingClientRect();
@@ -25,7 +25,7 @@ class XYPad extends Component {
     const x = (ev.clientX - boundingBox.left) / boundingBox.width;
     const y = (ev.clientY- boundingBox.top) / boundingBox.height;
 
-    this.props.onTouch({ x, y });
+    this.props.handlePress({ x, y });
   }
 
   release(ev) {
@@ -38,13 +38,13 @@ class XYPad extends Component {
     return (
       <div
         className="x-y-pad"
-        ref={elem => this.elem = elem}
+        ref={elem => { this.elem = elem; }}
         style={{ width, height }}
-        onTouchMove={this.touch}
-        onMouseDown={this.touch}
-        onMouseMove={this.click}
-        onTouchEnd={this.props.onRelease}
-        onMouseUp={this.props.onRelease}
+        onTouchStart={this.handlePress}
+        onMouseDown={this.handlePress}
+        onMouseMove={this.handleClick}
+        onTouchEnd={this.props.handleRelease}
+        onMouseUp={this.props.handleRelease}
       />
     );
   }
@@ -53,8 +53,8 @@ class XYPad extends Component {
 XYPad.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
-  onTouch: PropTypes.func.isRequired,
-  onRelease: PropTypes.func.isRequired,
+  handlePress: PropTypes.func.isRequired,
+  handleRelease: PropTypes.func.isRequired,
 };
 
 XYPad.defaultProps = {
