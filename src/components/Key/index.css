@@ -2,10 +2,11 @@
   position: relative;
   width: 45px;
   height: 45px;
-  margin: 3px;
+  margin: 0 3px;
   padding: 5px;
   border-radius: 4px;
   cursor: default;
+  transition: transform 200ms;
 }
 
 .key.white {
@@ -33,5 +34,6 @@
 }
 
 .key.active {
-  background: #F00 !important;
+  transform: translateY(3px);
+  transition: transform 200ms;
 }

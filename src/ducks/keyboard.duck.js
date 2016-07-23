@@ -27,7 +27,9 @@ export default function keyboardReducer(state = initialState, action) {
     }
 
     case RELEASE_KEY: {
-      return omit(state, action.key);
+      return {
+        keys: omit(state.keys, action.letter),
+      }
     }
 
     default:

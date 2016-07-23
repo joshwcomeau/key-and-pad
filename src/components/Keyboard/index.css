@@ -5,3 +5,8 @@
 .keyboard .key, .keyboard .key-spacer {
   display: inline-block;
 }
+
+.keyboard .keyboard-row {
+  margin-top: 6px;
+  overflow: hidden;
+}

@@ -12,20 +12,22 @@ export class Keyboard extends Component {
   constructor(props) {
     super(props);
     this.handlePress = this.handlePress.bind(this);
+    this.handleRelease = this.handleRelease.bind(this);
     this.renderKey = this.renderKey.bind(this);
     this.renderRow = this.renderRow.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener('keydown', this.handlePress);
+    window.addEventListener('keyup', this.handleRelease);
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.handlePress);
+    window.removeEventListener('keyup', this.handleRelease);
   }
 
   handlePress(ev) {
-    console.log(this.props);
     const letter = keycode(ev).toUpperCase();
     const frequency = keyboardFrequencies[letter];
 
@@ -35,6 +37,11 @@ export class Keyboard extends Component {
     if (isValidKeyPressed && !isAlreadyPlaying) {
       this.props.pressKey({ letter, frequency })
     }
+  }
+
+  handleRelease(ev) {
+    const letter = keycode(ev).toUpperCase();
+    this.props.releaseKey(letter);
   }
 
   renderKey(key) {
@@ -57,7 +64,7 @@ export class Keyboard extends Component {
 
   render() {
     return (
-      <div className="keyboard" onKeyPress={this.handlePress}>
+      <div className="keyboard">
         {this.props.layout.map(this.renderRow)}
       </div>
     );
