@@ -1,5 +1,6 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
 
+// eslint-disable-next-line no-undef
 const audioContext = new (AudioContext || webkitAudioContext)();
 
 const oscillators = {};
@@ -28,6 +29,11 @@ const webAudioMiddleware = store => next => action => {
       }
 
       oscillators[frequency].stop();
+
+      break;
+    }
+    default: {
+      // Do nothing. We ignore all other actions.
     }
   }
 

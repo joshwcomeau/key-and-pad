@@ -18,7 +18,8 @@
     "react-redux": "^4.4.5",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.1.0",
+    "tonal-freq": "^0.51.2"
   },
   "scripts": {
     "start": "react-scripts start",

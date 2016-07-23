@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import keycode from 'keycode';
+import { toFreq } from 'tonal-freq'
 
 import Key from '../Key';
 import { pressKey, releaseKey } from '../../ducks/keyboard.duck';
-import keyboardFrequencies from '../../data/keyboard_frequencies';
+import keyboardNotes from '../../data/keyboard_notes';
 import './index.css';
 
 
@@ -29,7 +30,7 @@ export class Keyboard extends Component {
 
   handlePress(ev) {
     const letter = keycode(ev).toUpperCase();
-    const frequency = keyboardFrequencies[letter];
+    const frequency = toFreq(keyboardNotes[letter]);
 
     const isValidKeyPressed = !!frequency;
     const isAlreadyPlaying = !!this.props.keys[letter];
@@ -41,7 +42,7 @@ export class Keyboard extends Component {
 
   handleRelease(ev) {
     const letter = keycode(ev).toUpperCase();
-    const frequency = keyboardFrequencies[letter];
+    const frequency = toFreq(keyboardNotes[letter]);
 
     this.props.releaseKey({ letter, frequency });
   }
