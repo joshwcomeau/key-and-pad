@@ -14,10 +14,7 @@ const App = () => (
   <div className="app">
     <Header />
     <Keyboard layout={keyboardLayout} />
-    <XYPad
-      handlePress={({ x, y }) => console.log(x, y)}
-      handleRelease={(ev) => console.log('released!', ev)}
-    />
+    <XYPad />
     <DevTools />
   </div>
 );

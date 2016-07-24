@@ -31,16 +31,22 @@ export const createFilterWithContext = context => ({
   type,
   resonance = 0,
   output,
-  startImmediately = true,
 }) => {
   const filterNode = context.createBiquadFilter();
 
   filterNode.Q.value = resonance;
   filterNode.connect(output);
 
-  if (startImmediately) {
-    filterNode.start(0);
-  }
-
   return filterNode;
 };
+
+export const getLogarithmicFrequencyValueWithContext = context => n => {
+  // Where `n` is a value from 0 to 1, compute what the current frequency
+  // should be, using a pleasant log scale.
+  const [min, max] = [40, context.sampleRate / 2];
+
+  const numOfOctaves = Math.log(max / min) / Math.LN2;
+  const multiplier = Math.pow(2, numOfOctaves * (n - 1.0));
+
+  return max * multiplier;
+}

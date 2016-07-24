@@ -2,7 +2,7 @@ import {
   createGainWithContext,
   createOscillatorWithContext,
   createFilterWithContext,
-  getLogarithmicFrequencyValue,
+  getLogarithmicFrequencyValueWithContext,
 } from './web-audio-helpers';
 
 
@@ -16,6 +16,7 @@ const oscillatorsMap = {};
 const createGain = createGainWithContext(audioContext);
 const createOscillator = createOscillatorWithContext(audioContext);
 const createFilter = createFilterWithContext(audioContext);
+const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(audioContext);
 
 /*
 ROUTING
@@ -51,6 +52,7 @@ const lowPassFilter = createFilter({
 });
 
 let xEffect = lowPassFilter;
+// eslint-disable-next-line no-unused-vars
 let yEffect; // TBD
 
 const masterOutput = createGain({ value: 1, output: xEffect });
@@ -84,3 +86,11 @@ export const stopNote = ({ note }) => {
     oscillatorsMap[note].forEach(osc => osc.stop());
   }
 };
+
+export const updatePadCoordinates = ({ x, y }) => {
+  // For now, we only work with X, and X is always a lowpass filter.
+  const frequency = getLogarithmicFrequencyValue(x);
+
+  console.log("Calculated frequency", frequency);
+
+}

@@ -1,14 +1,16 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 
+import { updatePosition, releasePad } from '../../ducks/x-y-pad.duck';
 import XYPadAxisLabel from '../XYPadAxisLabel';
 import './index.scss';
 
-class XYPad extends Component {
+export class XYPad extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.handlePress = this.handlePress.bind(this);
-    this.release = this.release.bind(this);
+    this.handleRelease = this.handleRelease.bind(this);
   }
 
   handleClick(ev) {
@@ -27,11 +29,11 @@ class XYPad extends Component {
     const x = (ev.clientX - boundingBox.left) / boundingBox.width;
     const y = (ev.clientY- boundingBox.top) / boundingBox.height;
 
-    this.props.handlePress({ x, y });
+    this.props.updatePosition({ x, y });
   }
 
-  release(ev) {
-
+  handleRelease() {
+    this.props.releasePad();
   }
 
   render() {
@@ -43,8 +45,8 @@ class XYPad extends Component {
           onTouchStart={this.handlePress}
           onMouseDown={this.handlePress}
           onMouseMove={this.handleClick}
-          onTouchEnd={this.props.handleRelease}
-          onMouseUp={this.props.handleRelease}
+          onTouchEnd={this.handleRelease}
+          onMouseUp={this.handleRelease}
         />
         <XYPadAxisLabel
           label="low-pass filter"
@@ -62,8 +64,8 @@ class XYPad extends Component {
 }
 
 XYPad.propTypes = {
-  handlePress: PropTypes.func.isRequired,
-  handleRelease: PropTypes.func.isRequired,
+  updatePosition: PropTypes.func.isRequired,
+  releasePad: PropTypes.func.isRequired,
 };
 
-export default XYPad;
+export default connect(null, { updatePosition, releasePad })(XYPad);
