@@ -1,5 +1,5 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
-import { playNote, stopNote } from '../utils/oscillators';
+import { playNote, stopNote } from '../utils/web-audio-manager';
 
 
 const webAudioMiddleware = store => next => action => {
