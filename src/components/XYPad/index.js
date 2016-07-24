@@ -6,6 +6,7 @@ import { updatePosition, releasePad } from '../../ducks/x-y-pad.duck';
 import XYPadAxisLabel from '../XYPadAxisLabel';
 import './index.scss';
 
+
 export class XYPad extends Component {
   constructor(props) {
     super(props);
@@ -78,7 +79,8 @@ export class XYPad extends Component {
             height="100%"
             className={svgClasses}
           >
-            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" fill="red" />
+            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
+            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
           </svg>
         </div>
         <XYPadAxisLabel
