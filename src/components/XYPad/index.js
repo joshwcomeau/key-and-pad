@@ -1,5 +1,10 @@
 import React, { Component, PropTypes } from 'react';
+
 import './index.css';
+import iconArrowUp from '../../images/ic_arrow_upward_black_24px.svg';
+import iconArrowDown from '../../images/ic_arrow_downward_black_24px.svg';
+import iconArrowLeft from '../../images/ic_arrow_back_black_24px.svg';
+import iconArrowRight from '../../images/ic_arrow_forward_black_24px.svg';
 
 class XYPad extends Component {
   constructor(props) {
@@ -33,33 +38,30 @@ class XYPad extends Component {
   }
 
   render() {
-    const { width, height } = this.props;
-
     return (
-      <div
-        className="x-y-pad"
-        ref={elem => { this.elem = elem; }}
-        style={{ width, height }}
-        onTouchStart={this.handlePress}
-        onMouseDown={this.handlePress}
-        onMouseMove={this.handleClick}
-        onTouchEnd={this.props.handleRelease}
-        onMouseUp={this.props.handleRelease}
-      />
+      <div className="x-y-pad">
+        <div
+          className="pad"
+          ref={elem => { this.elem = elem; }}
+          onTouchStart={this.handlePress}
+          onMouseDown={this.handlePress}
+          onMouseMove={this.handleClick}
+          onTouchEnd={this.props.handleRelease}
+          onMouseUp={this.props.handleRelease}
+        />
+        <div className="horizontal-axis">
+          <img className="arrow left" src={iconArrowLeft} />
+          <img className="arrow right" src={iconArrowRight} />
+          <h4 className="axis-label">Low-Pass Filter</h4>
+        </div>
+      </div>
     );
   }
 }
 
 XYPad.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
   handlePress: PropTypes.func.isRequired,
   handleRelease: PropTypes.func.isRequired,
-};
-
-XYPad.defaultProps = {
-  width: 350,
-  height: 350,
 };
 
 export default XYPad;

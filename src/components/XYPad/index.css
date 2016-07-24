@@ -1,6 +1,46 @@
 .x-y-pad {
+  position: relative;
+}
+
+.x-y-pad .pad {
   cursor: crosshair;
   position: relative;
-  border-radius: 8px;
-  background: rgba(0,0,0,0.075);
+  border-radius: 4px;
+  border: 1px solid rgba(0,0,0,0.1);
+  width: 264px;
+  height: 264px;
+  background: #FFF;
+}
+
+.x-y-pad .horizontal-axis {
+  position: absolute;
+  height: 40px;
+  line-height: 40px;
+  bottom: -40px;
+  left: 0;
+  right: 0;
+}
+
+.x-y-pad .arrow {
+  position: absolute;
+  margin: auto;
+  opacity: 0.6;
+}
+
+.x-y-pad .arrow.left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.x-y-pad .arrow.right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.x-y-pad .horizontal-axis .axis-label {
+  text-align: center;
+  font-size: 12px;
+  color: #666;
 }
