@@ -4,6 +4,7 @@ import {
   playNote,
   stopNote,
   updatePadCoordinates,
+  removeEffects,
 } from '../utils/web-audio-manager';
 
 
@@ -21,6 +22,12 @@ const webAudioMiddleware = store => next => action => {
 
     case UPDATE_POSITION: {
       updatePadCoordinates(action);
+      break;
+    }
+
+    case RELEASE_PAD: {
+      removeEffects();
+      break;
     }
 
     default: {

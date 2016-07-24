@@ -3,6 +3,7 @@ import {
   createOscillatorWithContext,
   createFilterWithContext,
   getLogarithmicFrequencyValueWithContext,
+  connectNodes,
 } from './web-audio-helpers';
 
 
@@ -47,7 +48,7 @@ avoiding the other effects (distortion and reverb).
 // EFFECTS
 const lowPassFilter = createFilter({
   type: 'lowpass',
-  resonance: 0,
+  resonance: 2,
   output: audioContext.destination,
 });
 
@@ -55,7 +56,7 @@ let xEffect = lowPassFilter;
 // eslint-disable-next-line no-unused-vars
 let yEffect; // TBD
 
-const masterOutput = createGain({ value: 1, output: xEffect });
+const masterOutput = createGain({ value: 1, output: audioContext.destination });
 
 
 
@@ -89,8 +90,22 @@ export const stopNote = ({ note }) => {
 
 export const updatePadCoordinates = ({ x, y }) => {
   // For now, we only work with X, and X is always a lowpass filter.
+
+  // Start by ensuring it's routed to the filter
+  connectNodes({
+    source: masterOutput,
+    destination: lowPassFilter,
+  });
+
+  // Next, get the frequency and set it.
   const frequency = getLogarithmicFrequencyValue(x);
 
   lowPassFilter.frequency.value = frequency;
+}
 
+export const removeEffects = () => {
+  connectNodes({
+    source: masterOutput,
+    destination: audioContext.destination,
+  });
 }

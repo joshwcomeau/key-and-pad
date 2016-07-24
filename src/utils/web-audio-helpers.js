@@ -50,3 +50,8 @@ export const getLogarithmicFrequencyValueWithContext = context => n => {
 
   return max * multiplier;
 }
+
+export const connectNodes = ({ source, destination }) => {
+  source.disconnect();
+  source.connect(destination);
+}
