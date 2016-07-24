@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .x-y-pad {
   position: relative;
 }
@@ -6,10 +8,10 @@
   cursor: crosshair;
   position: relative;
   border-radius: 4px;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.125);
   width: 264px;
   height: 264px;
-  background: #FFF;
+  background: $white;
 }
 
 .x-y-pad .horizontal-axis {

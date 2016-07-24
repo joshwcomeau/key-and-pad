@@ -6,7 +6,7 @@ import Keyboard from '../Keyboard';
 import DevTools from '../DevTools';
 import keyboardLayout from '../../data/keyboard_layout';
 
-import './reset.css';
+import './reset.scss';
 import './index.scss';
 
 

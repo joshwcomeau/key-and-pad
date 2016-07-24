@@ -6,7 +6,7 @@ import { toFreq } from 'tonal-freq'
 import Key from '../Key';
 import { pressKey, releaseKey } from '../../ducks/keyboard.duck';
 import keyboardNotes from '../../data/keyboard_notes';
-import './index.css';
+import './index.scss';
 
 
 export class Keyboard extends Component {

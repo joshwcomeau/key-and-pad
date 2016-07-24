@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import XYPadAxisLabel from '../XYPadAxisLabel';
-import './index.css';
+import './index.scss';
 
 class XYPad extends Component {
   constructor(props) {

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
-import './index.css';
+import './index.scss';
 
 
 const Key = ({ letter, keyStyle, active, ...data}) => {
