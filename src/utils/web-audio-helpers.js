@@ -25,4 +25,22 @@ export const createOscillatorWithContext = context => ({
   }
 
   return oscillatorNode;
-}
+};
+
+export const createFilterWithContext = context => ({
+  type,
+  resonance = 0,
+  output,
+  startImmediately = true,
+}) => {
+  const filterNode = context.createBiquadFilter();
+
+  filterNode.Q.value = resonance;
+  filterNode.connect(output);
+
+  if (startImmediately) {
+    filterNode.start(0);
+  }
+
+  return filterNode;
+};

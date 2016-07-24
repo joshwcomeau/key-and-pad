@@ -1,6 +1,8 @@
 import {
   createGainWithContext,
-  createOscillatorWithContext
+  createOscillatorWithContext,
+  createFilterWithContext,
+  getLogarithmicFrequencyValue,
 } from './web-audio-helpers';
 
 
@@ -13,11 +15,46 @@ const oscillatorsMap = {};
 // our singleton context and save some typing :)
 const createGain = createGainWithContext(audioContext);
 const createOscillator = createOscillatorWithContext(audioContext);
+const createFilter = createFilterWithContext(audioContext);
 
-// Create a master output gain.
-// This is useful so that we can target a filter on the overall sound, without
-// needing to map through and update each oscillator individually.
-const masterOutput = createGain({ value: 1, output: audioContext.destination });
+/*
+ROUTING
+
+Web Audio is extremely modular, and I'd like to be able to support a wide
+variety of effects.
+All oscillators for all notes will be sent to a single master gain:
+
+  Note 1 Osc1 --> gain -\
+                         \
+  Note 1 Osc2 --> gain -----> masterGain
+                         /
+  Note 2 Osc1 --> gain -/
+
+This gain will then be routed through whichever effects are on.
+
+  --------------  X effect ------------- Y effect -----------------------------
+
+                  distortion         /-- delay --\
+                                    /             \
+  masterGain ---- low-pass filter -/     reverb    \----- final output
+
+In the above example, the signal routes through a filter and a delay,
+avoiding the other effects (distortion and reverb).
+*/
+
+
+// EFFECTS
+const lowPassFilter = createFilter({
+  type: 'lowpass',
+  resonance: 0,
+  output: audioContext.destination,
+});
+
+let xEffect = lowPassFilter;
+let yEffect; // TBD
+
+const masterOutput = createGain({ value: 1, output: xEffect });
+
 
 
 export const playNote = ({ note, frequency }) => {
@@ -38,8 +75,6 @@ export const playNote = ({ note, frequency }) => {
       output: masterOutput,
     }),
   });
-
-  // Send both oscillators through a gainNode, so that we have
 
   oscillatorsMap[note] = [oscillator1, oscillator2];
 };
