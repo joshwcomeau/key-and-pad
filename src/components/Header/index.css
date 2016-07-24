@@ -1,0 +1,20 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: -2px;
+  text-rendering: geometricPrecision;
+}
+
+.header .join-character {
+  font-weight: normal;
+  display: inline-block;
+  margin: 0 2px;
+}
