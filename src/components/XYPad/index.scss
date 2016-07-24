@@ -37,19 +37,26 @@
     height: 100%;
     top: 0;
     left: 0;
-    // opacity: 0;
+    opacity: 0;
     pointer-events: none;
     will-change: transform;
-    animation: pulsePointer 1s;
+    transition: opacity 1000ms;
+
+    &.is-pressed {
+      opacity: 1;
+      transition: opacity 400ms;
+    }
 
     circle {
-      fill: #F00;
+      fill: $lime;
+      animation: pulsePointer 0.6s linear infinite;
+      transform-origin: center center;
     }
   }
 }
 
 @keyframes pulsePointer {
   0% { transform: scale(1); }
-  50% { transform: scale(1.5); }
+  50% { transform: scale(1.25); }
   100% { transform: scale(1); }
 }

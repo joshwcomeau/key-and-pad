@@ -9,6 +9,7 @@
 }
 
 .header h1 {
+  cursor: default;
   font-size: 28px;
   font-weight: bold;
   color: $black;
@@ -17,7 +18,7 @@
 }
 
 .header .join-character {
-  font-weight: normal;
+  font-weight: 100;
   display: inline-block;
   margin: 0 2px;
 }

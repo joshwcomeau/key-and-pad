@@ -2,6 +2,7 @@
 
 .keyboard {
   position: relative;
+  -webkit-user-select: none;
 }
 
 .keyboard .key, .keyboard .key-spacer {

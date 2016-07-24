@@ -9,6 +9,11 @@
   src: url(../../fonts/lineto-brown-bold.woff);
   font-weight: bold;
 }
+@font-face {
+  font-family: Brown;
+  src: url(../../fonts/lineto-brown-light.woff);
+  font-weight: 100;
+}
 
 *, *::before, *::after {
   box-sizing: border-box;

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import throttle from 'lodash.throttle';
+import classNames from 'classnames';
 
 import { updatePosition, releasePad } from '../../ducks/x-y-pad.duck';
 import XYPadAxisLabel from '../XYPadAxisLabel';
@@ -32,7 +32,7 @@ export class XYPad extends Component {
     // Also, we need a visual cue!
     // move the red circle to the cursor's position
     // I'm doing this imperatively for perf reasons :(
-    this.setState({ offsetX, offsetY })
+    this.setState({ offsetX, offsetY, isPressed: true })
   }
 
   handleClick(ev) {
@@ -53,9 +53,15 @@ export class XYPad extends Component {
 
   handleRelease() {
     this.props.releasePad();
+    this.setState({ isPressed: false });
   }
 
   render() {
+    const svgClasses = classNames(
+      'pointer-indicator',
+      { 'is-pressed': this.state.isPressed }
+    );
+
     return (
       <div className="x-y-pad">
         <div
@@ -70,7 +76,7 @@ export class XYPad extends Component {
           <svg
             width="100%"
             height="100%"
-            className="pointer-indicator"
+            className={svgClasses}
           >
             <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" fill="red" />
           </svg>

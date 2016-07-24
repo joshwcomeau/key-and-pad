@@ -35,8 +35,9 @@ export class Keyboard extends Component {
 
     const isValidKeyPressed = !!frequency;
     const isAlreadyPlaying = !!this.props.keys[letter];
+    const isMetaKeyPressed = !!ev.metaKey;
 
-    if (isValidKeyPressed && !isAlreadyPlaying) {
+    if (isValidKeyPressed && !isAlreadyPlaying && !isMetaKeyPressed) {
       this.props.pressKey({ letter, note, frequency })
     }
   }
