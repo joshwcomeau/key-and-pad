@@ -7,7 +7,7 @@ import DevTools from '../DevTools';
 import keyboardLayout from '../../data/keyboard_layout';
 
 import './reset.css';
-import './index.css';
+import './index.scss';
 
 
 const App = () => (

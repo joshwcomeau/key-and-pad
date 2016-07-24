@@ -1,3 +1,5 @@
+@import '../../variables';
+
 @font-face {
   font-family: Brown;
   src: url(../../fonts/lineto-brown-regular.woff);
@@ -21,7 +23,7 @@ body {
   padding: 0;
   font-family: Brown;
   -webkit-font-smoothing: antialiased;
-  background: #F8F8F8;
+  background: $offwhite;
 }
 
 .app {
