@@ -2,6 +2,7 @@ import {
   createGainWithContext,
   createOscillatorWithContext,
   createFilterWithContext,
+  createDistortionWithContext,
   getLogarithmicFrequencyValueWithContext,
   connectNodes,
 } from './web-audio-helpers';
@@ -17,6 +18,7 @@ const oscillatorsMap = {};
 const createGain = createGainWithContext(audioContext);
 const createOscillator = createOscillatorWithContext(audioContext);
 const createFilter = createFilterWithContext(audioContext);
+const createDistortion = createDistortionWithContext(audioContext);
 const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(audioContext);
 
 /*
@@ -52,12 +54,19 @@ const lowPassFilter = createFilter({
   output: audioContext.destination,
 });
 
+const distortion = createDistortion({
+  oversample: '4x',
+  amount: 100,
+  output: audioContext.destination,
+});
+
+// eslint-disable-next-line no-unused-vars
 let xEffect = lowPassFilter;
 // eslint-disable-next-line no-unused-vars
-let yEffect; // TBD
+let yEffect = distortion;
+
 
 const masterOutput = createGain({ value: 1, output: audioContext.destination });
-
 
 
 export const playNote = ({ note, frequency }) => {
@@ -70,6 +79,7 @@ export const playNote = ({ note, frequency }) => {
       output: masterOutput,
     }),
   });
+
   const oscillator2 = createOscillator({
     waveform: 'triangle',
     frequency,
@@ -89,18 +99,32 @@ export const stopNote = ({ note }) => {
 };
 
 export const updatePadCoordinates = ({ x, y }) => {
-  // For now, we only work with X, and X is always a lowpass filter.
+  // The routing goes like this:
+  // masterOutput -> xEffect -> yEffect -> audioContext.destination.
 
   // Start by ensuring it's routed to the filter
   connectNodes({
     source: masterOutput,
-    destination: lowPassFilter,
+    destination: xEffect,
+  });
+
+  connectNodes({
+    source: xEffect,
+    destination: yEffect,
+  });
+
+  connectNodes({
+    source: yEffect,
+    destination: audioContext.destination,
   });
 
   // Next, get the frequency and set it.
   const frequency = getLogarithmicFrequencyValue(x);
 
   lowPassFilter.frequency.value = frequency;
+  distortion.updateCurve(y * 250)
+
+
 }
 
 export const removeEffects = () => {

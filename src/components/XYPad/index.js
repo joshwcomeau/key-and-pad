@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import throttle from 'lodash.throttle';
 
 import { updatePosition, releasePad } from '../../ducks/x-y-pad.duck';
 import XYPadAxisLabel from '../XYPadAxisLabel';
@@ -11,6 +12,21 @@ export class XYPad extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handlePress = this.handlePress.bind(this);
     this.handleRelease = this.handleRelease.bind(this);
+    this.calculateAndUpdatePosition = throttle(
+      this.calculateAndUpdatePosition,
+      30
+    );
+  }
+
+  calculateAndUpdatePosition(clientX, clientY) {
+    // We need to calculate the relative position of the event, and pass it
+    // onto our supplied touch handler.
+    const boundingBox = this.elem.getBoundingClientRect();
+
+    const x = (clientX - boundingBox.left) / boundingBox.width;
+    const y = (clientY- boundingBox.top) / boundingBox.height;
+
+    this.props.updatePosition({ x, y });
   }
 
   handleClick(ev) {
@@ -22,14 +38,11 @@ export class XYPad extends Component {
   }
 
   handlePress(ev) {
-    // We need to calculate the relative position of the event, and pass it
-    // onto our supplied touch handler.
-    const boundingBox = this.elem.getBoundingClientRect();
-
-    const x = (ev.clientX - boundingBox.left) / boundingBox.width;
-    const y = (ev.clientY- boundingBox.top) / boundingBox.height;
-
-    this.props.updatePosition({ x, y });
+    // This annoying workaround is because we can't directly throttle React
+    // event handlers. Their event pooling system makes it so that by the
+    // time the throttle fires, the event has been nullified.
+    // See https://facebook.github.io/react/docs/events.html#event-pooling
+    return this.calculateAndUpdatePosition(ev.clientX, ev.clientY);
   }
 
   handleRelease() {

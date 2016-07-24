@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+
 export const createGainWithContext = context => ({ value, output }) => {
   const gainNode = context.createGain();
   gainNode.gain.value = value
@@ -39,6 +41,38 @@ export const createFilterWithContext = context => ({
 
   return filterNode;
 };
+
+
+const calculateDistortionCurve = (context, amount) => {
+  const samples = context.sampleRate;
+  const curve = new Float32Array(samples);
+  const deg = Math.PI / 180;
+
+  for (let i = 0; i < samples; i++) {
+    const x = i * 2 / samples - 1;
+    curve[i] = (amount + 3) * x * 20 * deg / (Math.PI + amount * Math.abs(x));
+  }
+
+  return curve;
+}
+
+export const createDistortionWithContext = context => ({
+  amount,
+  oversample = '4x',
+  output,
+}) => {
+  const distortionNode = context.createWaveShaper();
+
+  distortionNode.updateCurve = amount => {
+    distortionNode.curve = calculateDistortionCurve(context, amount);
+  }
+
+  distortionNode.oversample = oversample;
+  distortionNode.connect(output);
+  distortionNode.updateCurve();
+
+  return distortionNode;
+}
 
 export const getLogarithmicFrequencyValueWithContext = context => n => {
   // Where `n` is a value from 0 to 1, compute what the current frequency
