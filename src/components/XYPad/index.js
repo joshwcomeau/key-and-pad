@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import XYPadAxisLabel from '../XYPadAxisLabel';
 import './index.css';
-import iconArrowUp from '../../images/ic_arrow_upward_black_24px.svg';
-import iconArrowDown from '../../images/ic_arrow_downward_black_24px.svg';
-import iconArrowLeft from '../../images/ic_arrow_back_black_24px.svg';
-import iconArrowRight from '../../images/ic_arrow_forward_black_24px.svg';
 
 class XYPad extends Component {
   constructor(props) {
@@ -49,11 +46,16 @@ class XYPad extends Component {
           onTouchEnd={this.props.handleRelease}
           onMouseUp={this.props.handleRelease}
         />
-        <div className="horizontal-axis">
-          <img className="arrow left" src={iconArrowLeft} />
-          <img className="arrow right" src={iconArrowRight} />
-          <h4 className="axis-label">Low-Pass Filter</h4>
-        </div>
+        <XYPadAxisLabel
+          label="low-pass filter"
+          className="horizontal-axis"
+          includeRightArrow
+        />
+        <XYPadAxisLabel
+          label="distortion"
+          className="vertical-axis"
+          includeLeftArrow
+          />
       </div>
     );
   }

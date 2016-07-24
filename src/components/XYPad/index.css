@@ -14,33 +14,16 @@
 
 .x-y-pad .horizontal-axis {
   position: absolute;
-  height: 40px;
-  line-height: 40px;
-  bottom: -40px;
+  top: -40px;
   left: 0;
   right: 0;
 }
-
-.x-y-pad .arrow {
+.x-y-pad .vertical-axis {
   position: absolute;
-  margin: auto;
-  opacity: 0.6;
-}
-
-.x-y-pad .arrow.left {
-  top: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.x-y-pad .arrow.right {
-  top: 0;
-  bottom: 0;
+  width: 100%;
+  bottom: -40px;
+  left: -40px;
   right: 0;
-}
-
-.x-y-pad .horizontal-axis .axis-label {
-  text-align: center;
-  font-size: 12px;
-  color: #666;
+  transform: rotate(-90deg);
+  transform-origin: left top;
 }
