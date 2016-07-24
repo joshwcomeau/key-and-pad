@@ -2,8 +2,7 @@ import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 import './index.scss';
-import iconArrowLeft from '../../images/ic_chevron_left_black_24px.svg';
-import iconArrowRight from '../../images/ic_chevron_right_black_24px.svg';
+
 
 const XYPadAxisLabel = ({ label, className, includeRightArrow, includeLeftArrow }) => (
   <div className={classNames('x-y-pad-axis-label', className)}>

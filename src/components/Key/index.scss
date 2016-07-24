@@ -2,8 +2,8 @@
 
 .key {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: $keyboard-key-size;
+  height: $keyboard-key-size;
   margin: 0 3px;
   padding: 5px;
   border-radius: 4px;
@@ -37,5 +37,5 @@
 
 .key.active {
   transform: translateY(3px);
-  transition: transform 200ms;
+  transition: transform 70ms;
 }
