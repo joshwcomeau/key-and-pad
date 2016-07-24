@@ -12,10 +12,8 @@ export class XYPad extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handlePress = this.handlePress.bind(this);
     this.handleRelease = this.handleRelease.bind(this);
-    this.calculateAndUpdatePosition = throttle(
-      this.calculateAndUpdatePosition,
-      30
-    );
+
+    this.state = {};
   }
 
   calculateAndUpdatePosition(clientX, clientY) {
@@ -23,10 +21,18 @@ export class XYPad extends Component {
     // onto our supplied touch handler.
     const boundingBox = this.elem.getBoundingClientRect();
 
-    const x = (clientX - boundingBox.left) / boundingBox.width;
-    const y = (clientY- boundingBox.top) / boundingBox.height;
+    const offsetX = clientX - boundingBox.left;
+    const offsetY = clientY - boundingBox.top;
+
+    const x = offsetX / boundingBox.width;
+    const y = offsetY / boundingBox.height;
 
     this.props.updatePosition({ x, y });
+
+    // Also, we need a visual cue!
+    // move the red circle to the cursor's position
+    // I'm doing this imperatively for perf reasons :(
+    this.setState({ offsetX, offsetY })
   }
 
   handleClick(ev) {
@@ -60,7 +66,15 @@ export class XYPad extends Component {
           onMouseMove={this.handleClick}
           onTouchEnd={this.handleRelease}
           onMouseUp={this.handleRelease}
-        />
+        >
+          <svg
+            width="100%"
+            height="100%"
+            className="pointer-indicator"
+          >
+            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" fill="red" />
+          </svg>
+        </div>
         <XYPadAxisLabel
           label="low-pass filter"
           className="horizontal-axis"

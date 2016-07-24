@@ -2,30 +2,54 @@
 
 .x-y-pad {
   position: relative;
+
+  .pad {
+    cursor: crosshair;
+    position: relative;
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.125);
+    width: $x-y-pad-size;
+    height: $x-y-pad-size;
+    background: $white;
+    overflow: hidden;
+  }
+
+  .horizontal-axis {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    right: 0;
+  }
+
+  .vertical-axis {
+    position: absolute;
+    width: 100%;
+    bottom: -40px;
+    left: -40px;
+    right: 0;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+  }
+
+  .pointer-indicator {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    // opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+    animation: pulsePointer 1s;
+
+    circle {
+      fill: #F00;
+    }
+  }
 }
 
-.x-y-pad .pad {
-  cursor: crosshair;
-  position: relative;
-  border-radius: 4px;
-  border: 1px solid rgba(0,0,0,0.125);
-  width: $x-y-pad-size;
-  height: $x-y-pad-size;
-  background: $white;
-}
-
-.x-y-pad .horizontal-axis {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  right: 0;
-}
-.x-y-pad .vertical-axis {
-  position: absolute;
-  width: 100%;
-  bottom: -40px;
-  left: -40px;
-  right: 0;
-  transform: rotate(-90deg);
-  transform-origin: left top;
+@keyframes pulsePointer {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
 }
