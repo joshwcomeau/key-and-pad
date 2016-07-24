@@ -1,33 +1,15 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
+import { playNote, stopNote } from '../utils/oscillators';
 
-
-const oscillators = {};
 
 const webAudioMiddleware = store => next => action => {
   switch (action.type) {
     case PRESS_KEY: {
-      const { note, frequency } = action;
-
-      const osc = audioContext.createOscillator();
-      osc.frequency.value = frequency;
-      osc.type = 'square';
-
-      osc.start(0);
-      osc.connect(audioContext.destination);
-
-      oscillators[frequency] = osc;
-
+      playNote(action);
       break;
     }
     case RELEASE_KEY: {
-      const { note, frequency } = action;
-
-      if (typeof oscillators[frequency] === 'undefined') {
-        break;
-      }
-
-      oscillators[frequency].stop();
-
+      stopNote(action);
       break;
     }
     default: {
