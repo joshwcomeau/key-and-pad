@@ -1,5 +1,10 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
-import { playNote, stopNote } from '../utils/web-audio-manager';
+import { UPDATE_POSITION, RELEASE_PAD } from '../ducks/x-y-pad.duck';
+import {
+  playNote,
+  stopNote,
+  updatePadCoordinates,
+} from '../utils/web-audio-manager';
 
 
 const webAudioMiddleware = store => next => action => {
@@ -8,10 +13,16 @@ const webAudioMiddleware = store => next => action => {
       playNote(action);
       break;
     }
+
     case RELEASE_KEY: {
       stopNote(action);
       break;
     }
+
+    case UPDATE_POSITION: {
+      updatePadCoordinates(action);
+    }
+
     default: {
       // Do nothing. We ignore all other actions.
     }

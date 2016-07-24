@@ -91,6 +91,6 @@ export const updatePadCoordinates = ({ x, y }) => {
   // For now, we only work with X, and X is always a lowpass filter.
   const frequency = getLogarithmicFrequencyValue(x);
 
-  console.log("Calculated frequency", frequency);
+  lowPassFilter.frequency.value = frequency;
 
 }
