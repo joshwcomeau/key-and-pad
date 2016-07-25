@@ -6,19 +6,19 @@
   left: 0;
   right: 0;
   padding: 1.2rem 1.4rem;
-}
 
-.header h1 {
-  cursor: default;
-  font-size: 28px;
-  font-weight: bold;
-  color: $black;
-  letter-spacing: -2px;
-  text-rendering: geometricPrecision;
-}
+  h1 {
+    cursor: default;
+    font-size: 28px;
+    font-weight: bold;
+    color: $black;
+    letter-spacing: -2px;
+    text-rendering: geometricPrecision;
+  }
 
-.header .join-character {
-  font-weight: 100;
-  display: inline-block;
-  margin: 0 2px;
+  .join-character {
+    font-weight: 100;
+    display: inline-block;
+    margin: 0 2px;
+  }
 }

@@ -3,21 +3,21 @@
 .keyboard {
   position: relative;
   -webkit-user-select: none;
-}
 
-.keyboard .key, .keyboard .key-spacer {
-  display: inline-block;
+  .key, .key-spacer {
+    display: inline-block;
+  }
 }
 
 .keyboard-row {
   margin-top: 6px;
   overflow: hidden;
-}
 
-.keyboard-row:nth-child(odd) {
-  margin-left: 30px;
-}
+  &:nth-child(odd) {
+    margin-left: 30px;
+  }
 
-.keyboard-row:nth-child(2) {
-  margin-bottom: 20px;
+  &:nth-child(2) {
+    margin-bottom: 20px;
+  }
 }

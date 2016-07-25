@@ -9,33 +9,33 @@
   border-radius: 4px;
   cursor: default;
   transition: transform 200ms;
-}
 
-.key.white {
-  background: $white;
-  border-bottom: 4px solid rgba(0,0,0,0.2);
-  border-right: 2px solid rgba(0,0,0,0.2);
-  border-left: 1px solid rgba(0,0,0,0.1);
-}
+  &.white {
+    background: $white;
+    border-bottom: 4px solid rgba(0,0,0,0.2);
+    border-right: 2px solid rgba(0,0,0,0.2);
+    border-left: 1px solid rgba(0,0,0,0.1);
+  }
 
-.key.black {
-  background: $darkgray;
-  color: $white;
-  border-bottom: 4px solid rgba(0,0,0,0.6);
-  border-right: 2px solid rgba(0,0,0,0.6);
-  border-left: 1px solid rgba(0,0,0,0.3);
-}
+  &.black {
+    background: $darkgray;
+    color: $white;
+    border-bottom: 4px solid rgba(0,0,0,0.6);
+    border-right: 2px solid rgba(0,0,0,0.6);
+    border-left: 1px solid rgba(0,0,0,0.3);
+  }
 
-.key.placeholder {
-  background: $darkgray;
-  color: $white;
-  opacity: 0.25;
-  border-bottom: 4px solid rgba(0,0,0,0.6);
-  border-right: 2px solid rgba(0,0,0,0.6);
-  border-left: 1px solid rgba(0,0,0,0.3);
-}
+  &.placeholder {
+    background: $darkgray;
+    color: $white;
+    opacity: 0.25;
+    border-bottom: 4px solid rgba(0,0,0,0.6);
+    border-right: 2px solid rgba(0,0,0,0.6);
+    border-left: 1px solid rgba(0,0,0,0.3);
+  }
 
-.key.active {
-  transform: translateY(3px);
-  transition: transform 70ms;
+  &.active {
+    transform: translateY(3px);
+    transition: transform 70ms;
+  }
 }

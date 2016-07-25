@@ -7,46 +7,46 @@
   height: 40px;
   line-height: 40px;
   color: $mediumgray;
-}
 
-.x-y-pad-axis-label .label-text {
-  position: relative;
-  z-index: 2;
-  display: inline-block;
-  padding: 0 1rem;
-  background: $offwhite;
-}
+  .label-text {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    padding: 0 1rem;
+    background: $offwhite;
+  }
 
-.x-y-pad-axis-label .axis-label-line {
-  position: absolute;
-  z-index: 1;
-  height: 1px;
-  background-color: $lightgray;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-}
+  .axis-label-line {
+    position: absolute;
+    z-index: 1;
+    height: 1px;
+    background-color: $lightgray;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
 
-.x-y-pad-axis-label .arrow {
-  position: absolute;
-  z-index: 2;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  width: 0;
-  height: 0;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-}
+  .arrow {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
 
-.x-y-pad-axis-label .arrow.left {
-  left: 0;
-  border-right: 5px solid $lightgray;
-}
+  .arrow.left {
+    left: 0;
+    border-right: 5px solid $lightgray;
+  }
 
-.x-y-pad-axis-label .arrow.right {
-  right: 0;
-  border-left: 5px solid $lightgray;
+  .arrow.right {
+    right: 0;
+    border-left: 5px solid $lightgray;
+  }
 }
