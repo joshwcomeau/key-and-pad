@@ -6,15 +6,17 @@
   font-weight: normal;
   letter-spacing: -1.25px;
   color: $darkgray;
+  cursor: default;
+  user-select: none;
   text-shadow:
-    -0.5px 0px 0px $offwhite,
     -1px 0px 0px $offwhite,
-    -1.5px 0px 0px $offwhite,
-    -2px 0px 0px $offwhite,
-    0.5px 0px 0px $offwhite,
+    -3px 0px 0px $offwhite,
     1px 0px 0px $offwhite,
-    1.5px 0px 0px $offwhite,
-    2px 0px 0px $offwhite
+    3px 0px 0px $offwhite,
+    1px 1px 0px $offwhite,
+    3px 1px 0px $offwhite,
+    -1px 1px 0px $offwhite,
+    -3px 1px 0px $offwhite
   ;
 
   .subheading-inline {
