@@ -50,7 +50,7 @@ avoiding the other effects (distortion and reverb).
 // EFFECTS
 const lowPassFilter = createFilter({
   type: 'lowpass',
-  resonance: 2,
+  resonance: 10,
   output: audioContext.destination,
 });
 
@@ -123,8 +123,6 @@ export const updatePadCoordinates = ({ x, y }) => {
 
   lowPassFilter.frequency.value = frequency;
   distortion.updateCurve(y * 250)
-
-
 }
 
 export const removeEffects = () => {

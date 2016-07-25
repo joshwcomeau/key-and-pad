@@ -5,7 +5,7 @@ import './index.scss';
 const Header = () => (
   <header className="header">
     <h1>
-      Key
+      Keys
       <span className="join-character">&</span>
       Pad
     </h1>

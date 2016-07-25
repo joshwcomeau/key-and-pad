@@ -2,6 +2,7 @@
 
 .x-y-pad {
   position: relative;
+  user-select: none;
 
   .pad {
     cursor: crosshair;

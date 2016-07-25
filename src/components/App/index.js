@@ -3,6 +3,7 @@ import React from 'react';
 import Header from '../Header';
 import XYPad from '../XYPad';
 import Keyboard from '../Keyboard';
+import ControlPanel from '../ControlPanel';
 import DevTools from '../DevTools';
 import keyboardLayout from '../../data/keyboard_layout';
 
@@ -13,8 +14,12 @@ import './index.scss';
 const App = () => (
   <div className="app">
     <Header />
-    <Keyboard layout={keyboardLayout} />
-    <XYPad />
+    <div className="keys-and-pad">
+      <Keyboard layout={keyboardLayout} />
+      <XYPad />
+    </div>
+
+    <ControlPanel />
     <DevTools />
   </div>
 );

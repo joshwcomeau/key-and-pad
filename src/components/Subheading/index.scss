@@ -1,0 +1,34 @@
+@import '../../variables';
+
+.subheading {
+  position: relative;
+  font-size: 24px;
+  font-weight: normal;
+  letter-spacing: -1.25px;
+  color: $darkgray;
+  text-shadow:
+    -0.5px 0px 0px $offwhite,
+    -1px 0px 0px $offwhite,
+    -1.5px 0px 0px $offwhite,
+    -2px 0px 0px $offwhite,
+    0.5px 0px 0px $offwhite,
+    1px 0px 0px $offwhite,
+    1.5px 0px 0px $offwhite,
+    2px 0px 0px $offwhite
+  ;
+
+  .subheading-inline {
+    position: relative;
+
+    &:after {
+      z-index: -1;
+      content: '';
+      position: absolute;
+      height: 3px;
+      left: 2px;
+      right: 0;
+      bottom: 0;
+      background: $lime;
+    }
+  }
+}

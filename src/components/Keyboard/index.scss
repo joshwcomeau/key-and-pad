@@ -2,7 +2,7 @@
 
 .keyboard {
   position: relative;
-  -webkit-user-select: none;
+  user-select: none;
 
   .key, .key-spacer {
     display: inline-block;

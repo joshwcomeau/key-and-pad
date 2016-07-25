@@ -1,0 +1,20 @@
+@import '../../variables';
+
+.control-panel {
+  position: relative;
+  width: 100%;
+  max-width: 1010px;
+  margin: 3rem auto;
+  display: flex;
+
+  .panel {
+    &.keys {
+      flex: 3;
+      border-right: 1px solid $lightgray;
+    }
+    &.pad {
+      flex: 5;
+      padding-left: 16px;
+    }
+  }
+}
