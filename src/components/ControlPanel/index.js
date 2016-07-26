@@ -7,6 +7,8 @@ import Subheading from '../Subheading';
 import ButtonToggleGroup from '../ButtonToggleGroup';
 import Button from '../Button';
 import Waveform from '../Waveform';
+import Row from '../Row';
+import Column from '../Column';
 import './index.scss';
 
 class ControlPanel extends Component {
@@ -34,19 +36,47 @@ class ControlPanel extends Component {
         <div className="panel keys">
           <Subheading>keys</Subheading>
 
-          <h5>oscillator I</h5>
-          <ButtonToggleGroup className="oscillator-waveform-toggle-group">
-            {this.renderOscillatorToggles(0)}
-          </ButtonToggleGroup>
+          <Row>
+            <Column>
+              <h5>oscillator I</h5>
+              <ButtonToggleGroup className="oscillator-waveform-toggle-group">
+                {this.renderOscillatorToggles(0)}
+              </ButtonToggleGroup>
+            </Column>
 
-          <h5>oscillator II</h5>
-          <ButtonToggleGroup className="oscillator-waveform-toggle-group">
-            {this.renderOscillatorToggles(1)}
-          </ButtonToggleGroup>
+            <Column>
+              <h5>oscillator II</h5>
+              <ButtonToggleGroup className="oscillator-waveform-toggle-group">
+                {this.renderOscillatorToggles(1)}
+              </ButtonToggleGroup>
+            </Column>
+          </Row>
         </div>
 
         <div className="panel pad">
           <Subheading>pad</Subheading>
+          <Row>
+            <div className="pad-x">
+              <h5>x axis</h5>
+              <select>
+                <option>filter frequency</option>
+                <option>filter resonance</option>
+                <option>distortion</option>
+                <option>delay</option>
+                <option>reverb</option>
+              </select>
+            </div>
+            <div className="pad-y">
+              <h5>y axis</h5>
+              <select>
+                <option>filter frequency</option>
+                <option>filter resonance</option>
+                <option>distortion</option>
+                <option>delay</option>
+                <option>reverb</option>
+              </select>
+            </div>
+          </Row>
         </div>
       </div>
 
