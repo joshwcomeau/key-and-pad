@@ -26,12 +26,11 @@
   }
 
   &.placeholder {
-    background: $darkgray;
+    background: $verylightgray;
     color: $white;
-    opacity: 0.25;
-    border-bottom: 4px solid rgba(0,0,0,0.6);
-    border-right: 2px solid rgba(0,0,0,0.6);
-    border-left: 1px solid rgba(0,0,0,0.3);
+    border-bottom: 4px solid rgba(0,0,0,0.1);
+    border-right: 2px solid rgba(0,0,0,0.1);
+    border-left: 1px solid rgba(0,0,0,0.05);
   }
 
   &.active {

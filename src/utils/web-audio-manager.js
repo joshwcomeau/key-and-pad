@@ -12,8 +12,6 @@ import {
 const audioContext = new (AudioContext || webkitAudioContext)();
 
 const oscillatorsMap = {};
-// TODO: Populate this from the init action dispatched
-const oscillatorsWaveforms = ['triangle', 'square']
 
 // createGain/createOscillator are set up to be curried, so we can apply
 // our singleton context and save some typing :)
@@ -71,10 +69,12 @@ let yEffect = distortion;
 const masterOutput = createGain({ value: 1, output: audioContext.destination });
 
 
-export const playNote = ({ note, frequency }) => {
+export const playNote = ({ note, frequency, waveforms }) => {
+  const [waveform1, waveform2] = waveforms;
+
   // Layer a couple of oscillators
   const oscillator1 = createOscillator({
-    waveform: 'square',
+    waveform: waveform1,
     frequency: frequency / 2,
     output: createGain({
       value: 0.15,
@@ -83,7 +83,7 @@ export const playNote = ({ note, frequency }) => {
   });
 
   const oscillator2 = createOscillator({
-    waveform: 'triangle',
+    waveform: waveform2,
     frequency,
     output: createGain({
       value: 0.5,
@@ -109,7 +109,6 @@ export const updatePadCoordinates = ({ x, y }) => {
     source: masterOutput,
     destination: xEffect,
   });
-
   connectNodes({
     source: xEffect,
     destination: yEffect,
@@ -134,6 +133,11 @@ export const removeEffects = () => {
   });
 };
 
-export const changeOscillatorWaveform = ({ oscillator, waveform }) => {
+export const updateOscillators = ({ oscillatorIndex, waveform }) => {
+  const notesPlayed = Object.keys(oscillatorsMap);
 
+  notesPlayed.forEach(note => {
+    const oscillatorsAtNote = oscillatorsMap[note];
+    oscillatorsAtNote[oscillatorIndex].type = waveform;
+  })
 }

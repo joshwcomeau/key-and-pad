@@ -33,10 +33,10 @@ export const CHANGE_AXIS_OPTION = 'SOUNDS/CHANGE_AXIS_OPTION';
 export default function soundsReducer(state = initialState, action) {
   switch (action.type) {
     case CHANGE_OSCILLATOR_WAVEFORM: {
-      const { oscillator, waveform } = action;
+      const { oscillatorIndex, waveform } = action;
 
       const nextOscillators = state.oscillators.slice();
-      nextOscillators[oscillator] = waveform;
+      nextOscillators[oscillatorIndex] = waveform;
 
       return {
         ...state,
@@ -53,8 +53,8 @@ export default function soundsReducer(state = initialState, action) {
 // ////////////////////////
 // ACTION CREATORS ///////
 // //////////////////////
-export const changeOscillatorWaveform = ({ oscillator, waveform }) => ({
+export const changeOscillatorWaveform = ({ oscillatorIndex, waveform }) => ({
   type: CHANGE_OSCILLATOR_WAVEFORM,
-  oscillator,
+  oscillatorIndex,
   waveform,
 });

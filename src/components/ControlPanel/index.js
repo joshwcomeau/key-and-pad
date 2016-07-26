@@ -19,7 +19,7 @@ class ControlPanel extends Component {
         key={waveform}
         className={waveform === selectedWaveform ? 'selected' : null}
         handleClick={() => this.props.changeOscillatorWaveform({
-          oscillator: oscillatorIndex,
+          oscillatorIndex,
           waveform
         })}
       >
