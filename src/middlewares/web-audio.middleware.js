@@ -1,9 +1,11 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
 import { UPDATE_POSITION, RELEASE_PAD } from '../ducks/x-y-pad.duck';
+import { CHANGE_OSCILLATOR_WAVEFORM } from '../ducks/sounds-pad.duck';
 import {
   playNote,
   stopNote,
   updatePadCoordinates,
+  updateOscillators,
   removeEffects,
 } from '../utils/web-audio-manager';
 
@@ -27,6 +29,11 @@ const webAudioMiddleware = store => next => action => {
 
     case RELEASE_PAD: {
       removeEffects();
+      break;
+    }
+
+    case CHANGE_OSCILLATOR_WAVEFORM: {
+      updateOscillators(action);
       break;
     }
 

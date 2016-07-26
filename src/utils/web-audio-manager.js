@@ -12,6 +12,8 @@ import {
 const audioContext = new (AudioContext || webkitAudioContext)();
 
 const oscillatorsMap = {};
+// TODO: Populate this from the init action dispatched
+const oscillatorsWaveforms = ['triangle', 'square']
 
 // createGain/createOscillator are set up to be curried, so we can apply
 // our singleton context and save some typing :)
@@ -123,11 +125,15 @@ export const updatePadCoordinates = ({ x, y }) => {
 
   lowPassFilter.frequency.value = frequency;
   distortion.updateCurve(y * 250)
-}
+};
 
 export const removeEffects = () => {
   connectNodes({
     source: masterOutput,
     destination: audioContext.destination,
   });
+};
+
+export const changeOscillatorWaveform = ({ oscillator, waveform }) => {
+
 }

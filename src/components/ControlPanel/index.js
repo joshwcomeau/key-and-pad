@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { changeOscillatorWaveform } from '../../ducks/sounds.duck';
-import { getWaveformId, getWaveformName } from '../../utils/conversion';
 import Slider from '../Slider';
 import Subheading from '../Subheading';
 import ButtonToggleGroup from '../ButtonToggleGroup';
@@ -16,15 +15,20 @@ class ControlPanel extends Component {
     const selectedWaveform = this.props.sounds.oscillators[oscillatorIndex];
 
     return waveforms.map(waveform => (
-      <Button className={waveform === selectedWaveform ? 'selected' : null}>
+      <Button
+        key={waveform}
+        className={waveform === selectedWaveform ? 'selected' : null}
+        handleClick={() => this.props.changeOscillatorWaveform({
+          oscillator: oscillatorIndex,
+          waveform
+        })}
+      >
         <Waveform value={waveform} />
       </Button>
     ));
   }
 
   render() {
-    const { oscillators } = this.props.sounds;
-
     return (
       <div className="control-panel">
         <div className="panel keys">
