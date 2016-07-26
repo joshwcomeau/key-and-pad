@@ -26,9 +26,12 @@ html, body, #root {
 body {
   margin: 0;
   padding: 0;
+  background: $offwhite;
+}
+
+body, button, input, select, textarea {
   font-family: Brown;
   -webkit-font-smoothing: antialiased;
-  background: $offwhite;
 }
 
 .app {

@@ -11,7 +11,7 @@ const Waveform = ({
   let svgShape;
 
   switch (value) {
-    case 1: // Sine wave
+    case 'sine':
       svgShape = (
         <circle
           fill="none"
@@ -25,7 +25,7 @@ const Waveform = ({
       );
       break;
 
-    case 2: // Triangle wave
+    case 'triangle':
       svgShape = (
         <polygon
           fill="none"
@@ -38,7 +38,7 @@ const Waveform = ({
       );
       break;
 
-    case 3: // Square wave
+    case 'square':
       svgShape = (
         <rect
           x="2"
@@ -53,7 +53,7 @@ const Waveform = ({
       );
       break;
 
-    case 4: // Sawtooth wave
+    case 'sawtooth':
       svgShape = (
         <g id="sawtooth-group">
           <line fill="none" stroke="#000000" strokeWidth="4" strokeMiterlimit="10" x1="2.547" y1="60.328" x2="31.341" y2="2.304"/>
@@ -65,7 +65,7 @@ const Waveform = ({
       break;
 
     default:
-      throw new Error(`Invalid value provided to Waveform. Needs to be an integer between 1 and 4 inclusive, you provided ${value}`);
+      throw new Error(`Invalid value provided to Waveform. Must be one of: sine, triangle, square, sawtooth. You provided ${value}.`);
   }
 
   return (

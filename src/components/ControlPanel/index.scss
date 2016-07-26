@@ -20,5 +20,16 @@
 
   h5 {
     font-weight: 100;
+    margin: 18px 0 6px;
+  }
+
+  .oscillator-waveform-toggle-group {
+    .button {
+      width: 20%;
+    }
+    svg {
+      width: 12px;
+      height: 12px;
+    }
   }
 }
