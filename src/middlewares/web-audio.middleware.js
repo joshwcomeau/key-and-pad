@@ -9,8 +9,12 @@ import {
   removeEffects,
 } from '../utils/web-audio-manager';
 
+let legacyState = {};
+
 
 const webAudioMiddleware = store => next => action => {
+  debugger;
+  legacyState = store.getState();
   switch (action.type) {
     case PRESS_KEY: {
       // The action only includes the frequency required, not the waveform.
