@@ -63,6 +63,8 @@ export class XYPad extends Component {
       { 'is-pressed': this.state.isPressed }
     );
 
+    const { xAxisLabel, yAxisLabel } = this.props;
+
     return (
       <div className="x-y-pad">
         <div
@@ -84,12 +86,12 @@ export class XYPad extends Component {
           </svg>
         </div>
         <XYPadAxisLabel
-          label="low-pass filter"
+          label={xAxisLabel}
           className="horizontal-axis"
           includeRightArrow
         />
         <XYPadAxisLabel
-          label="distortion"
+          label={yAxisLabel}
           className="vertical-axis"
           includeLeftArrow
           />
@@ -101,6 +103,16 @@ export class XYPad extends Component {
 XYPad.propTypes = {
   updatePosition: PropTypes.func.isRequired,
   releasePad: PropTypes.func.isRequired,
+  xAxisLabel: PropTypes.string.isRequired,
+  yAxisLabel: PropTypes.string.isRequired,
 };
 
-export default connect(null, { updatePosition, releasePad })(XYPad);
+const mapStateToProps = state => ({
+  xAxisLabel: state.sounds.xAxis.type,
+  yAxisLabel: state.sounds.yAxis.type,
+});
+
+export default connect(
+  mapStateToProps,
+  { updatePosition, releasePad }
+)(XYPad);
