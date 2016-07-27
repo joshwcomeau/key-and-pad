@@ -32,7 +32,7 @@ const Waveform = ({
     case 'square':
       svgShape = (
         <g>
-          <path fill="#000000" stroke="#000000" stroke-miterlimit="10" d="M32.3,47.2"/>
+          <path fill="#000000" stroke="#000000" strokeMiterlimit="10" d="M32.3,47.2"/>
           <polygon points="95,61 79,61 79,41 66,41 66,61 49,61 49,41 36,41 36,61 19,61 19,41 5,41 5,39 21,39 21,59 34,59 34,39 51,39    51,59 64,59 64,39 81,39 81,59 95,59" />
         </g>
       );

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { changeOscillatorWaveform } from '../../ducks/sounds.duck';
+import {
+  changeOscillatorWaveform,
+  changeAxisEffect,
+} from '../../ducks/sounds.duck';
 import Slider from '../Slider';
 import Subheading from '../Subheading';
 import ButtonToggleGroup from '../ButtonToggleGroup';
@@ -30,6 +33,27 @@ class ControlPanel extends Component {
     ));
   }
 
+  renderAxisControls(axis) {
+    return (
+      <Column className={`pad-${axis}`}>
+        <h5>{`${axis} axis`}</h5>
+        <select
+          value={this.props.sounds[axis].effect}
+          onChange={ev => this.props.changeAxisEffect({
+            axis,
+            effect: ev.target.value,
+          })}
+        >
+          <option>filter frequency</option>
+          <option>filter resonance</option>
+          <option>distortion</option>
+          <option>delay</option>
+          <option>reverb</option>
+        </select>
+      </Column>
+    )
+  }
+
   render() {
     return (
       <div className="control-panel">
@@ -56,26 +80,8 @@ class ControlPanel extends Component {
         <div className="panel pad">
           <Subheading>pad</Subheading>
           <Row>
-            <div className="pad-x">
-              <h5>x axis</h5>
-              <select>
-                <option>filter frequency</option>
-                <option>filter resonance</option>
-                <option>distortion</option>
-                <option>delay</option>
-                <option>reverb</option>
-              </select>
-            </div>
-            <div className="pad-y">
-              <h5>y axis</h5>
-              <select>
-                <option>filter frequency</option>
-                <option>filter resonance</option>
-                <option>distortion</option>
-                <option>delay</option>
-                <option>reverb</option>
-              </select>
-            </div>
+            {this.renderAxisControls('x')}
+            {this.renderAxisControls('y')}
           </Row>
         </div>
       </div>
@@ -90,6 +96,7 @@ const mapStateToProps = state => ({
 
 const actions = {
   changeOscillatorWaveform,
+  changeAxisEffect,
 };
 
 export default connect(mapStateToProps, actions)(ControlPanel);

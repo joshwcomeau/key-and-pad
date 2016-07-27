@@ -74,6 +74,14 @@ export const createDistortionWithContext = context => ({
   return distortionNode;
 }
 
+export const createDelayWithContext = context => ({ length, output }) => {
+  const delayNode = context.createDelay(length);
+
+  delayNode.connect(output);
+
+  return delayNode;
+}
+
 export const getLogarithmicFrequencyValueWithContext = context => n => {
   // Where `n` is a value from 0 to 1, compute what the current frequency
   // should be, using a pleasant log scale.

@@ -1,17 +1,27 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
 import { UPDATE_POSITION, RELEASE_PAD } from '../ducks/x-y-pad.duck';
-import { CHANGE_OSCILLATOR_WAVEFORM } from '../ducks/sounds.duck';
 import {
+  CHANGE_OSCILLATOR_WAVEFORM,
+  CHANGE_AXIS_EFFECT,
+} from '../ducks/sounds.duck';
+import {
+  initialize,
   playNote,
   stopNote,
   updatePadCoordinates,
   updateOscillators,
   removeEffects,
+  changeEffect,
 } from '../utils/web-audio-manager';
 
 
 const webAudioMiddleware = store => next => action => {
   switch (action.type) {
+    case WEB_AUDIO_INITIALIZATION: {
+      initialize(store.getState().sounds);
+      break;
+    }
+
     case PRESS_KEY: {
       // The action only includes the frequency required, not the waveform.
       // This is available in our state, and controlled by CHANGE_OSCILLATOR_WAVEFORM.
@@ -40,6 +50,11 @@ const webAudioMiddleware = store => next => action => {
 
     case CHANGE_OSCILLATOR_WAVEFORM: {
       updateOscillators(action);
+      break;
+    }
+
+    case CHANGE_AXIS_EFFECT: {
+      changeEffect(action);
       break;
     }
 

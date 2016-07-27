@@ -3,6 +3,7 @@ import {
   createOscillatorWithContext,
   createFilterWithContext,
   createDistortionWithContext,
+  createDelayWithContext,
   getLogarithmicFrequencyValueWithContext,
   connectNodes,
 } from './web-audio-helpers';
@@ -19,10 +20,10 @@ const createGain = createGainWithContext(audioContext);
 const createOscillator = createOscillatorWithContext(audioContext);
 const createFilter = createFilterWithContext(audioContext);
 const createDistortion = createDistortionWithContext(audioContext);
+const createDelay = createDelayWithContext(audioContext);
 const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(audioContext);
 
-/*
-ROUTING
+/* ROUTING
 
 Web Audio is extremely modular, and I'd like to be able to support a wide
 variety of effects.
@@ -48,7 +49,7 @@ avoiding the other effects (distortion and reverb).
 
 
 // EFFECTS
-const lowPassFilter = createFilter({
+const filter = createFilter({
   type: 'lowpass',
   resonance: 10,
   output: audioContext.destination,
@@ -60,14 +61,22 @@ const distortion = createDistortion({
   output: audioContext.destination,
 });
 
-// eslint-disable-next-line no-unused-vars
-let xEffect = lowPassFilter;
-// eslint-disable-next-line no-unused-vars
-let yEffect = distortion;
+const delay = createDelay({
+  length: 2,
+  output: audioContext.destination,
+})
+
+
+let xEffect = null;
+let yEffect = null;
 
 
 const masterOutput = createGain({ value: 1, output: audioContext.destination });
 
+
+export const initialize = ({ oscillators, x, y }) => {
+
+}
 
 export const playNote = ({ note, frequency, waveforms }) => {
   const [waveform1, waveform2] = waveforms;
@@ -122,7 +131,7 @@ export const updatePadCoordinates = ({ x, y }) => {
   // Next, get the frequency and set it.
   const frequency = getLogarithmicFrequencyValue(x);
 
-  lowPassFilter.frequency.value = frequency;
+  filter.frequency.value = frequency;
   distortion.updateCurve(y * 250)
 };
 
@@ -140,4 +149,8 @@ export const updateOscillators = ({ oscillatorIndex, waveform }) => {
     const oscillatorsAtNote = oscillatorsMap[note];
     oscillatorsAtNote[oscillatorIndex].type = waveform;
   })
+};
+
+export const changeEffect = ({ axis, effect }) => {
+  // We want to update our routing to route through whatever option we've selected.
 }
