@@ -68,14 +68,14 @@ export const webAudioManagerFactory = context => {
       activeOscillators = [];
     },
 
-    createOscillators(oscillators) {
-      oscillators.forEach(({ waveform, gain, octaveAdjustment, notes }) => {
-        notes.forEach(note => {
+    createOscillators({ notes, oscillators }) {
+      notes.forEach(note => {
+        oscillators.forEach(({ waveform, gain, octaveAdjustment }) => {
           // TODO: Handle octaveAdjustment
 
           const newOscillator = createOscillator({
             waveform,
-            frequency: toFreq(notes),
+            frequency: toFreq(note),
             output: createGain({
               value: gain,
               output: masterOscillatorOutput,

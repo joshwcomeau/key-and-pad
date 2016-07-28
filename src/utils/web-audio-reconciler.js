@@ -1,12 +1,5 @@
 import { updatedWithinPath } from './misc-helpers';
-import {
-  createOscillators,
-  destroyEffectChain,
-  rebuildEffectChain,
-  stopAllOscillators,
-  updateEffectAmount,
-  updateEffectParameters,
-} from './web-audio-manager';
+import WebAudioManager from './web-audio-manager';
 
 let currentState,
     store,
@@ -44,19 +37,19 @@ export function reconcile() {
   // pass it a path and know if that path has changed in this state change.
   const updatedInNewState = updatedWithinPath(previousState, currentState);
 
-  const notesUpdate = updatedInNewState('keys');
+  const notesUpdated = updatedInNewState('notes');
   const oscillatorsUpdated = updatedInNewState('oscillators');
   const effectsUpdated = updatedInNewState('effects');
 
   // It's possible that this update isn't relevant for Web Audio.
-  const soundsUpdated = notesUpdate || oscillatorsUpdated || effectsUpdated;
+  const soundsUpdated = notesUpdated || oscillatorsUpdated || effectsUpdated;
   if (!soundsUpdated) { return; }
 
   // If either the notes or the oscillators' settings changed,
   // simply destroy all oscillators and rebuild.
-  if (notesUpdate || oscillatorsUpdated) {
-    stopAllOscillators();
-    createOscillators({ ...currentState.oscillators })
+  if (notesUpdated || oscillatorsUpdated) {
+    WebAudioManager.stopAllOscillators();
+    WebAudioManager.createOscillators(currentState)
   }
 
   if (effectsUpdated) {
@@ -72,19 +65,19 @@ export function reconcile() {
 
       // If the position has changed, we just need to tweak the amount
       if (positionChanged) {
-        updateEffectAmount({ axis, amount: currentState});
+        WebAudioManager.updateEffectAmount({ axis, amount: currentState});
       }
 
       // If the effect itself was swapped out, we need to destroy the effect
       // chain and recreate it
       if (effectNameChanged) {
-        destroyEffectChain();
-        rebuildEffectChain({ ...currentState.effects });
+        WebAudioManager.destroyEffectChain();
+        WebAudioManager.rebuildEffectChain({ ...currentState.effects });
       }
 
       // If the effect's parameters were tweaked, update it
       if (effectParamTweaked) {
-        updateEffectParameters({ axis, options: currentState.effects[axis].options });
+        WebAudioManager.updateEffectParameters({ axis, options: currentState.effects[axis].options });
       }
     })
   }
