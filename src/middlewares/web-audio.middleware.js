@@ -1,9 +1,9 @@
 import { PRESS_KEY, RELEASE_KEY } from '../ducks/keyboard.duck';
 import { UPDATE_POSITION, RELEASE_PAD } from '../ducks/x-y-pad.duck';
-import { CHANGE_OSCILLATOR_WAVEFORM } from '../ducks/sounds.duck';
 import {
   CHANGE_OSCILLATOR_WAVEFORM,
   CHANGE_AXIS_EFFECT,
+  WEB_AUDIO_INITIALIZATION
 } from '../ducks/sounds.duck';
 import {
   initialize,
@@ -19,7 +19,6 @@ let legacyState = {};
 
 
 const webAudioMiddleware = store => next => action => {
-  debugger;
   legacyState = store.getState();
   switch (action.type) {
     case WEB_AUDIO_INITIALIZATION: {
