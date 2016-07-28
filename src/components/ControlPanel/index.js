@@ -5,6 +5,7 @@ import {
   changeOscillatorWaveform,
   changeAxisEffect,
 } from '../../ducks/sounds.duck';
+// eslint-disable-next-line no-unused-vars
 import Slider from '../Slider';
 import Subheading from '../Subheading';
 import ButtonToggleGroup from '../ButtonToggleGroup';

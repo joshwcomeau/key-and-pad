@@ -4,7 +4,7 @@ import keycode from 'keycode';
 import { toFreq } from 'tonal-freq'
 
 import Key from '../Key';
-import { pressKey, releaseKey } from '../../ducks/keyboard.duck';
+import { addNote, removeNote } from '../../ducks/notes.duck';
 import keyboardNotes from '../../data/keyboard_notes';
 import './index.scss';
 
@@ -34,28 +34,32 @@ export class Keyboard extends Component {
     const frequency = toFreq(note);
 
     const isValidKeyPressed = !!frequency;
-    const isAlreadyPlaying = !!this.props.keys[letter];
+    const isAlreadyPlaying = this.props.notes.includes(note);
     const isSpecialKeyPressed = !!ev.metaKey || !!ev.ctrlKey || !!ev.shiftKey;
 
     if (isValidKeyPressed && !isAlreadyPlaying && !isSpecialKeyPressed) {
-      this.props.pressKey({ letter, note, frequency })
+      this.props.addNote(note)
     }
   }
 
   handleRelease(ev) {
     const letter = keycode(ev).toUpperCase();
     const note = keyboardNotes[letter]
-    const frequency = toFreq(note);
 
-    this.props.releaseKey({ letter, note, frequency });
+    this.props.removeNote(note);
   }
 
-  renderKey(key) {
+  renderKey({ letter, keyStyle }) {
+    const note = keyboardNotes[letter];
+
+    // TODO: This might be a perf bottleneck, doing the `includes` on every
+    // render for every key.
     return (
       <Key
-        {...key}
-        key={key.letter}
-        active={!!this.props.keys[key.letter]}
+        key={letter}
+        letter={letter}
+        keyStyle={keyStyle}
+        active={this.props.notes.includes(note)}
       />
     )
   }
@@ -79,13 +83,14 @@ export class Keyboard extends Component {
 
 Keyboard.PropTypes = {
   layout: PropTypes.arrayOf(PropTypes.array).isRequired,
-  pressKey: PropTypes.func.isRequired,
-  releaseKey: PropTypes.func.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.string),
+  addNote: PropTypes.func.isRequired,
+  removeNote: PropTypes.func.isRequired,
 };
 
 
 const mapStateToProps = state => ({
-  keys: state.keyboard.keys,
+  notes: state.notes,
 });
 
-export default connect(mapStateToProps, { pressKey, releaseKey })(Keyboard);
+export default connect(mapStateToProps, { addNote, removeNote })(Keyboard);

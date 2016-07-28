@@ -1,31 +1,62 @@
-import { equalWithinPath } from './functions';
+import { updatedWithinPath } from './misc-helpers';
+import {
+  createOscillators,
+  destroyEffectChain,
+  rebuildEffectChain,
+  stopAllOscillators,
+  updateEffectAmount,
+  updateEffectParameters,
+} from './web-audio-manager';
 
-export default function reconcile(currentState, nextState) {
-  // There are two main areas of 'change':
+let currentState,
+    store,
+    unsubscribe;
+
+export function initializeWebAudio(reduxStore) {
+  store = reduxStore;
+  unsubscribe = store.subscribe(reconcile);
+}
+
+// Currently unused
+export function destroy() {
+  unsubscribe();
+}
+
+export function reconcile() {
+  const previousState = currentState;
+  currentState = store.getState();
+
+  // If this is our very first reconciliation, we don't have anything to compare!
+  if (typeof previousState === 'undefined') { return; }
+
+  // There are three main areas of 'change':
   //
-  // - A change to the oscillators, either the notes being played or the waveforms
-  //   being used
+  // - A change to the notes being played,
+  // - A change to the oscillators' setting (eg. waveform),
   // - A change to the pad effects, either moving the mouse across the pad,
   //   changing one of the effects, or tweaking one of the effect parameters.
   //
   // The changes should be independent; no single event should change both.
   // That said, let's leave it open to the option, since we may want to
   // throttle the subscribe callback.
-  const updatedInNewState = !equalWithinPath(currentState, nextState);
 
+  // bind our two states to our convenience helper function, so that we can
+  // pass it a path and know if that path has changed in this state change.
+  const updatedInNewState = updatedWithinPath(previousState, currentState);
+
+  const notesUpdate = updatedInNewState('keys');
   const oscillatorsUpdated = updatedInNewState('oscillators');
   const effectsUpdated = updatedInNewState('effects');
 
   // It's possible that this update isn't relevant for Web Audio.
-  // If neither oscillators nor effects were updated, we're done.
-  const soundsUpdated = oscillatorsUpdated || effectsUpdated;
+  const soundsUpdated = notesUpdate || oscillatorsUpdated || effectsUpdated;
   if (!soundsUpdated) { return; }
 
-  if (oscillatorsUpdated) {
-    // This should be easy; simply destroy all existing oscillators and re-create
-    // new ones for the notes provided.
+  // If either the notes or the oscillators' settings changed,
+  // simply destroy all oscillators and rebuild.
+  if (notesUpdate || oscillatorsUpdated) {
     stopAllOscillators();
-    createOscillators({ ...next.oscillators })
+    createOscillators({ ...currentState.oscillators })
   }
 
   if (effectsUpdated) {
@@ -41,19 +72,19 @@ export default function reconcile(currentState, nextState) {
 
       // If the position has changed, we just need to tweak the amount
       if (positionChanged) {
-        updateEffectAmount({ axis, amount: next});
+        updateEffectAmount({ axis, amount: currentState});
       }
 
       // If the effect itself was swapped out, we need to destroy the effect
       // chain and recreate it
       if (effectNameChanged) {
         destroyEffectChain();
-        rebuildEffectChain({ ...next.effects });
+        rebuildEffectChain({ ...currentState.effects });
       }
 
       // If the effect's parameters were tweaked, update it
       if (effectParamTweaked) {
-        updateEffectParameters({ axis, options: next.effects[axis].options });
+        updateEffectParameters({ axis, options: currentState.effects[axis].options });
       }
     })
   }
@@ -63,16 +94,18 @@ export default function reconcile(currentState, nextState) {
 // STATE EXAMPLE
 //
 // {
-//   oscillators: {
-//     1: {
+//   keys: ['c4', 'e4', 'g4'],
+//   oscillators: [
+//     {
 //       waveform: 'sawtooth',
-//       notes: ['c4', 'e4', 'g4']
-//     },
-//     2: {
+//       gain: 0.15,
+//       octaveAdjustment: 0,
+//     }, {
 //       waveform: 'square',
-//       notes: ['c4', 'e4', 'g4']
+//       gain: 0.5,
+//       octaveAdjustment: -1,
 //     }
-//   },
+//   ],
 //   effects: {
 //     x: {
 //       name: 'filter',

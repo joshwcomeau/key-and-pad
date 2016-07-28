@@ -1,13 +1,9 @@
 // eslint-disable-next-line no-unused-vars
 import { combineReducers } from 'redux';
 
-import keyboardReducer from '../ducks/keyboard.duck';
-import XYPadReducer from '../ducks/x-y-pad.duck';
-import soundsReducer from '../ducks/sounds.duck';
+import notes from '../ducks/notes.duck';
+import XYPad from '../ducks/x-y-pad.duck';
+import sounds from '../ducks/sounds.duck';
 
 
-export default combineReducers({
-  keyboard: keyboardReducer,
-  XYPad: XYPadReducer,
-  sounds: soundsReducer,
-});
+export default combineReducers({ notes, XYPad, sounds });

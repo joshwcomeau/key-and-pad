@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './components/App';
-import { webAudioInitialization } from './ducks/sounds.duck';
+import { initializeWebAudio } from './utils/web-audio-reconciler';
 import configureStore from './store';
 
 // import WebAudioManager from './utils/web-audio-manager';
@@ -15,10 +15,11 @@ injectTapEventPlugin();
 
 const store = configureStore();
 
-// Dispatch an `init` action, so that our Web Audio Middleware can initialize
-// from the redux state.
-store.dispatch(webAudioInitialization());
-
+// Initialize our reconciler.
+// This is how our sounds update in response to Redux state changes. A
+// `subscribe` function is passed which compares the old state to the new,
+// and makes any changes required.
+initializeWebAudio(store);
 
 ReactDOM.render(
   <Provider store={store}>

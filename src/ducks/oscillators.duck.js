@@ -1,15 +1,22 @@
 import omit from 'lodash.omit';
 
-const initialState = {
-  keys: {},
-};
+const initialState = [
+  {
+    waveform: 'triangle',
+    gain: 0.5,
+    octaveAdjustment: 0,
+  }, {
+    waveform: 'square',
+    gain: 0.15,
+    octaveAdjustment: -1,
+  },
+];
 
 
 // ////////////////////////
 // ACTION TYPES //////////
 // //////////////////////
-export const PRESS_KEY = 'KEYBOARD/PRESS_KEY';
-export const RELEASE_KEY = 'KEYBOARD/RELEASE_KEY';
+export const UPDATE_OSCILLATOR = 'OSCILLATORS/UPDATE_OSCILLATOR';
 
 
 // ////////////////////////
@@ -17,19 +24,17 @@ export const RELEASE_KEY = 'KEYBOARD/RELEASE_KEY';
 // //////////////////////
 export default function keyboardReducer(state = initialState, action) {
   switch (action.type) {
-    case PRESS_KEY: {
-      return {
-        keys: {
-          ...state.keys,
-          [action.letter]: action.frequency,
-        },
-      };
-    }
+    case UPDATE_OSCILLATOR: {
+      return state.map((oscillator, index) => {
+        if (action.index !== index) {
+          return oscillator;
+        }
 
-    case RELEASE_KEY: {
-      return {
-        keys: omit(state.keys, action.letter),
-      }
+        return {
+          ...oscillator,
+          ...action.options,
+        };
+      })
     }
 
     default:
@@ -41,16 +46,8 @@ export default function keyboardReducer(state = initialState, action) {
 // ////////////////////////
 // ACTION CREATORS ///////
 // //////////////////////
-export const pressKey = ({ letter, note, frequency}) => ({
-  type: PRESS_KEY,
-  letter,
-  note,
-  frequency,
-});
-
-export const releaseKey = ({ letter, note, frequency}) => ({
-  type: RELEASE_KEY,
-  letter,
-  note,
-  frequency,
+export const updateOscillator = ({ index, options }) => ({
+  type: UPDATE_OSCILLATOR,
+  index,
+  options,
 });
