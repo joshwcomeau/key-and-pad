@@ -1,5 +1,6 @@
 import { toFreq } from 'tonal-freq'
 
+import invoke from 'lodash/invoke';
 import {
   createGainWithContext,
   createOscillatorWithContext,
@@ -51,6 +52,23 @@ export const webAudioManagerFactory = context => {
 
   const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
 
+  // Create some effect nodes
+  // TODO: Better way of setting default effect parameters.
+  const effects = {
+    filter: createFilter({
+      type: 'lowpass',
+      resonance: 10,
+      output: context.destination,
+    }),
+    distortion: createDistortion({
+      oversample: '4x',
+      output: context.destination,
+    }),
+    delay: createDelay({
+      length: 2,
+      output: context.destination,
+    }),
+  };
 
   // Create our master oscillator output. All oscillators are routed through
   // it, so that their collective destination can be changed without needing
@@ -66,6 +84,8 @@ export const webAudioManagerFactory = context => {
       // TODO: Look into whether I need to kill the gains created for each osc.
       activeOscillators.forEach(oscillator => oscillator.stop());
       activeOscillators = [];
+
+      return this;
     },
 
     createOscillators({ notes, oscillators }) {
@@ -85,14 +105,30 @@ export const webAudioManagerFactory = context => {
           activeOscillators.push(newOscillator);
         });
       });
+
+      return this;
     },
 
     destroyEffectChain() {
+      // We don't actually need to destroy anything, we just need to
+      // disconnect all audio. This will render the output silent,
+      // so a new effect chain should be rebuilt ASAP.
+      invoke([...effects, masterOscillatorOutput], 'disconnect');
 
+      return this;
     },
 
-    rebuildEffectChain(effects) {
+    rebuildEffectChain({ x, y }) {
+      // As it stands, the routing should always be as follows:
+      // masterOscillatorOutput -> x -> y -> context.destination.
+      const xEffect = effects[x.name];
+      const yEffect = effects[y.name];
 
+      masterOscillatorOutput.connect(xEffect);
+      xEffect.connect(yEffect);
+      yEffect.connect(context.destination);
+
+      return this;
     },
 
     updateEffectAmount({ axis, amount }) {

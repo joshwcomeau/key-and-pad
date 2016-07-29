@@ -1,5 +1,6 @@
 import get from 'lodash.get';
 import curry from 'lodash.curry';
+import forEach from 'lodash.foreach';
 
 /** equalWithinPath
   takes two objects and a path.

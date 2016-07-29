@@ -48,8 +48,9 @@ export function reconcile() {
   // If either the notes or the oscillators' settings changed,
   // simply destroy all oscillators and rebuild.
   if (notesUpdated || oscillatorsUpdated) {
-    WebAudioManager.stopAllOscillators();
-    WebAudioManager.createOscillators(currentState)
+    WebAudioManager
+      .stopAllOscillators()
+      .createOscillators(currentState)
   }
 
   if (effectsUpdated) {
@@ -71,8 +72,9 @@ export function reconcile() {
       // If the effect itself was swapped out, we need to destroy the effect
       // chain and recreate it
       if (effectNameChanged) {
-        WebAudioManager.destroyEffectChain();
-        WebAudioManager.rebuildEffectChain({ ...currentState.effects });
+        WebAudioManager
+          .destroyEffectChain()
+          .rebuildEffectChain({ ...currentState.effects });
       }
 
       // If the effect's parameters were tweaked, update it

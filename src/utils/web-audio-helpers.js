@@ -57,7 +57,7 @@ export const createFilterWithContext = context => ({
 };
 
 export const createDistortionWithContext = context => ({
-  amount,
+  amount = 0,
   oversample = '4x',
   output,
 }) => {
