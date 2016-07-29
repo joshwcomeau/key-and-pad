@@ -1,6 +1,6 @@
 const initialState = {
   x: {
-    name: 'filter frequency',
+    name: 'filter',
     active: false,
     amount: 0,
     options: {
@@ -22,7 +22,7 @@ const initialState = {
 // ////////////////////////
 // ACTION TYPES //////////
 // //////////////////////
-export const TOGGLE_EFFECTS = 'EFFECTS/TOGGLE_EFFECTS';
+export const DEACTIVATE_EFFECTS = 'EFFECTS/DEACTIVATE_EFFECTS';
 export const UPDATE_EFFECTS_AMOUNT = 'EFFECTS/UPDATE_EFFECTS_AMOUNT';
 export const CHANGE_AXIS_EFFECT = 'SOUNDS/CHANGE_AXIS_EFFECT';
 export const TWEAK_AXIS_PARAMETER = 'SOUNDS/TWEAK_AXIS_PARAMETER';
@@ -33,15 +33,15 @@ export const TWEAK_AXIS_PARAMETER = 'SOUNDS/TWEAK_AXIS_PARAMETER';
 // //////////////////////
 export default function soundsReducer(state = initialState, action) {
   switch (action.type) {
-    case TOGGLE_EFFECTS: {
+    case DEACTIVATE_EFFECTS: {
       return {
         x: {
           ...state.x,
-          active: action.isActive,
+          active: false,
         },
         y: {
           ...state.y,
-          active: action.isActive,
+          active: false,
         },
       };
     }
@@ -50,10 +50,12 @@ export default function soundsReducer(state = initialState, action) {
       return {
         x: {
           ...state.x,
+          active: true,
           amount: action.xAmount,
         },
         y: {
           ...state.y,
+          active: true,
           amount: action.yAmount,
         },
       };
@@ -91,9 +93,8 @@ export default function soundsReducer(state = initialState, action) {
 // ////////////////////////
 // ACTION CREATORS ///////
 // //////////////////////
-export const toggleEffects = ({ isActive }) => ({
-  type: TOGGLE_EFFECTS,
-  isActive,
+export const deactivateEffects = () => ({
+  type: DEACTIVATE_EFFECTS,
 });
 
 export const updateEffectsAmount = ({ yAmount, xAmount }) => ({

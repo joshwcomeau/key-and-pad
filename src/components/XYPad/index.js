@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { updatePosition, releasePad } from '../../ducks/x-y-pad.duck';
+import { deactivateEffects, updateEffectsAmount } from '../../ducks/effects.duck';
 import XYPadAxisLabel from '../XYPadAxisLabel';
 import './index.scss';
 
@@ -28,7 +28,10 @@ export class XYPad extends Component {
     const x = offsetX / boundingBox.width;
     const y = offsetY / boundingBox.height;
 
-    this.props.updatePosition({ x, y });
+    this.props.updateEffectsAmount({
+      xAmount: x,
+      yAmount: y
+    });
 
     // Also, we need a visual cue!
     // move the red circle to the cursor's position
@@ -53,7 +56,7 @@ export class XYPad extends Component {
   }
 
   handleRelease() {
-    this.props.releasePad();
+    this.props.deactivateEffects();
     this.setState({ isPressed: false });
   }
 
@@ -101,8 +104,8 @@ export class XYPad extends Component {
 }
 
 XYPad.propTypes = {
-  updatePosition: PropTypes.func.isRequired,
-  releasePad: PropTypes.func.isRequired,
+  updateEffectsAmount: PropTypes.func.isRequired,
+  deactivateEffects: PropTypes.func.isRequired,
   xAxisLabel: PropTypes.string.isRequired,
   yAxisLabel: PropTypes.string.isRequired,
 };
@@ -114,5 +117,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { updatePosition, releasePad }
+  { updateEffectsAmount, deactivateEffects }
 )(XYPad);

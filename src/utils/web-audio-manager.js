@@ -1,6 +1,6 @@
 import { toFreq } from 'tonal-freq'
+import invokeMap from 'lodash/invokemap';
 
-import invoke from 'lodash/invoke';
 import {
   createGainWithContext,
   createOscillatorWithContext,
@@ -80,6 +80,12 @@ export const webAudioManagerFactory = context => {
 
   // return the WebAudioManager itself.
   return {
+    initialize({ oscillators, effects }) {
+      // When the app is initialized, we pass it the default state of the redux
+      // store. Use that to build our initial oscillators and effects.
+
+    },
+
     stopAllOscillators() {
       // TODO: Look into whether I need to kill the gains created for each osc.
       activeOscillators.forEach(oscillator => oscillator.stop());
@@ -109,11 +115,17 @@ export const webAudioManagerFactory = context => {
       return this;
     },
 
-    destroyEffectChain() {
+    destroyEffectChain({ rerouteOscillators = false } = {}) {
       // We don't actually need to destroy anything, we just need to
       // disconnect all audio. This will render the output silent,
       // so a new effect chain should be rebuilt ASAP.
-      invoke([...effects, masterOscillatorOutput], 'disconnect');
+      invokeMap([...effects, masterOscillatorOutput], 'disconnect');
+
+      // If we are releasing the effects, point our masterOscillatorOutput
+      // to the context's default destination.
+      if (rerouteOscillators) {
+        masterOscillatorOutput.connect(context.destination);
+      }
 
       return this;
     },
@@ -131,8 +143,20 @@ export const webAudioManagerFactory = context => {
       return this;
     },
 
-    updateEffectAmount({ axis, amount }) {
+    updateEffectAmount({ axis, effect }) {
+      const { name, amount } = effect;
 
+      // `amount` will be a number from 0 to 1.
+      // Each effect will have its own way of mapping that value to one that
+      // makes sense.
+      switch (name) {
+        case 'frequency': {
+          effects.filter.frequency.value = getLogarithmicFrequencyValue(amount)
+        }
+        case 'distortion': {
+          effects.distortion.updateCurve(amount * 250);
+        }
+      }
     },
 
     updateEffectParameters({ axis, options }) {

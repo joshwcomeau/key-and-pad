@@ -8,6 +8,9 @@ let currentState,
 export function initializeWebAudio(reduxStore) {
   store = reduxStore;
   unsubscribe = store.subscribe(reconcile);
+  currentState = store.getState();
+
+  WebAudioManager.initialize(currentState);
 }
 
 // Currently unused
@@ -18,9 +21,6 @@ export function destroy() {
 export function reconcile() {
   const previousState = currentState;
   currentState = store.getState();
-
-  // If this is our very first reconciliation, we don't have anything to compare!
-  if (typeof previousState === 'undefined') { return; }
 
   // There are three main areas of 'change':
   //
@@ -54,7 +54,24 @@ export function reconcile() {
   }
 
   if (effectsUpdated) {
-    // This is a bit tougher...
+    const { effects } = currentState;
+
+    // First, deal with the effects being toggled on or off (by touching the
+    // pad and activating/deactivating the effects)
+    const isToggled = updatedInNewState('effects.x.active') &&
+                      updatedInNewState('effects.y.active');
+    const isActive = effects.x.active && effects.y.active;
+
+    if (isToggled && isActive) {
+      // If we're activating, we simply need to rebuild the chain.
+      return WebAudioManager
+        .destroyEffectChain()
+        .rebuildEffectChain({ ...currentState.effects });
+    } else if (isToggled && !isActive) {
+      return WebAudioManager.destroyEffectChain({ rerouteOscillators: true });
+    }
+
+    // Next, deal with changes to individual axes.
     ['x', 'y'].forEach(axis => {
       // Skip this axis if it wasn't the one updated
       if (!updatedInNewState(['effects', axis])) { return; }
@@ -66,7 +83,10 @@ export function reconcile() {
 
       // If the position has changed, we just need to tweak the amount
       if (positionChanged) {
-        WebAudioManager.updateEffectAmount({ axis, amount: currentState});
+        WebAudioManager.updateEffectAmount({
+          axis,
+          effect: currentState.effects[axis],
+        });
       }
 
       // If the effect itself was swapped out, we need to destroy the effect
