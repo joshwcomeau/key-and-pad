@@ -64,11 +64,11 @@ export function reconcile() {
 
     if (isToggled && isActive) {
       // If we're activating, we simply need to rebuild the chain.
-      return WebAudioManager
+      WebAudioManager
         .destroyEffectChain()
         .rebuildEffectChain({ ...currentState.effects });
     } else if (isToggled && !isActive) {
-      return WebAudioManager.destroyEffectChain({ rerouteOscillators: true });
+      WebAudioManager.destroyEffectChain({ rerouteOscillators: true });
     }
 
     // Next, deal with changes to individual axes.

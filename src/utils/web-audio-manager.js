@@ -150,7 +150,7 @@ export const webAudioManagerFactory = context => {
       // Each effect will have its own way of mapping that value to one that
       // makes sense.
       switch (name) {
-        case 'frequency': {
+        case 'filter': {
           effects.filter.frequency.value = getLogarithmicFrequencyValue(amount)
         }
         case 'distortion': {
