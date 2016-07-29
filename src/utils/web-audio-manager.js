@@ -136,6 +136,8 @@ export const webAudioManagerFactory = context => {
       const xEffect = effects[x.name];
       const yEffect = effects[y.name];
 
+      console.log(xEffect, yEffect);
+
       masterOscillatorOutput.connect(xEffect);
       xEffect.connect(yEffect);
       yEffect.connect(context.destination);
@@ -155,6 +157,9 @@ export const webAudioManagerFactory = context => {
         }
         case 'distortion': {
           effects.distortion.updateCurve(amount * 250);
+        }
+        case 'delay': {
+          effects.delay.delayTime.value = amount * 10;
         }
       }
     },

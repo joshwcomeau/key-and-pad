@@ -66,7 +66,7 @@ export default function soundsReducer(state = initialState, action) {
         ...state,
         [action.axis]: {
           ...state[action.axis],
-          effect: action.effect,
+          name: action.effect,
         },
       };
     }

@@ -44,10 +44,10 @@ class ControlPanel extends Component {
             effect: ev.target.value,
           })}
         >
-          <option>filter</option>
-          <option>distortion</option>
-          <option>delay</option>
-          <option>reverb</option>
+          <option value="filter">filter</option>
+          <option value="distortion">distortion</option>
+          <option value="delay">delay</option>
+          <option value="reverb">reverb</option>
         </select>
       </Column>
     )
