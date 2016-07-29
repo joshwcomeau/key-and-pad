@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import keycode from 'keycode';
-import { toFreq } from 'tonal-freq'
 
 import Key from '../Key';
 import { addNote, removeNote } from '../../ducks/notes.duck';
@@ -30,36 +29,37 @@ export class Keyboard extends Component {
 
   handlePress(ev) {
     const letter = keycode(ev).toUpperCase();
-    const note = keyboardNotes[letter]
-    const frequency = toFreq(note);
+    const noteValue = keyboardNotes[letter];
 
-    const isValidKeyPressed = !!frequency;
-    const isAlreadyPlaying = this.props.notes.includes(note);
-    const isSpecialKeyPressed = !!ev.metaKey || !!ev.ctrlKey || !!ev.shiftKey;
-
-    if (isValidKeyPressed && !isAlreadyPlaying && !isSpecialKeyPressed) {
-      this.props.addNote(note)
+    if (shouldTriggerAddNote(ev, noteValue, currentNotes: this.props.nodes)) {
+      this.props.addNote({ value: noteValue, letter })
     }
   }
 
   handleRelease(ev) {
+    // TODO: Use a method from keyboard-helpers
     const letter = keycode(ev).toUpperCase();
     const note = keyboardNotes[letter]
+    const frequency = toFreq(noteValue);
 
-    this.props.removeNote(note);
+    const isValidKeyPressed = !!frequency;
+    const isAlreadyPlaying = this.props.notes.find(note => (
+      note.value === noteValue
+    ));
+    const isSpecialKeyPressed = !!ev.metaKey || !!ev.ctrlKey || !!ev.shiftKey;
+
+    this.props.removeNote({ value: note });
   }
 
   renderKey({ letter, keyStyle }) {
-    const note = keyboardNotes[letter];
-
-    // TODO: This might be a perf bottleneck, doing the `includes` on every
+    // TODO: This might be a perf bottleneck, doing the `find` on every
     // render for every key.
     return (
       <Key
         key={letter}
         letter={letter}
         keyStyle={keyStyle}
-        active={this.props.notes.includes(note)}
+        active={this.props.notes.find(note => note.letter === letter)}
       />
     )
   }
