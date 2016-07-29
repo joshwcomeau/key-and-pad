@@ -57,7 +57,7 @@ export const webAudioManagerFactory = context => {
   const effects = {
     filter: createFilter({
       type: 'lowpass',
-      resonance: 10,
+      resonance: 5,
       output: context.destination,
     }),
     distortion: createDistortion({

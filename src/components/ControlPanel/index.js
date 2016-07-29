@@ -17,7 +17,7 @@ import './index.scss';
 class ControlPanel extends Component {
   renderOscillatorToggles(oscillatorIndex) {
     const waveforms = ['sine', 'triangle', 'square', 'sawtooth'];
-    const selectedWaveform = this.props.oscillators[oscillatorIndex];
+    const selectedWaveform = this.props.oscillators[oscillatorIndex].waveform;
 
     return waveforms.map(waveform => (
       <Button
@@ -44,8 +44,7 @@ class ControlPanel extends Component {
             effect: ev.target.value,
           })}
         >
-          <option>filter frequency</option>
-          <option>filter resonance</option>
+          <option>filter</option>
           <option>distortion</option>
           <option>delay</option>
           <option>reverb</option>
