@@ -1,17 +1,17 @@
 const initialState = {
-  oscillators: [
-    'triangle',
-    'square',
-  ],
   x: {
-    effect: 'filter frequency',
+    name: 'filter frequency',
+    active: false,
+    amount: 0,
     options: {
       filterType: 'lowpass',
       resonance: 10
     }
   },
   y: {
-    effect: 'distortion',
+    name: 'distortion',
+    active: false,
+    amount: 0,
     options: {
       oversampling: '4x',
     },
@@ -22,8 +22,8 @@ const initialState = {
 // ////////////////////////
 // ACTION TYPES //////////
 // //////////////////////
-export const WEB_AUDIO_INITIALIZATION = 'SOUNDS/WEB_AUDIO_INITIALIZATION';
-export const CHANGE_OSCILLATOR_WAVEFORM = 'SOUNDS/CHANGE_OSCILLATOR_WAVEFORM';
+export const TOGGLE_EFFECTS = 'EFFECTS/TOGGLE_EFFECTS';
+export const UPDATE_EFFECTS_AMOUNT = 'EFFECTS/UPDATE_EFFECTS_AMOUNT';
 export const CHANGE_AXIS_EFFECT = 'SOUNDS/CHANGE_AXIS_EFFECT';
 export const TWEAK_AXIS_PARAMETER = 'SOUNDS/TWEAK_AXIS_PARAMETER';
 
@@ -33,15 +33,29 @@ export const TWEAK_AXIS_PARAMETER = 'SOUNDS/TWEAK_AXIS_PARAMETER';
 // //////////////////////
 export default function soundsReducer(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_OSCILLATOR_WAVEFORM: {
-      const { oscillatorIndex, waveform } = action;
-
-      const nextOscillators = state.oscillators.slice();
-      nextOscillators[oscillatorIndex] = waveform;
-
+    case TOGGLE_EFFECTS: {
       return {
-        ...state,
-        oscillators: nextOscillators,
+        x: {
+          ...state.x,
+          active: action.isActive,
+        },
+        y: {
+          ...state.y,
+          active: action.isActive,
+        },
+      };
+    }
+
+    case UPDATE_EFFECTS_AMOUNT: {
+      return {
+        x: {
+          ...state.x,
+          amount: action.xAmount,
+        },
+        y: {
+          ...state.y,
+          amount: action.yAmount,
+        },
       };
     }
 
@@ -50,7 +64,20 @@ export default function soundsReducer(state = initialState, action) {
         ...state,
         [action.axis]: {
           ...state[action.axis],
-          effect: action.effect
+          effect: action.effect,
+        },
+      };
+    }
+
+    case TWEAK_AXIS_PARAMETER: {
+      return {
+        ...state,
+        [action.axis]: {
+          ...state[action.axis],
+          options: {
+            ...state[action.axis].options,
+            ...action.options
+          }
         }
       }
     }
@@ -64,18 +91,25 @@ export default function soundsReducer(state = initialState, action) {
 // ////////////////////////
 // ACTION CREATORS ///////
 // //////////////////////
-export const webAudioInitialization = () => ({
-  type: WEB_AUDIO_INITIALIZATION,
+export const toggleEffects = ({ isActive }) => ({
+  type: TOGGLE_EFFECTS,
+  isActive,
 });
 
-export const changeOscillatorWaveform = ({ oscillatorIndex, waveform }) => ({
-  type: CHANGE_OSCILLATOR_WAVEFORM,
-  oscillatorIndex,
-  waveform,
+export const updateEffectsAmount = ({ yAmount, xAmount }) => ({
+  type: UPDATE_EFFECTS_AMOUNT,
+  yAmount,
+  xAmount,
 });
 
 export const changeAxisEffect = ({ axis, effect }) => ({
   type: CHANGE_AXIS_EFFECT,
   axis,
   effect,
+});
+
+export const tweakAxisParameter = ({ axis, options }) => ({
+  type: UPDATE_EFFECTS_AMOUNT,
+  axis,
+  options,
 });

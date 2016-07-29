@@ -108,8 +108,8 @@ XYPad.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  xAxisLabel: state.sounds.x.effect,
-  yAxisLabel: state.sounds.y.effect,
+  xAxisLabel: state.effects.x.name,
+  yAxisLabel: state.effects.y.name,
 });
 
 export default connect(
