@@ -13,7 +13,7 @@
   &.white {
     background: $white;
     border-bottom: 4px solid rgba(0,0,0,0.2);
-    border-right: 2px solid rgba(0,0,0,0.2);
+    border-right: 1px solid rgba(0,0,0,0.1);
     border-left: 1px solid rgba(0,0,0,0.1);
   }
 
@@ -21,7 +21,7 @@
     background: $darkgray;
     color: $white;
     border-bottom: 4px solid rgba(0,0,0,0.6);
-    border-right: 2px solid rgba(0,0,0,0.6);
+    border-right: 1px solid rgba(0,0,0,0.3);
     border-left: 1px solid rgba(0,0,0,0.3);
   }
 
@@ -29,7 +29,7 @@
     background: $verylightgray;
     color: $white;
     border-bottom: 4px solid rgba(0,0,0,0.1);
-    border-right: 2px solid rgba(0,0,0,0.1);
+    border-right: 1px solid rgba(0,0,0,0.05);
     border-left: 1px solid rgba(0,0,0,0.05);
   }
 

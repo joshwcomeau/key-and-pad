@@ -39,6 +39,8 @@ class ControlPanel extends Component {
       <Column className={`pad-${axis}`}>
         <h5>{`${axis} axis`}</h5>
         <Select
+          clearable={false}
+          className="axis-control-select"
           value={this.props.effects[axis].name}
           onChange={({ value }) => {
             this.props.changeAxisEffect({
