@@ -8,8 +8,8 @@ import {
   createFilterWithContext,
   createDistortionWithContext,
   createDelayWithContext,
+  createReverbWithContext,
   getLogarithmicFrequencyValueWithContext,
-  connectNodes,
 } from './web-audio-helpers';
 
 
@@ -49,6 +49,7 @@ export const webAudioManagerFactory = context => {
   const createGain = createGainWithContext(context);
   const createFilter = createFilterWithContext(context);
   const createDelay = createDelayWithContext(context);
+  const createReverb = createReverbWithContext(context);
   const createDistortion = createDistortionWithContext(context);
 
   const fade = fadeWithContext(context);
@@ -68,6 +69,12 @@ export const webAudioManagerFactory = context => {
     }),
     delay: createDelay({
       length: 2,
+      output: context.destination,
+    }),
+    reverb: createReverb({
+      dry: 1,
+      wet: 1,
+      time: 3,
       output: context.destination,
     }),
   };
@@ -187,6 +194,14 @@ export const webAudioManagerFactory = context => {
         }
         case 'delay': {
           return effects.delay.delayTime.value = amount * 10;
+        }
+        case 'reverb': {
+          effects.reverb.wet.value = amount;
+          effects.reverb.dry.value = -(amount*0.5);
+          return;
+        }
+        default: {
+          // Do nothing
         }
       }
     },

@@ -1,4 +1,6 @@
 /* eslint-disable no-mixed-operators */
+import Reverb from 'soundbank-reverb';
+
 
 const calculateDistortionCurve = (context, amount) => {
   const samples = 1000;
@@ -96,6 +98,18 @@ export const createDelayWithContext = context => ({ length, output }) => {
   return delayNode;
 }
 
+export const createReverbWithContext = context => ({ time, dry, wet, output }) => {
+  const reverb = Reverb(context);
+
+  reverb.connect(output)
+
+  reverb.time = time;
+  reverb.dry.value = dry;
+  reverb.wet.value = wet;
+
+  return reverb;
+}
+
 export const getLogarithmicFrequencyValueWithContext = context => n => {
   // Where `n` is a value from 0 to 1, compute what the current frequency
   // should be, using a pleasant log scale.
@@ -105,9 +119,4 @@ export const getLogarithmicFrequencyValueWithContext = context => n => {
   const multiplier = Math.pow(2, numOfOctaves * (n - 1.0));
 
   return max * multiplier;
-}
-
-export const connectNodes = ({ source, destination }) => {
-  source.disconnect();
-  source.connect(destination);
 }
