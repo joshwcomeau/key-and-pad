@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-operators */
 
 const calculateDistortionCurve = (context, amount) => {
-  const samples = context.sampleRate;
+  const samples = 1000;
   const curve = new Float32Array(samples);
   const deg = Math.PI / 180;
 
@@ -76,13 +76,14 @@ export const createDistortionWithContext = context => ({
 }) => {
   const distortionNode = context.createWaveShaper();
 
+  // Create an update method so that it can be updated externally.
   distortionNode.updateCurve = amount => {
     distortionNode.curve = calculateDistortionCurve(context, amount);
   }
 
   distortionNode.oversample = oversample;
   distortionNode.connect(output);
-  distortionNode.updateCurve();
+  distortionNode.updateCurve(amount);
 
   return distortionNode;
 }

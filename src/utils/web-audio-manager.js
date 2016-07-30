@@ -158,9 +158,16 @@ export const webAudioManagerFactory = context => {
       const xEffect = effects[x.name];
       const yEffect = effects[y.name];
 
-      masterOscillatorOutput.connect(xEffect);
-      xEffect.connect(yEffect);
-      yEffect.connect(context.destination);
+      // IF both axes are part of the same effect (eg. filter res/freq),
+      // then obviously it is just routed through one effect.
+      if (xEffect === yEffect) {
+        masterOscillatorOutput.connect(xEffect);
+        xEffect.connect(context.destination);
+      } else {
+        masterOscillatorOutput.connect(xEffect);
+        xEffect.connect(yEffect);
+        yEffect.connect(context.destination);
+      }
 
       return this;
     },
@@ -173,13 +180,13 @@ export const webAudioManagerFactory = context => {
       // makes sense.
       switch (name) {
         case 'filter': {
-          effects.filter.frequency.value = getLogarithmicFrequencyValue(amount)
+          return effects.filter.frequency.value = getLogarithmicFrequencyValue(amount)
         }
         case 'distortion': {
-          effects.distortion.updateCurve(amount * 250);
+          return effects.distortion.updateCurve(amount * 250);
         }
         case 'delay': {
-          effects.delay.delayTime.value = amount * 10;
+          return effects.delay.delayTime.value = amount * 10;
         }
       }
     },
