@@ -59,12 +59,13 @@ export const fadeWithContext = context => ({
 }
 
 export const createFilterWithContext = context => ({
-  type,
+  filterType,
   resonance = 0,
   output,
 }) => {
   const filterNode = context.createBiquadFilter();
 
+  filterNode.type = filterType;
   filterNode.Q.value = resonance;
   filterNode.connect(output);
 

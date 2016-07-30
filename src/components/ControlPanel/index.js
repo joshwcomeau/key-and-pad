@@ -12,6 +12,7 @@ import Button from '../Button';
 import Waveform from '../Waveform';
 import Row from '../Row';
 import Column from '../Column';
+import Select from '../Select';
 import './index.scss';
 
 class ControlPanel extends Component {
@@ -37,18 +38,20 @@ class ControlPanel extends Component {
     return (
       <Column className={`pad-${axis}`}>
         <h5>{`${axis} axis`}</h5>
-        <select
+        <Select
           value={this.props.effects[axis].name}
-          onChange={ev => this.props.changeAxisEffect({
-            axis,
-            effect: ev.target.value,
-          })}
-        >
-          <option value="filter">filter</option>
-          <option value="distortion">distortion</option>
-          <option value="delay">delay</option>
-          <option value="reverb">reverb</option>
-        </select>
+          onChange={({ value }) => {
+            this.props.changeAxisEffect({
+              axis,
+              effect: value,
+            })
+          }}
+          options={[
+            { value: 'filter', label: 'filter' },
+            { value: 'distortion', label: 'distortion' },
+            { value: 'reverb', label: 'reverb' },
+          ]}
+        />
       </Column>
     )
   }

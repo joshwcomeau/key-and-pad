@@ -11,6 +11,7 @@ import {
   createReverbWithContext,
   getLogarithmicFrequencyValueWithContext,
 } from './web-audio-helpers';
+import effectDefaultOptions from '../data/effect_default_options.js';
 
 
 // eslint-disable-next-line no-undef
@@ -59,22 +60,19 @@ export const webAudioManagerFactory = context => {
   // TODO: Better way of setting default effect parameters.
   const effects = {
     filter: createFilter({
-      type: 'lowpass',
-      resonance: 5,
+      ...effectDefaultOptions.filter,
       output: context.destination,
     }),
     distortion: createDistortion({
-      oversample: '4x',
+      ...effectDefaultOptions.distortion,
       output: context.destination,
     }),
     delay: createDelay({
-      length: 2,
+      ...effectDefaultOptions.delay,
       output: context.destination,
     }),
     reverb: createReverb({
-      dry: 1,
-      wet: 1,
-      time: 3,
+      ...effectDefaultOptions.reverb,
       output: context.destination,
     }),
   };

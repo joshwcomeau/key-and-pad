@@ -1,30 +1,17 @@
-const defaultOptions = {
-  filter: {
-    filterType: 'lowpass',
-    resonance: 10
-  },
-  distortion: {
-    oversampling: '4x',
-  },
-  reverb: {
-    dry: 1,
-    wet: 1,
-    time: 3,
-  },
-};
+import effectDefaultOptions from '../data/effect_default_options.js';
 
 const initialState = {
   x: {
     name: 'filter',
     active: false,
     amount: 0,
-    options: defaultOptions.filter
+    options: effectDefaultOptions.filter
   },
   y: {
     name: 'reverb',
     active: false,
     amount: 0,
-    options: defaultOptions.reverb,
+    options: effectDefaultOptions.reverb,
   },
 };
 
@@ -77,7 +64,7 @@ export default function soundsReducer(state = initialState, action) {
         [action.axis]: {
           ...state[action.axis],
           name: action.effect,
-          options: defaultOptions[action.effect],
+          options: effectDefaultOptions[action.effect],
         },
       };
     }
