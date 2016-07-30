@@ -5,13 +5,6 @@ import { getElementTranslate } from '../../utils/dom-helpers';
 
 
 class Transposer extends Component {
-  shouldComponentUpdate(nextProps) {
-    const hChange = nextProps.centerHorizontally !== this.props.centerHorizontally;
-    const vChange = nextProps.centerVertically !== this.props.centerVertically;
-
-    return (hChange || vChange);
-  }
-
   componentDidUpdate() {
     this.transpose();
   }
@@ -21,9 +14,23 @@ class Transposer extends Component {
   }
 
   transpose({ initial = false } = {}) {
-    const { centerHorizontally, centerVertically } = this.props;
+    const {
+      centerHorizontally,
+      centerVertically,
+      animateInitialPosition,
+      hide,
+    } = this.props;
 
     window.requestAnimationFrame(() => {
+      // Add a transition to the element unless this is the initial transposition,
+      // and we've elected to not animate the original one.
+      if (animateInitialPosition || !initial) {
+        console.log("Setting transition")
+        this.elem.style.transition = `transform ${this.props.transposeLength}ms, opacity ${this.props.transposeLength}ms`;
+      }
+
+      this.elem.style.opacity = hide ? 0 : 1;
+
       const { top, left, width, height } = this.elem.getBoundingClientRect();
 
       const horizontalCenterPos = (window.innerWidth / 2) - (width / 2);
@@ -44,6 +51,7 @@ class Transposer extends Component {
       } else {
         offsetTop = 0;
       }
+
 
       this.elem.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
     })
@@ -67,10 +75,13 @@ Transposer.propTypes = {
   centerHorizontally: PropTypes.bool,
   centerVertically: PropTypes.bool,
   animateInitialPosition: PropTypes.bool,
+  transposeLength: PropTypes.number,
+  hide: PropTypes.bool,
 };
 
 Transposer.defaultProps = {
-  animateInitialPosition: true,
+  animateInitialPosition: false,
+  transposeLength: 1000,
 };
 
 export default Transposer;

@@ -85,14 +85,17 @@ export class Keyboard extends Component {
   render() {
     const { stage } = this.props;
     return (
-      <Transposer
-        className="keyboard"
-        centerHorizontally={isBeforeStage('pad-introduced', stage)}
-        centerVertically={isBeforeStage('control-panel-introduced', stage)}
-        animateInitialPosition={false}
-      >
-        {this.props.layout.map(this.renderRow)}
-      </Transposer>
+      <div className="keyboard-wrapper">
+        <Transposer
+          centerHorizontally={isBeforeStage('pad-introduced', stage)}
+          centerVertically={isBeforeStage('control-panel-introduced', stage)}
+          hide={isBeforeStage('keys-introduced', stage)}
+        >
+          <div className="keyboard">
+            {this.props.layout.map(this.renderRow)}
+          </div>
+        </Transposer>
+      </div>
     );
   }
 }

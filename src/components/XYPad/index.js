@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import { deactivateEffects, updateEffectsAmount } from '../../ducks/effects.duck';
+import { isBeforeStage, isSameStage } from '../../utils/onboarding-helpers';
+
 import XYPadAxisLabel from '../XYPadAxisLabel';
+import Transposer from '../Transposer';
 import './index.scss';
 
 
@@ -66,38 +69,43 @@ export class XYPad extends Component {
       { 'is-pressed': this.state.isPressed }
     );
 
-    const { xAxisLabel, yAxisLabel } = this.props;
+    const { xAxisLabel, yAxisLabel, stage } = this.props;
 
     return (
       <div className="x-y-pad">
-        <div
-          className="pad"
-          ref={elem => { this.elem = elem; }}
-          onTouchStart={this.handlePress}
-          onMouseDown={this.handlePress}
-          onMouseMove={this.handleClick}
-          onTouchEnd={this.handleRelease}
-          onMouseUp={this.handleRelease}
+        <Transposer
+          hide={isBeforeStage('pad-introduced', stage)}
+          centerVertically={isBeforeStage('control-panel-introduced', stage)}
         >
-          <svg
-            width="100%"
-            height="100%"
-            className={svgClasses}
+          <div
+            className="pad"
+            ref={elem => { this.elem = elem; }}
+            onTouchStart={this.handlePress}
+            onMouseDown={this.handlePress}
+            onMouseMove={this.handleClick}
+            onTouchEnd={this.handleRelease}
+            onMouseUp={this.handleRelease}
           >
-            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
-            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
-          </svg>
-        </div>
-        <XYPadAxisLabel
-          label={xAxisLabel}
-          className="horizontal-axis"
-          includeRightArrow
-        />
-        <XYPadAxisLabel
-          label={yAxisLabel}
-          className="vertical-axis"
-          includeLeftArrow
+            <svg
+              width="100%"
+              height="100%"
+              className={svgClasses}
+            >
+              <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
+              <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
+            </svg>
+          </div>
+          <XYPadAxisLabel
+            label={xAxisLabel}
+            className="horizontal-axis"
+            includeRightArrow
           />
+          <XYPadAxisLabel
+            label={yAxisLabel}
+            className="vertical-axis"
+            includeLeftArrow
+            />
+        </Transposer>
       </div>
     );
   }
@@ -113,6 +121,7 @@ XYPad.propTypes = {
 const mapStateToProps = state => ({
   xAxisLabel: state.effects.x.name,
   yAxisLabel: state.effects.y.name,
+  stage: state.onboarding.stage,
 });
 
 export default connect(
