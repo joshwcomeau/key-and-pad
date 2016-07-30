@@ -3,8 +3,12 @@ import omit from 'lodash.omit';
 
 import { getElementTranslate } from '../../utils/dom-helpers';
 
+// A helpful onboarding utility that:
+// - includes a helpful message explaining the feature.
+// - positions an item to the center, so a feature can be highlighted
+// - controls whether or not to render an element
 
-class Transposer extends Component {
+class FeatureHighlight extends Component {
   componentDidUpdate() {
     this.transpose();
   }
@@ -18,18 +22,14 @@ class Transposer extends Component {
       centerHorizontally,
       centerVertically,
       animateInitialPosition,
-      hide,
     } = this.props;
 
     window.requestAnimationFrame(() => {
       // Add a transition to the element unless this is the initial transposition,
       // and we've elected to not animate the original one.
       if (animateInitialPosition || !initial) {
-        console.log("Setting transition")
-        this.elem.style.transition = `transform ${this.props.transposeLength}ms, opacity ${this.props.transposeLength}ms`;
+        this.elem.style.transition = `transform ${this.props.transposeLength}ms`;
       }
-
-      this.elem.style.opacity = hide ? 0 : 1;
 
       const { top, left, width, height } = this.elem.getBoundingClientRect();
 
@@ -59,29 +59,29 @@ class Transposer extends Component {
 
   render() {
     // Any prop not defined in our PropTypes can be delegated to the div.
-    const primaryPropKeys = Object.keys(Transposer.propTypes);
+    const primaryPropKeys = Object.keys(FeatureHighlight.propTypes);
     const delegatedProps = omit(this.props, primaryPropKeys);
 
     return (
       <div ref={elem => { this.elem = elem; }} {...delegatedProps}>
-        {this.props.children}
+        {this.props.renderFeature ? this.props.children : null}
       </div>
     )
   }
 }
 
-Transposer.propTypes = {
+FeatureHighlight.propTypes = {
   children: PropTypes.node,
   centerHorizontally: PropTypes.bool,
   centerVertically: PropTypes.bool,
   animateInitialPosition: PropTypes.bool,
   transposeLength: PropTypes.number,
-  hide: PropTypes.bool,
+  renderFeature: PropTypes.bool,
 };
 
-Transposer.defaultProps = {
+FeatureHighlight.defaultProps = {
   animateInitialPosition: false,
   transposeLength: 1000,
 };
 
-export default Transposer;
+export default FeatureHighlight;

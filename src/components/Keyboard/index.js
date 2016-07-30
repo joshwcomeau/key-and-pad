@@ -7,9 +7,7 @@ import {
   shouldEventTriggerAction,
   getNoteAndLetter,
 } from '../../utils/keyboard-helpers';
-import { isBeforeStage, isSameStage } from '../../utils/onboarding-helpers';
 
-import Transposer from '../Transposer';
 import Key from '../Key';
 import './index.scss';
 
@@ -85,16 +83,8 @@ export class Keyboard extends Component {
   render() {
     const { stage } = this.props;
     return (
-      <div className="keyboard-wrapper">
-        <Transposer
-          centerHorizontally={isBeforeStage('pad-introduced', stage)}
-          centerVertically={isBeforeStage('control-panel-introduced', stage)}
-          hide={isBeforeStage('keys-introduced', stage)}
-        >
-          <div className="keyboard">
-            {this.props.layout.map(this.renderRow)}
-          </div>
-        </Transposer>
+      <div className="keyboard">
+        {this.props.layout.map(this.renderRow)}
       </div>
     );
   }
@@ -110,7 +100,6 @@ Keyboard.PropTypes = {
 
 const mapStateToProps = state => ({
   notes: state.notes,
-  stage: state.onboarding.stage,
 });
 
 export default connect(mapStateToProps, { addNote, removeNote })(Keyboard);

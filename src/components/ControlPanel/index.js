@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { changeAxisEffect, tweakAxisParameter } from '../../ducks/effects.duck';
 import { updateOscillator } from '../../ducks/oscillators.duck';
-import { isBeforeStage, isSameStage } from '../../utils/onboarding-helpers';
 
 // eslint-disable-next-line no-unused-vars
 import Slider from '../Slider';
@@ -14,7 +13,6 @@ import Waveform from '../Waveform';
 import Row from '../Row';
 import Column from '../Column';
 import Select from '../Select';
-import Transposer from '../Transposer';
 import './index.scss';
 
 class ControlPanel extends Component {
@@ -63,10 +61,7 @@ class ControlPanel extends Component {
 
   render() {
     return (
-      <Transposer
-        className="control-panel"
-        hide={isBeforeStage('control-panel-introduced', this.props.stage)}
-      >
+      <div className="control-panel">
         <div className="panel keys">
           <Subheading>keys</Subheading>
 
@@ -94,16 +89,14 @@ class ControlPanel extends Component {
             {this.renderAxisControls('y')}
           </Row>
         </div>
-      </Transposer>
-
-    )
+      </div>
+    );
   }
 }
 
 const mapStateToProps = state => ({
   effects: state.effects,
   oscillators: state.oscillators,
-  stage: state.onboarding.stage,
 });
 
 const actions = {
