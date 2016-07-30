@@ -1,12 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import throttle from 'lodash.throttle';
 
 import { addNote, removeNote } from '../../ducks/notes.duck';
 import {
   shouldEventTriggerAction,
   getNoteAndLetter,
 } from '../../utils/keyboard-helpers';
+import { isBeforeStage, isSameStage } from '../../utils/onboarding-helpers';
 
+import Transposer from '../Transposer';
 import Key from '../Key';
 import './index.scss';
 
@@ -80,10 +83,16 @@ export class Keyboard extends Component {
   }
 
   render() {
+    const { stage } = this.props;
     return (
-      <div className="keyboard">
+      <Transposer
+        className="keyboard"
+        centerHorizontally={isBeforeStage('pad-introduced', stage)}
+        centerVertically={isBeforeStage('control-panel-introduced', stage)}
+        animateInitialPosition={false}
+      >
         {this.props.layout.map(this.renderRow)}
-      </div>
+      </Transposer>
     );
   }
 }
@@ -98,6 +107,7 @@ Keyboard.PropTypes = {
 
 const mapStateToProps = state => ({
   notes: state.notes,
+  stage: state.onboarding.stage,
 });
 
 export default connect(mapStateToProps, { addNote, removeNote })(Keyboard);

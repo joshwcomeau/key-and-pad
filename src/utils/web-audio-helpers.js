@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-operators */
-import Reverb from 'soundbank-reverb';
+import soundbankReverb from 'soundbank-reverb';
 
 
 const calculateDistortionCurve = (context, amount) => {
@@ -100,7 +100,7 @@ export const createDelayWithContext = context => ({ length, output }) => {
 }
 
 export const createReverbWithContext = context => ({ time, dry, wet, output }) => {
-  const reverb = Reverb(context);
+  const reverb = soundbankReverb(context);
 
   reverb.connect(output)
 

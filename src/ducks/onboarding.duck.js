@@ -20,6 +20,11 @@ export default function onboardingReducer(state = initialState, action) {
       return { stage: action.stage };
     }
 
+    case 'NEXT': {
+      const currentIndex = onboardingStages.indexOf(state.stage);
+      return { stage: onboardingStages[currentIndex+1] };
+    }
+
     default:
       return state;
   }
@@ -32,4 +37,8 @@ export default function onboardingReducer(state = initialState, action) {
 export const updateStage = ({ stage }) => ({
   type: UPDATE_STAGE,
   stage
+});
+
+export const next = () => ({
+  type: 'NEXT'
 });

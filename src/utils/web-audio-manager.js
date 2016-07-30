@@ -185,18 +185,21 @@ export const webAudioManagerFactory = context => {
       // makes sense.
       switch (name) {
         case 'filter': {
-          return effects.filter.frequency.value = getLogarithmicFrequencyValue(amount)
+          effects.filter.frequency.value = getLogarithmicFrequencyValue(amount);
+          break;
         }
         case 'distortion': {
-          return effects.distortion.updateCurve(amount * 250);
+          effects.distortion.updateCurve(amount * 250);
+          break;
         }
         case 'delay': {
-          return effects.delay.delayTime.value = amount * 10;
+          effects.delay.delayTime.value = amount * 10;
+          break;
         }
         case 'reverb': {
           effects.reverb.wet.value = amount;
           effects.reverb.dry.value = -(amount*0.5);
-          return;
+          break;
         }
         default: {
           // Do nothing

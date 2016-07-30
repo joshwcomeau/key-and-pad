@@ -3,6 +3,7 @@
 .keyboard {
   position: relative;
   user-select: none;
+  transition: transform 800ms;
 
   .key, .key-spacer {
     display: inline-block;
