@@ -40,6 +40,7 @@ class ControlPanel extends Component {
         <h5>{`${axis} axis`}</h5>
         <Select
           clearable={false}
+          searchable={false}
           className="axis-control-select"
           value={this.props.effects[axis].name}
           onChange={({ value }) => {

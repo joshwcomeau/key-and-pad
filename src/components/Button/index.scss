@@ -3,18 +3,19 @@
 .button {
   position: relative;
   background: $white;
-  border-radius: 4px;
+  border-radius: $border-radius-small;
   border: 0;
   padding: 6px 8px;
+  height: 30px;
   outline: none;
   box-shadow: 0px 3px 0px rgba(0,0,0,0.2);
 
   &:active {
     top: 2px;
-    box-shadow: 0px 1px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.1);
 
     &.selected {
-      box-shadow: 0px 1px 0px darken($yellow, 30%);
+      box-shadow: 0px 1px 0px darken($yellow, 10%);
     }
   }
 

@@ -1,3 +1,55 @@
-.select {
+@import '../../variables';
 
+.select {
+  &.is-open .Select-control {
+    border-radius:  $border-radius-large $border-radius-large 0 0;
+  }
+
+  .Select-control {
+    height: 32px;
+    color: $darkgray;
+    border: 0;
+    border-radius: $border-radius-large;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.1) !important;
+    font-size: 14px;
+
+
+    .Select-value {
+      line-height: 32px;
+
+      .Select-value-label {
+        color: $darkgray !important;
+      }
+    }
+
+    .Select-input {
+      height: 32px;
+    }
+  }
+
+  .Select-menu-outer {
+    border: 0;
+    font-size: 14px;
+    border-radius: 0 0 $border-radius-large $border-radius-large;
+    box-shadow: 0px 1px 0px rgba(0,0,0,0.1) !important;
+
+    .Select-option {
+      color: $mediumgray;
+
+      &:first-of-type {
+        border-top: 1px solid $offwhite;
+      }
+
+      &.is-selected {
+    		background-color: $white;
+        color: $mediumgray;
+    		// color: $select-option-selected-color;
+    	}
+
+      &.is-focused {
+        background-color: $white;
+        color: $orange;
+      }
+    }
+  }
 }

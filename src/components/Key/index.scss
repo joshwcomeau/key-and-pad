@@ -6,7 +6,7 @@
   height: $keyboard-key-size;
   margin: 0 3px;
   padding: 5px;
-  border-radius: 4px;
+  border-radius: $border-radius-small;
   cursor: default;
   transition: transform 200ms;
 

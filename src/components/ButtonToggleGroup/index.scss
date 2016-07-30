@@ -1,3 +1,5 @@
+@import '../../variables';
+
 .button-toggle-group {
   .button {
     border-right: 1px solid rgba(0,0,0,0.05);
@@ -5,11 +7,11 @@
   }
 
   .button:first-of-type {
-    border-radius: 6px 0 0 6px;
+    border-radius: $border-radius-large 0 0 $border-radius-large;
   }
 
   .button:last-of-type {
-    border-radius: 0 6px 6px 0;
+    border-radius: 0 $border-radius-large $border-radius-large 0;
     border-right: 0;
   }
 }
