@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import keycode from 'keycode';
+
+import { addNote, removeNote } from '../../ducks/notes.duck';
+import {
+  shouldEventTriggerAction,
+  getNoteAndLetter,
+} from '../../utils/keyboard-helpers';
 
 import Key from '../Key';
-import { addNote, removeNote } from '../../ducks/notes.duck';
-import keyboardNotes from '../../data/keyboard_notes';
 import './index.scss';
 
 
@@ -28,27 +31,31 @@ export class Keyboard extends Component {
   }
 
   handlePress(ev) {
-    const letter = keycode(ev).toUpperCase();
-    const noteValue = keyboardNotes[letter];
+    const [noteValue, letter] = getNoteAndLetter(ev);
+    const isValid = shouldEventTriggerAction({
+      ev,
+      noteValue,
+      currentNotes: this.props.notes,
+      mode: 'press'
+    });
 
-    if (shouldTriggerAddNote(ev, noteValue, currentNotes: this.props.nodes)) {
+    if (isValid) {
       this.props.addNote({ value: noteValue, letter })
     }
   }
 
   handleRelease(ev) {
-    // TODO: Use a method from keyboard-helpers
-    const letter = keycode(ev).toUpperCase();
-    const note = keyboardNotes[letter]
-    const frequency = toFreq(noteValue);
+    const [noteValue] = getNoteAndLetter(ev);
+    const isValid = shouldEventTriggerAction({
+      ev,
+      noteValue,
+      currentNotes: this.props.notes,
+      mode: 'release'
+    });
 
-    const isValidKeyPressed = !!frequency;
-    const isAlreadyPlaying = this.props.notes.find(note => (
-      note.value === noteValue
-    ));
-    const isSpecialKeyPressed = !!ev.metaKey || !!ev.ctrlKey || !!ev.shiftKey;
-
-    this.props.removeNote({ value: note });
+    if (isValid) {
+      this.props.removeNote({ value: noteValue });
+    }
   }
 
   renderKey({ letter, keyStyle }) {
