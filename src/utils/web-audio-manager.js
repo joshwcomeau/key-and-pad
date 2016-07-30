@@ -2,6 +2,7 @@ import { toFreq } from 'tonal-freq'
 import invokeMap from 'lodash/invokemap';
 
 import {
+  fadeWithContext,
   createGainWithContext,
   createOscillatorWithContext,
   createFilterWithContext,
@@ -50,6 +51,7 @@ export const webAudioManagerFactory = context => {
   const createDelay = createDelayWithContext(context);
   const createDistortion = createDistortionWithContext(context);
 
+  const fade = fadeWithContext(context);
   const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
 
   // Create some effect nodes
@@ -88,7 +90,15 @@ export const webAudioManagerFactory = context => {
 
     stopAllOscillators() {
       // TODO: Look into whether I need to kill the gains created for each osc.
-      activeOscillators.forEach(oscillator => oscillator.stop());
+      activeOscillators.forEach(({ oscillator, output }) => {
+        // Add a brief release, to avoid clipping
+        fade({
+          direction: 'out',
+          output,
+          oscillator,
+        })
+      });
+
       activeOscillators = [];
 
       return this;
@@ -98,17 +108,29 @@ export const webAudioManagerFactory = context => {
       notes.forEach(({ value }) => {
         oscillators.forEach(({ waveform, gain, octaveAdjustment }) => {
           // TODO: Handle octaveAdjustment
+          const output = createGain({
+            value: gain,
+            output: masterOscillatorOutput,
+          });
 
           const newOscillator = createOscillator({
             waveform,
             frequency: toFreq(value),
-            output: createGain({
-              value: gain,
-              output: masterOscillatorOutput,
-            }),
+            output,
           });
 
-          activeOscillators.push(newOscillator);
+          // Add a brief fade-in to avoid clipping.
+          fade({
+            direction: 'in',
+            output,
+            oscillator: newOscillator,
+            maxAmplitude: gain,
+          });
+
+          activeOscillators.push({
+            oscillator: newOscillator,
+            output: output
+          });
         });
       });
 
@@ -135,8 +157,6 @@ export const webAudioManagerFactory = context => {
       // masterOscillatorOutput -> x -> y -> context.destination.
       const xEffect = effects[x.name];
       const yEffect = effects[y.name];
-
-      console.log(xEffect, yEffect);
 
       masterOscillatorOutput.connect(xEffect);
       xEffect.connect(yEffect);

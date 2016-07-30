@@ -27,7 +27,6 @@ export const createOscillatorWithContext = context => ({
   waveform,
   output,
   detune = 0,
-  startImmediately = true,
 }) => {
   const oscillatorNode = context.createOscillator();
 
@@ -36,12 +35,26 @@ export const createOscillatorWithContext = context => ({
   oscillatorNode.detune.value = detune;
   oscillatorNode.connect(output);
 
-  if (startImmediately) {
-    oscillatorNode.start(0);
-  }
-
   return oscillatorNode;
 };
+
+export const fadeWithContext = context => ({
+  direction, output, oscillator, maxAmplitude = 1, duration = 0.02
+}) => {
+  const now = context.currentTime;
+  const end = now + duration;
+  output.gain.cancelScheduledValues(now);
+
+  if (direction === 'in') {
+    output.gain.setValueAtTime(0, now);
+    output.gain.linearRampToValueAtTime(maxAmplitude, end);
+    oscillator.start(now);
+  } else if (direction === 'out') {
+    output.gain.setValueAtTime(output.gain.value, now);
+    output.gain.linearRampToValueAtTime(0, end);
+    oscillator.stop(end);
+  }
+}
 
 export const createFilterWithContext = context => ({
   type,
