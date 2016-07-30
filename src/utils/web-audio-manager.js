@@ -11,7 +11,7 @@ import {
   createReverbWithContext,
   getLogarithmicFrequencyValueWithContext,
 } from './web-audio-helpers';
-import effectDefaultOptions from '../data/effect_default_options.js';
+import effectDefaultOptions from '../data/effect-default-options.js';
 
 
 // eslint-disable-next-line no-undef

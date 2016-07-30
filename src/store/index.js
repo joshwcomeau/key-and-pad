@@ -2,8 +2,8 @@
 
 if (process.env.NODE_ENV === 'production') {
   // eslint-disable-next-line global-require
-  module.exports = require('./configure_store.prod');
+  module.exports = require('./configure-store.prod');
 } else {
   // eslint-disable-next-line global-require
-  module.exports = require('./configure_store.dev');
+  module.exports = require('./configure-store.dev');
 }

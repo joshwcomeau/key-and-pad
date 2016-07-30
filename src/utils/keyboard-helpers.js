@@ -1,6 +1,6 @@
 import { toFreq } from 'tonal-freq'
 import keycode from 'keycode';
-import keyboardNotes from '../data/keyboard_notes';
+import keyboardNotes from '../data/keyboard-notes';
 
 
 export const getNoteAndLetter = ev => {

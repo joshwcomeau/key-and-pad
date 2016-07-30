@@ -1,4 +1,4 @@
-import effectDefaultOptions from '../data/effect_default_options.js';
+import effectDefaultOptions from '../data/effect-default-options.js';
 
 const initialState = {
   x: {

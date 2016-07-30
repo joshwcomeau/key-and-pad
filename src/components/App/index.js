@@ -5,7 +5,7 @@ import XYPad from '../XYPad';
 import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
 import DevTools from '../DevTools';
-import keyboardLayout from '../../data/keyboard_layout';
+import keyboardLayout from '../../data/keyboard-layout';
 
 import './reset.scss';
 import './index.scss';
