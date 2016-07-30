@@ -1,20 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import omit from 'lodash.omit';
 
-function getTranslateFromTransform(elem) {
-  // Start by getting our matrix values as an array.
-  // -> ['1', '0', '0', '1', x, y]
-  const transform = window.getComputedStyle(elem).transform
-
-  if (transform === 'none') {
-    return [0, 0];
-  }
-  return transform
-    .replace(/(matrix\(|\s|\))/g, '') // Strip out
-    .split(',')
-    .map(i => +i)
-    .slice(4);
-}
+import { getElementTranslate } from '../../utils/dom-helpers';
 
 
 class Transposer extends Component {
@@ -42,7 +29,7 @@ class Transposer extends Component {
       const horizontalCenterPos = (window.innerWidth / 2) - (width / 2);
       const verticalCenterPos = (window.innerHeight / 2) - (height / 2);
 
-      const [translateX, translateY] = getTranslateFromTransform(this.elem);
+      const [translateX, translateY] = getElementTranslate(this.elem);
 
       let offsetLeft;
       if (centerHorizontally) {
