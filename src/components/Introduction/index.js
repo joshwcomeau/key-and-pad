@@ -23,8 +23,7 @@ const Introduction = ({ next }) => (
 
     <Row>
       <Column>
-        <Icon value="keyboard" size={64} />
-        <Icon value="trackpad" size={64} />
+        <Icon value="keyboard" size={72} />
         <Subheading className="requirement-subheading">
           Hardware
         </Subheading>
@@ -35,29 +34,37 @@ const Introduction = ({ next }) => (
       <Column>
         <IconCycle
           values={['volume_high', 'volume_med', 'volume_low', 'volume_med']}
+          styles={[
+            {},
+            { transform: 'translateX(-6px)' },
+            { transform: 'translateX(-12px)' },
+            { transform: 'translateX(-6px)' }
+          ]}
           speed={250}
-          size={64}
+          size={72}
         />
         <Subheading className="requirement-subheading">
-          Speakers / Headphones
+          Sound
         </Subheading>
         <p>
-          This won't be very interesting without sound!
+          This won't be very interesting without headphones or speakers.
         </p>
       </Column>
       <Column>
-        <Icon value="music_note" size={64} />
-        <Icon value="very_happy" size={64} />
+        <Icon value="music_note" size={72} />
+        <Icon value="very_happy" size={72} />
         <Subheading className="requirement-subheading">
           Creativity
         </Subheading>
         <p>
-          Try crazy things, make weird noises.
+          Try crazy things, make weird noises. The world is your oyster!
         </p>
       </Column>
     </Row>
 
-    <Button onClick={next}>Let's Go!</Button>
+    <div className="button-wrapper">
+      <Button onClick={next}>Let's Go!</Button>
+    </div>
   </div>
 );
 

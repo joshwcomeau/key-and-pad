@@ -15,7 +15,7 @@ const Icon = ({ color, size, value, ...delegated }) => {
       <svg
         {...delegated}
         viewBox="0 0 24 24"
-        style={{ fill: color }}
+        style={{ fill: color, ...delegated.style }}
         dangerouslySetInnerHTML={{ __html: iconMap[value ]}}
       />
     </div>

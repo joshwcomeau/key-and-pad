@@ -16,7 +16,7 @@
       font-weight: 900;
 
       .subheading-inline:after {
-        height: 4px;
+        height: 0px;
         background: $navy;
       }
     }
@@ -36,14 +36,6 @@
     padding: 0 1rem;
     text-align: center;
 
-    &:first-of-type {
-      text-align: left;
-    }
-
-    &:last-of-type {
-      text-align: right;
-    }
-
     p {
       font-weight: 100;
       font-size: 15px;
@@ -52,5 +44,31 @@
 
   .requirement-subheading {
     font-size: 24px;
+
+    .subheading-inline:after {
+      background: $navy;
+    }
+  }
+
+  .button-wrapper {
+    text-align: center;
+    margin: 4rem 0;
+  }
+  .button {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    background-color: $orange;
+    box-shadow: 0px 3px 0px darken($orange, 18%);
+    font-size: 18px;
+    font-weight: 900;
+    height: 50px;
+    color: $white;
+
+    &:active {
+      box-shadow: 0px 1px 0px darken($orange, 18%);
+    }
   }
 }
