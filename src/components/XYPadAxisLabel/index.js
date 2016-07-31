@@ -9,7 +9,10 @@ const XYPadAxisLabel = ({ label, className, includeRightArrow, includeLeftArrow 
     <h4 className="label-text">{label}</h4>
     <div className="axis-label-line" />
     { includeLeftArrow ? <div className="arrow left" /> : null }
+    { includeLeftArrow ? <div className="peg right" /> : null }
+
     { includeRightArrow ? <div className="arrow right" /> : null }
+    { includeRightArrow ? <div className="peg left" /> : null }
   </div>
 );
 

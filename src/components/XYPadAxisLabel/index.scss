@@ -1,4 +1,5 @@
 @import '../../variables';
+@import '../../mixins';
 
 .x-y-pad-axis-label {
   position: relative;
@@ -17,15 +18,10 @@
   }
 
   .axis-label-line {
-    position: absolute;
+    @include centered;
     z-index: 1;
     height: 1px;
     background-color: $lightgray;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
   }
 
   .arrow {
@@ -48,5 +44,24 @@
   .arrow.right {
     right: 0;
     border-left: 5px solid $lightgray;
+  }
+
+  .peg {
+    width: 1px;
+    height: 5px;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: $lightgray;
+  }
+
+  .peg.left {
+    left: 0;
+  }
+
+  .peg.right {
+    right: 0;
   }
 }

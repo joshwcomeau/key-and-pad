@@ -100,19 +100,19 @@
 
     .triangle-1 {
       @include top-triangle(30px, $yellow);
-      animation: triangle1 3500ms 0s forwards;
+      animation: triangle1 2500ms 0s forwards 2;
     }
 
     .triangle-2 {
       @include top-triangle(20px, $tan);
       @include centered;
-      animation: triangle2 3500ms 0s forwards;
+      animation: triangle2 2500ms 0s forwards 2;
     }
 
     .triangle-3 {
       @include top-triangle(10px, $peach);
       @include centered;
-      animation: triangle3 3500ms 0s forwards;
+      animation: triangle3 2500ms 0s forwards 2;
     }
   }
 
@@ -155,7 +155,6 @@
   25% { transform: translateY(0px); opacity: 1; }
   65% { transform: translateY(-15px); opacity: 1; }
   75% { transform: translateY(-15px); opacity: 1; }
-  81% { transform: translateY(-15px); opacity: 1; }
   90% { transform: translateY(-15px); opacity: 0; }
   100% { transform: translateY(-15px); opacity: 0; }
 }
@@ -165,10 +164,8 @@
   10% { transform: translateY(10px); opacity: 1; }
   25% { transform: translateY(10px); opacity: 1; }
   65% { transform: translateY(-15px); opacity: 1; }
-  75% { transform: translateY(-15px); opacity: 1; }
   78% { transform: translateY(-15px); opacity: 1; }
-  81% { transform: translateY(-15px); opacity: 0; }
-  85% { transform: translateY(-15px); opacity: 0; }
+  90% { transform: translateY(-15px); opacity: 0; }
   100% { transform: translateY(-15px); opacity: 0; }
 }
 
@@ -177,8 +174,7 @@
   10% { transform: translateY(20px); opacity: 1; }
   25% { transform: translateY(20px); opacity: 1; }
   65% { transform: translateY(-15px); opacity: 1; }
-  75% { transform: translateY(-15px); opacity: 1; }
-  78% { transform: translateY(-15px); opacity: 0; }
-  85% { transform: translateY(-15px); opacity: 0; }
+  81% { transform: translateY(-15px); opacity: 1; }
+  90% { transform: translateY(-15px); opacity: 0; }
   100% { transform: translateY(-15px); opacity: 0; }
 }
