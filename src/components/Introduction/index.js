@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Subheading from '../Subheading';
-import Icon from '../Icon';
+import IconCycle from '../IconCycle';
 import Row from '../Row';
 import Column from '../Column';
 
@@ -16,7 +16,11 @@ const Introduction = () => (
 
     <Column>
       <Row>
-        <Icon value="volume_high" />
+        <IconCycle
+          values={['volume_high', 'volume_med', 'volume_low', 'volume_med']}
+          speed={250}
+          size={64}
+        />
       </Row>
     </Column>
   </div>
