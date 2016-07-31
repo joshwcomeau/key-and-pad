@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import omit from 'lodash.omit';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
+import FeaturePointer from '../FeaturePointer';
 import { getElementTranslate } from '../../utils/dom-helpers';
 
 // A helpful onboarding utility that:
@@ -9,8 +11,16 @@ import { getElementTranslate } from '../../utils/dom-helpers';
 // - controls whether or not to render an element
 
 class FeatureHighlight extends Component {
-  componentDidUpdate() {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidUpdate(prevProps) {
     this.transpose();
+
+    // If the tooltip was just killed in this update,
+    // we don't want to wipe it from the DOM immediatel
   }
 
   componentDidMount() {
@@ -73,6 +83,17 @@ class FeatureHighlight extends Component {
         }}
       >
         {this.props.children}
+        <ReactCSSTransitionGroup
+          transitionName="pointer"
+          transitionEnterTimeout={1500}
+          transitionLeaveTimeout={500}
+        >
+          {
+            this.props.renderPointer
+              ? <FeaturePointer key="pointer" {...this.props.pointerOptions} />
+              : <div />
+          }
+        </ReactCSSTransitionGroup>
       </div>
     )
   }
@@ -86,6 +107,8 @@ FeatureHighlight.propTypes = {
   transposeLength: PropTypes.number,
   fadeLength: PropTypes.number,
   showFeature: PropTypes.bool,
+  renderPointer: PropTypes.bool,
+  pointerOptions: PropTypes.object, // validated in FeaturePointer component
 };
 
 FeatureHighlight.defaultProps = {

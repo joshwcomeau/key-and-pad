@@ -15,14 +15,20 @@ export default function* onboarding() {
     let onboardingState = yield select(state => state.onboarding);
 
     while (onboardingState.stage === 'keys-introduced') {
+      console.log("Hold true")
       yield take(ADD_NOTE);
       yield put(experimentWithNotes());
 
-      let onboardingState = yield select(state => state.onboarding);
+      onboardingState = yield select(state => state.onboarding);
 
-      // Once we've pressed >8 keys, we want to progress to the next stage
+      // Once we've pressed >8 keys, we want to progress to the next stage.
       if (onboardingState.keysPressed >= numOfKeysPressedNeeded) {
+        console.log("Going next!")
         yield put(next())
+        yield delay(300);
+        yield put(next());
+
+        onboardingState = yield select(state => state.onboarding);
       }
     }
   }

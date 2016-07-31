@@ -5,7 +5,12 @@ import './index.scss';
 
 
 const ProgressBar = ({ className, progress }) => (
-  <div className={classNames('progress-bar', className)}>
+  <div className={classNames([
+      'progress-bar',
+      className,
+      { complete: progress >= 100 },
+    ])}
+  >
     <div className="progress-border" />
     <div
       className="progress"

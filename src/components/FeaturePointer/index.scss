@@ -126,6 +126,23 @@
   }
 }
 
+.pointer-enter .feature-pointer {
+  opacity: 0.01;
+  transform: translateY(20px);
+}
+.pointer-enter.pointer-enter-active .feature-pointer {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1500ms, transform 1500ms;
+}
+.pointer-leave .feature-pointer {
+  opacity: 1;
+}
+.pointer-leave.pointer-leave-active .feature-pointer {
+  opacity: 0.01;
+  transition: opacity 500ms, transform 500ms;
+}
+
 @keyframes float {
   0% { transform: translateY(-8px); }
   50% { transform: translateY(8px); }

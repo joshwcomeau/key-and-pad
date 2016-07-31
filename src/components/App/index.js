@@ -7,7 +7,6 @@ import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
 import DevTools from '../DevTools';
 import FeatureHighlight from '../FeatureHighlight';
-import FeaturePointer from '../FeaturePointer';
 
 import {
   isBefore,
@@ -22,30 +21,36 @@ import './reset.scss';
 import './index.scss';
 
 
-const App = ({ isBeforeStage, isAtLeastStage, keysIntroProgress }) => (
+const App = ({
+  isBeforeStage,
+  isAtLeastStage,
+  isSameStage,
+  keysIntroProgress,
+}) => (
   <div className="app">
     <Header />
     <div className="keys-and-pad">
       <FeatureHighlight
         className="keyboard-wrapper"
+        animateInitialPosition
         showFeature={isAtLeastStage('keys-introduced')}
         centerHorizontally={isBeforeStage('pad-introduced')}
         centerVertically={isBeforeStage('control-panel-introduced')}
+        renderPointer={isSameStage('keys-introduced') || isSameStage('keys-confirmed')}
+
+        pointerOptions={{
+          title: "These are your keys.",
+          text: "Try pressing some buttons on your keyboard to get the hang of it",
+          position: 'bottom',
+          tipPosition: 'left',
+          progress: keysIntroProgress,
+          centered: true,
+        }}
       >
         <Keyboard
           layout={keyboardLayout}
           enabled={isAtLeastStage('keys-introduced')}
         />
-        <FeaturePointer
-          title="These are your keys."
-          text="Try pressing some buttons on your keyboard to get the hang of it"
-          position="bottom"
-          tooltipPosition="left"
-          progress={keysIntroProgress}
-          centered
-        >
-
-        </FeaturePointer>
       </FeatureHighlight>
 
       <FeatureHighlight
@@ -74,7 +79,7 @@ const mapStateToProps = state => ({
   isAtLeastStage: isAtLeast(state.onboarding.stage),
   isSameStage: isSame(state.onboarding.stage),
   keysIntroProgress: (
-    state.onboarding.keysPressed / (numOfKeysPressedNeeded+1) * 100
+    state.onboarding.keysPressed / (numOfKeysPressedNeeded) * 100
   )
 });
 
