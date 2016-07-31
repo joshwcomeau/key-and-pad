@@ -100,20 +100,29 @@
 
     .triangle-1 {
       @include top-triangle(30px, $yellow);
-      animation: triangle1 2000ms ease-out 0s forwards infinite;
+      animation: triangle1 3500ms 0s forwards;
     }
 
     .triangle-2 {
       @include top-triangle(20px, $tan);
       @include centered;
-      animation: triangle2 2000ms ease-out 0s forwards infinite;
+      animation: triangle2 3500ms 0s forwards;
     }
 
     .triangle-3 {
       @include top-triangle(10px, $peach);
       @include centered;
-      animation: triangle3 2000ms ease-out 0s forwards infinite;
+      animation: triangle3 3500ms 0s forwards;
     }
+  }
+
+  .progress-bar {
+    width: 70%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2rem;
   }
 }
 
@@ -124,25 +133,35 @@
 }
 
 @keyframes triangle1 {
-  0% { transform: translateY(0px); opacity: 1; }
+  0% { transform: translateY(0px); opacity: 0; }
+  10% { transform: translateY(0px); opacity: 1; }
   25% { transform: translateY(0px); opacity: 1; }
+  65% { transform: translateY(-15px); opacity: 1; }
   75% { transform: translateY(-15px); opacity: 1; }
-  85% { transform: translateY(-15px); opacity: 0; }
+  81% { transform: translateY(-15px); opacity: 1; }
+  90% { transform: translateY(-15px); opacity: 0; }
   100% { transform: translateY(-15px); opacity: 0; }
 }
 
 @keyframes triangle2 {
-  0% { transform: translateY(10px); opacity: 1; }
+  0% { transform: translateY(10px); opacity: 0; }
+  10% { transform: translateY(10px); opacity: 1; }
   25% { transform: translateY(10px); opacity: 1; }
+  65% { transform: translateY(-15px); opacity: 1; }
   75% { transform: translateY(-15px); opacity: 1; }
+  78% { transform: translateY(-15px); opacity: 1; }
+  81% { transform: translateY(-15px); opacity: 0; }
   85% { transform: translateY(-15px); opacity: 0; }
   100% { transform: translateY(-15px); opacity: 0; }
 }
 
 @keyframes triangle3 {
-  0% { transform: translateY(20px); opacity: 1; }
+  0% { transform: translateY(20px); opacity: 0; }
+  10% { transform: translateY(20px); opacity: 1; }
   25% { transform: translateY(20px); opacity: 1; }
+  65% { transform: translateY(-15px); opacity: 1; }
   75% { transform: translateY(-15px); opacity: 1; }
+  78% { transform: translateY(-15px); opacity: 0; }
   85% { transform: translateY(-15px); opacity: 0; }
   100% { transform: translateY(-15px); opacity: 0; }
 }

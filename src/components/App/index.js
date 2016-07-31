@@ -37,6 +37,7 @@ const App = ({ isBeforeStage, isAtLeastStage }) => (
           text="Try pressing some buttons on your keyboard to get the hang of it"
           position="bottom"
           tooltipPosition="left"
+          progress={75}
           centered
         >
 
@@ -68,6 +69,7 @@ const mapStateToProps = state => ({
   isAfterStage: isAfter(state.onboarding.stage),
   isAtLeastStage: isAtLeast(state.onboarding.stage),
   isSameStage: isSame(state.onboarding.stage),
+  keysPressedProgress: state.onboarding.keysPressed * 10,
 });
 
 export default connect(mapStateToProps)(App);

@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Subheading from '../Subheading'
+import Subheading from '../Subheading';
+import ProgressBar from '../ProgressBar';
 import './index.scss';
 
 const FeaturePointer = ({
@@ -11,6 +12,7 @@ const FeaturePointer = ({
   tooltipPosition,
   centered,
   bubble,
+  progress,
 }) => {
   const classes = classNames([
     'feature-pointer-wrapper',
@@ -33,6 +35,12 @@ const FeaturePointer = ({
         }
         <Subheading>{title}</Subheading>
         <p>{text}</p>
+
+        {
+          typeof progress !== 'undefined'
+          ? <ProgressBar progress={progress} />
+          : null
+        }
       </div>
     </div>
 
