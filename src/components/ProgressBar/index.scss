@@ -1,0 +1,29 @@
+@import '../../variables';
+@import '../../mixins';
+
+.progress-bar {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  border-radius: $border-radius-large;
+  border: 1px solid rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin: 1rem;
+
+  .progress-border {
+    @include centered;
+    z-index: 2;
+    border: 2px solid $white;
+    border-radius: $border-radius-large;
+  }
+
+  .progress {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: $lime;
+    top: 0;
+    left: -100%;
+    transition: transform 250ms;
+  }
+}
