@@ -1,13 +1,16 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from '../reducers';
+import onboardingSaga from '../sagas/onboarding.saga';
 import DevTools from '../components/DevTools';
 
 
 export default function configureStore() {
+  const sagaMiddleware = createSagaMiddleware();
+
   const middlewares = [
-    thunkMiddleware,
+    sagaMiddleware,
   ];
 
   const store = createStore(
@@ -17,6 +20,8 @@ export default function configureStore() {
       DevTools.instrument()
     )
   );
+
+  sagaMiddleware.run(onboardingSaga);
 
   // Allow direct access to the store, for debugging/testing
   window.store = store;

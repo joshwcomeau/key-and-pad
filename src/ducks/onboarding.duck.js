@@ -2,6 +2,7 @@ import onboardingStages from '../data/onboarding-stages';
 
 const initialState = {
   stage: onboardingStages[1],
+  keysPressed: 0,
 };
 
 
@@ -9,6 +10,7 @@ const initialState = {
 // ACTION TYPES //////////
 // //////////////////////
 export const UPDATE_STAGE = 'ONBOARDING/UPDATE_STAGE';
+export const NEXT = 'ONBOARDING/NEXT';
 
 
 // ////////////////////////
@@ -20,7 +22,7 @@ export default function onboardingReducer(state = initialState, action) {
       return { stage: action.stage };
     }
 
-    case 'NEXT': {
+    case NEXT: {
       const currentIndex = onboardingStages.indexOf(state.stage);
       return { stage: onboardingStages[currentIndex+1] };
     }
@@ -36,9 +38,9 @@ export default function onboardingReducer(state = initialState, action) {
 // //////////////////////
 export const updateStage = ({ stage }) => ({
   type: UPDATE_STAGE,
-  stage
+  stage,
 });
 
 export const next = () => ({
-  type: 'NEXT'
+  type: NEXT,
 });

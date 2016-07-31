@@ -23,6 +23,7 @@ var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build
 module.exports = {
   devtool: 'eval',
   entry: [
+    'babel-polyfill',
     require.resolve('webpack-dev-server/client') + '?http://localhost:3000',
     require.resolve('webpack/hot/dev-server'),
     path.join(srcPath, 'index')

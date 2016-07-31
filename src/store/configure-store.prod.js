@@ -1,12 +1,15 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunkMiddleware from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from '../reducers';
+import onboardingSaga from '../sagas/onboarding.saga';
 
 
 export default function configureStore() {
+  const sagaMiddleware = createSagaMiddleware();
+
   const middlewares = [
-    thunkMiddleware,
+    sagaMiddleware,
   ];
 
   const store = createStore(
@@ -15,6 +18,8 @@ export default function configureStore() {
       applyMiddleware.apply(null, middlewares)
     )
   );
+
+  sagaMiddleware.run(onboardingSaga);
 
   return store;
 }

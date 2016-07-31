@@ -17,7 +17,7 @@ import curry from 'lodash.curry';
   @param obj1 - object
   @param obj2 - object
   @param path - array or string (string formatted as 'a.b.0')
-  */
+*/
 export const equalWithinPath = curry((obj1, obj2, path) => (
   get(obj1, path) === get(obj2, path)
 ));
@@ -40,7 +40,15 @@ export const equalWithinPath = curry((obj1, obj2, path) => (
   @param obj1 - object
   @param obj2 - object
   @param path - array or string (string formatted as 'a.b.0')
-  */
+*/
 export const updatedWithinPath = curry((obj1, obj2, path) => (
   get(obj1, path) !== get(obj2, path)
+));
+
+
+/** delay
+  A simple promise that waits for n milliseconds.
+*/
+export const delay = ms => new Promise(resolve => (
+  window.setTimeout(resolve, ms)
 ));
