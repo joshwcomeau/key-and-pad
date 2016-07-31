@@ -40,9 +40,9 @@
     "webpack-dev-server": "1.14.1"
   },
   "dependencies": {
+    "babel-polyfill": "^6.9.1",
     "classnames": "^2.2.5",
     "keycode": "^2.1.2",
-    "lodash": "^4.13.1",
     "lodash.curry": "^4.1.0",
     "lodash.debounce": "^4.0.7",
     "lodash.foreach": "^4.4.1",
@@ -60,12 +60,14 @@
     "react-slider": "^0.6.1",
     "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.5.2",
+    "redux-saga": "^0.11.0",
     "redux-thunk": "^2.1.0",
     "soundbank-reverb": "^1.1.2",
     "tonal-freq": "^0.51.2"
   },
   "scripts": {
     "start": "node ./scripts/start.js",
-    "build": "node ./scripts/build.js"
+    "build": "node ./scripts/build.js",
+    "analyze": "webpack --config config/webpack.config.prod.js --json > stats.json"
   }
 }
