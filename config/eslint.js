@@ -81,16 +81,6 @@ module.exports = {
     'no-labels': [WARNING, { allowLoop: false, allowSwitch: false }],
     'no-lone-blocks': WARNING,
     'no-loop-func': WARNING,
-    'no-mixed-operators': [WARNING, {
-      groups: [
-        ['+', '-', '*', '/', '%', '**'],
-        ['&', '|', '^', '~', '<<', '>>', '>>>'],
-        ['==', '!=', '===', '!==', '>', '>=', '<', '<='],
-        ['&&', '||'],
-        ['in', 'instanceof']
-      ],
-      allowSamePrecedence: false
-    }],
     'no-multi-str': WARNING,
     'no-native-reassign': WARNING,
     'no-negated-in-lhs': WARNING,

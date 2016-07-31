@@ -7,6 +7,7 @@ import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
 import DevTools from '../DevTools';
 import FeatureHighlight from '../FeatureHighlight';
+import FeaturePointer from '../FeaturePointer';
 
 import {
   isBefore,
@@ -26,14 +27,24 @@ const App = ({ isBeforeStage, isAtLeastStage }) => (
     <div className="keys-and-pad">
       <FeatureHighlight
         className="keyboard-wrapper"
-        renderFeature={isAtLeastStage('keys-introduced')}
+        showFeature={isAtLeastStage('keys-introduced')}
         centerHorizontally={isBeforeStage('pad-introduced')}
         centerVertically={isBeforeStage('control-panel-introduced')}
       >
         <Keyboard layout={keyboardLayout} />
+        <FeaturePointer
+          title="These are your keys."
+          text="Try pressing some buttons on your keyboard to get the hang of it"
+          position="bottom"
+          tooltipPosition="left"
+          centered
+        >
+
+        </FeaturePointer>
       </FeatureHighlight>
+
       <FeatureHighlight
-        renderFeature={isAtLeastStage('pad-introduced')}
+        showFeature={isAtLeastStage('pad-introduced')}
         centerVertically={isBeforeStage('control-panel-introduced')}
       >
         <XYPad />
@@ -41,7 +52,7 @@ const App = ({ isBeforeStage, isAtLeastStage }) => (
     </div>
 
     <FeatureHighlight
-      renderFeature={isAtLeastStage('control-panel-introduced')}
+      showFeature={isAtLeastStage('control-panel-introduced')}
     >
       <ControlPanel />
     </FeatureHighlight>

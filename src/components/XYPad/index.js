@@ -67,7 +67,7 @@ export class XYPad extends Component {
       { 'is-pressed': this.state.isPressed }
     );
 
-    const { xAxisLabel, yAxisLabel, stage } = this.props;
+    const { xAxisLabel, yAxisLabel } = this.props;
 
     return (
       <div className="x-y-pad">

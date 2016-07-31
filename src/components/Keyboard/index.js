@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import throttle from 'lodash.throttle';
 
 import { addNote, removeNote } from '../../ducks/notes.duck';
 import {
@@ -81,7 +80,6 @@ export class Keyboard extends Component {
   }
 
   render() {
-    const { stage } = this.props;
     return (
       <div className="keyboard">
         {this.props.layout.map(this.renderRow)}

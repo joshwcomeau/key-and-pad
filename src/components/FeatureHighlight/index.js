@@ -28,7 +28,7 @@ class FeatureHighlight extends Component {
       // Add a transition to the element unless this is the initial transposition,
       // and we've elected to not animate the original one.
       if (animateInitialPosition || !initial) {
-        this.elem.style.transition = `transform ${this.props.transposeLength}ms`;
+        this.elem.style.transition = `transform ${this.props.transposeLength}ms, opacity ${this.props.fadeLength}ms`;
       }
 
       const { top, left, width, height } = this.elem.getBoundingClientRect();
@@ -63,8 +63,16 @@ class FeatureHighlight extends Component {
     const delegatedProps = omit(this.props, primaryPropKeys);
 
     return (
-      <div ref={elem => { this.elem = elem; }} {...delegatedProps}>
-        {this.props.renderFeature ? this.props.children : null}
+      <div
+        {...delegatedProps}
+        ref={elem => { this.elem = elem; }}
+        style={{
+          position: 'relative',
+          opacity: this.props.showFeature ? 1 : 0,
+          pointerEvents: this.props.showFeature ? '' : 'none',
+        }}
+      >
+        {this.props.children}
       </div>
     )
   }
@@ -76,12 +84,14 @@ FeatureHighlight.propTypes = {
   centerVertically: PropTypes.bool,
   animateInitialPosition: PropTypes.bool,
   transposeLength: PropTypes.number,
-  renderFeature: PropTypes.bool,
+  fadeLength: PropTypes.number,
+  showFeature: PropTypes.bool,
 };
 
 FeatureHighlight.defaultProps = {
   animateInitialPosition: false,
   transposeLength: 1000,
+  fadeLength: 1600,
 };
 
 export default FeatureHighlight;

@@ -19,6 +19,7 @@ const evaluate = (currentStage, condition, stage) => {
     case 'is-after': return currentStageIndex > stageIndex;
     case 'is-at-least': return currentStageIndex >= stageIndex;
     case 'is-same': return currentStageIndex === stageIndex;
+    default: return;
   }
 }
 

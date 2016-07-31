@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+// eslint-disable-next-line no-unused-vars
 import { changeAxisEffect, tweakAxisParameter } from '../../ducks/effects.duck';
 import { updateOscillator } from '../../ducks/oscillators.duck';
 

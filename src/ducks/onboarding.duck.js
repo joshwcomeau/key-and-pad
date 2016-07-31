@@ -1,7 +1,7 @@
 import onboardingStages from '../data/onboarding-stages';
 
 const initialState = {
-  stage: onboardingStages[0],
+  stage: onboardingStages[1],
 };
 
 

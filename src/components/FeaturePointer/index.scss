@@ -1,0 +1,148 @@
+@import '../../variables';
+@import '../../mixins';
+
+.feature-pointer-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+
+  &.bubble {
+    width: 80%;
+    margin: auto;
+
+    .feature-pointer {
+      padding: 24px;
+      background: $white;
+      border-radius: $border-radius-large;
+      box-shadow:
+        0px 3px 0px rgba(0,0,0,0.2),
+        0px 10px 25px rgba(0,0,0,0.075)
+      ;
+      animation: float 10s ease-in-out infinite;
+
+      .bubble-pointer-triangle {
+        content: '';
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        background: $white;
+        transform: rotate(45deg);
+        transform-origin: center center;
+
+        &:after {
+          content: '';
+          position: absolute;
+          width: 0;
+          height: 0;
+          left: 0;
+          top: 0;
+          border-left: 8px solid transparent;
+          border-right: 8px solid transparent;
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid $lightgray;
+          transform: rotate(-45deg);
+          transform-origin: center center;
+        }
+      }
+    }
+
+    &.bottom .feature-pointer {
+      border-top: 1px solid rgba(0,0,0,0.05);
+
+      .bubble-pointer-triangle {
+        top: -14px;
+        border-left: 1px solid rgba(0,0,0,0.05);
+        border-top: 1px solid rgba(0,0,0,0.05);
+      }
+    }
+
+    &.top .feature-pointer {
+      .bubble-pointer-triangle {
+        bottom: -14px;
+      }
+    }
+  }
+
+  &.top {
+    top: -16px;
+    transform: translateY(-100%);
+  }
+
+  &.bottom {
+    bottom: -16px;
+    transform: translateY(100%);
+  }
+
+  &.centered {
+    text-align: center;
+  }
+
+  &.tooltip-center .feature-pointer {
+    .bubble-pointer-triangle, .default-pointer-triangle {
+      left: 0;
+      right: 0;
+      margin: auto;
+    }
+  }
+
+  .feature-pointer {
+    padding: 24px 8px;
+  }
+
+  .default-pointer-triangle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -50px;
+    width: 60px;
+    height: 60px;
+    margin: auto;
+
+    .triangle-1 {
+      @include top-triangle(30px, $yellow);
+      animation: triangle1 2000ms ease-out 0s forwards infinite;
+    }
+
+    .triangle-2 {
+      @include top-triangle(20px, $tan);
+      @include centered;
+      animation: triangle2 2000ms ease-out 0s forwards infinite;
+    }
+
+    .triangle-3 {
+      @include top-triangle(10px, $peach);
+      @include centered;
+      animation: triangle3 2000ms ease-out 0s forwards infinite;
+    }
+  }
+}
+
+@keyframes float {
+  0% { transform: translateY(-8px); }
+  50% { transform: translateY(8px); }
+  100% { transform: translateY(-8px); }
+}
+
+@keyframes triangle1 {
+  0% { transform: translateY(0px); opacity: 1; }
+  25% { transform: translateY(0px); opacity: 1; }
+  75% { transform: translateY(-15px); opacity: 1; }
+  85% { transform: translateY(-15px); opacity: 0; }
+  100% { transform: translateY(-15px); opacity: 0; }
+}
+
+@keyframes triangle2 {
+  0% { transform: translateY(10px); opacity: 1; }
+  25% { transform: translateY(10px); opacity: 1; }
+  75% { transform: translateY(-15px); opacity: 1; }
+  85% { transform: translateY(-15px); opacity: 0; }
+  100% { transform: translateY(-15px); opacity: 0; }
+}
+
+@keyframes triangle3 {
+  0% { transform: translateY(20px); opacity: 1; }
+  25% { transform: translateY(20px); opacity: 1; }
+  75% { transform: translateY(-15px); opacity: 1; }
+  85% { transform: translateY(-15px); opacity: 0; }
+  100% { transform: translateY(-15px); opacity: 0; }
+}
