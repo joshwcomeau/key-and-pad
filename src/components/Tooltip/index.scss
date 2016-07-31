@@ -1,0 +1,81 @@
+@import '../../variables';
+
+$tip-size: 4px;
+$tip-padding: 24px;
+
+
+.floating-tooltip {
+  position: absolute;
+  z-index: 10;
+  display: block;
+  transform: translateY(10px);
+  background: $darkgray;
+  box-shadow: none;
+  font-size: 12px; // absolute font size requested by Product.
+  padding: 14px;
+  width: 230px;
+  text-align: center;
+  border-radius: 4px;
+  transition: 0.5s;
+
+  &:before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    height: $tip-size * 2;
+    width: $tip-size * 2;
+    margin: auto;
+    transform: rotate(-45deg);
+    box-shadow: none;
+    background: $darkgray;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $darkgray;
+    border-radius: 2px;
+  }
+
+  &.tip-on-top:before {
+    top: -$tip-size;
+  }
+  &.tip-on-left:before {
+    left: -$tip-size;
+  }
+  &.tip-on-right:before {
+    right: -$tip-size;
+  }
+  &.tip-on-bottom:before {
+    bottom: -$tip-size;
+  }
+  &.tip-padded-on-top:before {
+    top: $tip-padding;
+  }
+  &.tip-padded-on-left:before {
+    left: $tip-padding;
+  }
+  &.tip-padded-on-right:before {
+    right: $tip-padding;
+  }
+  &.tip-padded-on-bottom:before {
+    bottom: $tip-padding;
+  }
+  &.tip-vertically-centered:before {
+    top: 0; bottom: 0;
+  }
+  &.tip-horizontally-centered:before {
+    left: 0; right: 0;
+  }
+
+  .tooltip-content {
+    position: relative;
+    color: $white;
+    z-index: 3;
+  }
+}

@@ -1,0 +1,23 @@
+@import '../../variables';
+@import '../../mixins';
+
+
+.introduction {
+  @include centered;
+  width: 100%;
+  max-width: 800px;
+  height: 500px;
+
+  .subheading {
+    font-size: 48px;
+    margin-bottom: 2rem;
+  }
+
+  p {
+    font-size: 20px;
+    font-weight: 100;
+    margin: 1rem 0;
+    line-height: 30px;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+}

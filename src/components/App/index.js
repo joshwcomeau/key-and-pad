@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Header from '../Header';
+import Introduction from '../Introduction';
 import XYPad from '../XYPad';
 import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
@@ -29,6 +30,9 @@ const App = ({
 }) => (
   <div className="app">
     <Header />
+
+    <Introduction />
+
     <div className="keys-and-pad">
       <FeatureHighlight
         className="keyboard-wrapper"

@@ -52,9 +52,9 @@
     "lodash.invokemap": "^4.5.0",
     "lodash.omit": "^4.3.0",
     "lodash.throttle": "^4.1.0",
-    "react": "^15.2.1",
+    "react": "^15.3.0",
     "react-addons-css-transition-group": "^15.3.0",
-    "react-dom": "^15.2.1",
+    "react-dom": "^15.3.0",
     "react-dropdown": "^1.0.4",
     "react-flip-move": "^2.4.2",
     "react-redux": "^4.4.5",
@@ -65,6 +65,7 @@
     "redux-saga": "^0.11.0",
     "redux-thunk": "^2.1.0",
     "soundbank-reverb": "^1.1.2",
+    "svg-inline-loader": "^0.6.1",
     "tonal-freq": "^0.51.2"
   },
   "scripts": {

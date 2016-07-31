@@ -37,6 +37,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['', '.js'],
+    alias: {
+      '_icons': path.join(__dirname, '..', 'src/icons')
+    }
   },
   resolveLoader: {
     root: nodeModulesPath,
@@ -67,8 +70,12 @@ module.exports = {
         loader: 'json'
       },
       {
-        test: /\.(jpg|png|gif|eot|svg|ttf|woff|woff2)$/,
+        test: /\.(jpg|png|gif|eot|ttf|woff|woff2)$/,
         loader: 'file',
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline',
       },
       {
         test: /\.(mp4|webm)$/,

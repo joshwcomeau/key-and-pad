@@ -95,7 +95,7 @@ class FeatureHighlight extends Component {
         {this.props.children}
         <ReactCSSTransitionGroup
           transitionName="pointer"
-          transitionEnterTimeout={1500}
+          transitionEnterTimeout={2500}
           transitionLeaveTimeout={500}
         >
           {this.renderPointer()}

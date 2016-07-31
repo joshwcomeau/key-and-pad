@@ -9,6 +9,7 @@
   border-radius: $border-radius-large;
   cursor: default;
   transition: transform 200ms;
+  cursor: not-allowed;
 
   &.white {
     background: $white;

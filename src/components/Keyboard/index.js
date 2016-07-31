@@ -8,6 +8,7 @@ import {
 } from '../../utils/keyboard-helpers';
 
 import Key from '../Key';
+import Tooltip from '../Tooltip';
 import './index.scss';
 
 
@@ -16,8 +17,11 @@ export class Keyboard extends Component {
     super(props);
     this.handlePress = this.handlePress.bind(this);
     this.handleRelease = this.handleRelease.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.renderKey = this.renderKey.bind(this);
     this.renderRow = this.renderRow.bind(this);
+
+    this.state = { showNoClickTooltip: false };
   }
 
   componentDidMount() {
@@ -30,10 +34,16 @@ export class Keyboard extends Component {
     window.removeEventListener('keyup', this.handleRelease);
   }
 
+  handleClick() {
+    this.setState({ showNoClickTooltip: true });
+  }
+
   handlePress(ev) {
     if (!this.props.enabled) {
       return;
     }
+
+    this.setState({ showNoClickTooltip: false });
 
     const [noteValue, letter] = getNoteAndLetter(ev);
     const isValid = shouldEventTriggerAction({
@@ -89,8 +99,15 @@ export class Keyboard extends Component {
 
   render() {
     return (
-      <div className="keyboard">
+      <div className="keyboard" onClick={this.handleClick}>
         {this.props.layout.map(this.renderRow)}
+        <Tooltip
+          shown={this.state.showNoClickTooltip}
+          text="Use your actual keyboard to play!"
+          position="top"
+          autoHideDuration={2000}
+          buffer={30}
+        />
       </div>
     );
   }
