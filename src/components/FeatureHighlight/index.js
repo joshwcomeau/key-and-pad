@@ -67,6 +67,16 @@ class FeatureHighlight extends Component {
     })
   }
 
+  renderPointer() {
+    const relevantPointerOptions = this.props.pointerOptions.find(p => (
+      p.render
+    ));
+
+    if (relevantPointerOptions) {
+      return <FeaturePointer key="pointer" {...relevantPointerOptions} />
+    }
+  }
+
   render() {
     // Any prop not defined in our PropTypes can be delegated to the div.
     const primaryPropKeys = Object.keys(FeatureHighlight.propTypes);
@@ -88,11 +98,7 @@ class FeatureHighlight extends Component {
           transitionEnterTimeout={1500}
           transitionLeaveTimeout={500}
         >
-          {
-            this.props.renderPointer
-              ? <FeaturePointer key="pointer" {...this.props.pointerOptions} />
-              : <div />
-          }
+          {this.renderPointer()}
         </ReactCSSTransitionGroup>
       </div>
     )
@@ -107,14 +113,14 @@ FeatureHighlight.propTypes = {
   transposeLength: PropTypes.number,
   fadeLength: PropTypes.number,
   showFeature: PropTypes.bool,
-  renderPointer: PropTypes.bool,
-  pointerOptions: PropTypes.object, // validated in FeaturePointer component
+  pointerOptions: PropTypes.array, // validated in FeaturePointer component
 };
 
 FeatureHighlight.defaultProps = {
   animateInitialPosition: false,
   transposeLength: 1000,
   fadeLength: 1600,
+  pointerOptions: [],
 };
 
 export default FeatureHighlight;

@@ -36,16 +36,25 @@ const App = ({
         showFeature={isAtLeastStage('keys-introduced')}
         centerHorizontally={isBeforeStage('pad-introduced')}
         centerVertically={isBeforeStage('control-panel-introduced')}
-        renderPointer={isSameStage('keys-introduced') || isSameStage('keys-confirmed')}
-
-        pointerOptions={{
-          title: "These are your keys.",
-          text: "Try pressing some buttons on your keyboard to get the hang of it",
-          position: 'bottom',
-          tipPosition: 'left',
-          progress: keysIntroProgress,
-          centered: true,
-        }}
+        pointerOptions={[
+          {
+            render: isSameStage('keys-introduced'),
+            title: "These are your keys.",
+            text: "Try pressing some buttons on your keyboard to get the hang of it.",
+            position: 'bottom',
+            tipPosition: 'left',
+            progress: keysIntroProgress,
+            centered: true,
+          }, {
+            render: isSameStage('keys-confirmed'),
+            title: "Beautiful!",
+            text: "Your music is like sunshine on a rainy day.",
+            position: 'bottom',
+            tipPosition: 'left',
+            progress: keysIntroProgress,
+            centered: true,
+          }
+        ]}
       >
         <Keyboard
           layout={keyboardLayout}
