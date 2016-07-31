@@ -9,9 +9,10 @@
   border: 1px solid rgba(0,0,0,0.1);
   overflow: hidden;
   margin: 1rem;
+  animation: fadeIn 500ms both;
 
   &.complete {
-    animation: progressBarComplete 500ms 150ms forwards;
+    animation: progressBarComplete 2000ms 150ms forwards;
 
     .progress {
       animation: progressComplete 500ms forwards;
@@ -38,11 +39,18 @@
 
 @keyframes progressBarComplete {
   0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  5% { transform: scale(1.2); }
+  10% { transform: scale(1); }
+  25% { transform: scale(1); opacity: 1;}
+  100% { opacity: 0;}
 }
 
 @keyframes progressComplete {
   from { background: $yellow; }
   to { background: $lime; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

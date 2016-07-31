@@ -40,7 +40,7 @@ class FeaturePointer extends Component {
           <p>{text}</p>
 
           {
-            typeof progress !== 'undefined'
+            typeof progress !== 'undefined' && progress !== 0
               ? <ProgressBar progress={progress} />
               : null
           }

@@ -134,6 +134,7 @@
   opacity: 1;
   transform: translateY(0);
   transition: opacity 1500ms, transform 1500ms;
+  transition-delay: 1s;
 }
 .pointer-leave .feature-pointer {
   opacity: 1;
@@ -152,7 +153,6 @@
 @keyframes triangle1 {
   0% { transform: translateY(0px); opacity: 0; }
   10% { transform: translateY(0px); opacity: 1; }
-  25% { transform: translateY(0px); opacity: 1; }
   65% { transform: translateY(-15px); opacity: 1; }
   75% { transform: translateY(-15px); opacity: 1; }
   90% { transform: translateY(-15px); opacity: 0; }
@@ -162,7 +162,6 @@
 @keyframes triangle2 {
   0% { transform: translateY(10px); opacity: 0; }
   10% { transform: translateY(10px); opacity: 1; }
-  25% { transform: translateY(10px); opacity: 1; }
   65% { transform: translateY(-15px); opacity: 1; }
   78% { transform: translateY(-15px); opacity: 1; }
   90% { transform: translateY(-15px); opacity: 0; }
@@ -172,7 +171,6 @@
 @keyframes triangle3 {
   0% { transform: translateY(20px); opacity: 0; }
   10% { transform: translateY(20px); opacity: 1; }
-  25% { transform: translateY(20px); opacity: 1; }
   65% { transform: translateY(-15px); opacity: 1; }
   81% { transform: translateY(-15px); opacity: 1; }
   90% { transform: translateY(-15px); opacity: 0; }
