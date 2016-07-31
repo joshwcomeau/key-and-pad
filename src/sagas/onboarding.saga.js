@@ -1,18 +1,29 @@
-import { takeEvery } from 'redux-saga';
+/* eslint-disable no-unused-vars */
 import { take, call, put, select } from 'redux-saga/effects';
 
 import { delay } from '../utils/misc-helpers';
-import { NEXT } from '../ducks/onboarding.duck';
+import { experimentWithNotes, next, NEXT } from '../ducks/onboarding.duck';
+import { ADD_NOTE } from '../ducks/notes.duck';
+import onboardingStages from '../data/onboarding-stages';
+import { numOfKeysPressedNeeded } from '../data/onboarding-config';
 
 
 export default function* onboarding() {
   while (true) {
-    const onboardingState = yield select(state => state.onboarding);
+    const n = yield take(NEXT);
 
-    // Our initial state is an intro screen.
-    // It can be progressed through the 'next' action, dispatched from a btn click
-    yield take(NEXT);
+    let onboardingState = yield select(state => state.onboarding);
 
-    console.log("Onboarding state", onboardingState);
+    while (onboardingState.stage === 'keys-introduced') {
+      yield take(ADD_NOTE);
+      yield put(experimentWithNotes());
+
+      let onboardingState = yield select(state => state.onboarding);
+
+      // Once we've pressed >8 keys, we want to progress to the next stage
+      if (onboardingState.keysPressed >= numOfKeysPressedNeeded) {
+        yield put(next())
+      }
+    }
   }
 }

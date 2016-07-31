@@ -16,12 +16,13 @@ import {
   isSame,
 } from '../../utils/onboarding-helpers';
 import keyboardLayout from '../../data/keyboard-layout';
+import { numOfKeysPressedNeeded } from '../../data/onboarding-config';
 
 import './reset.scss';
 import './index.scss';
 
 
-const App = ({ isBeforeStage, isAtLeastStage }) => (
+const App = ({ isBeforeStage, isAtLeastStage, keysIntroProgress }) => (
   <div className="app">
     <Header />
     <div className="keys-and-pad">
@@ -31,13 +32,16 @@ const App = ({ isBeforeStage, isAtLeastStage }) => (
         centerHorizontally={isBeforeStage('pad-introduced')}
         centerVertically={isBeforeStage('control-panel-introduced')}
       >
-        <Keyboard layout={keyboardLayout} />
+        <Keyboard
+          layout={keyboardLayout}
+          enabled={isAtLeastStage('keys-introduced')}
+        />
         <FeaturePointer
           title="These are your keys."
           text="Try pressing some buttons on your keyboard to get the hang of it"
           position="bottom"
           tooltipPosition="left"
-          progress={75}
+          progress={keysIntroProgress}
           centered
         >
 
@@ -69,7 +73,9 @@ const mapStateToProps = state => ({
   isAfterStage: isAfter(state.onboarding.stage),
   isAtLeastStage: isAtLeast(state.onboarding.stage),
   isSameStage: isSame(state.onboarding.stage),
-  keysPressedProgress: state.onboarding.keysPressed * 10,
+  keysIntroProgress: (
+    state.onboarding.keysPressed / (numOfKeysPressedNeeded+1) * 100
+  )
 });
 
 export default connect(mapStateToProps)(App);

@@ -31,6 +31,10 @@ export class Keyboard extends Component {
   }
 
   handlePress(ev) {
+    if (!this.props.enabled) {
+      return;
+    }
+
     const [noteValue, letter] = getNoteAndLetter(ev);
     const isValid = shouldEventTriggerAction({
       ev,
@@ -45,6 +49,10 @@ export class Keyboard extends Component {
   }
 
   handleRelease(ev) {
+    if (!this.props.enabled) {
+      return;
+    }
+
     const [noteValue] = getNoteAndLetter(ev);
     const isValid = shouldEventTriggerAction({
       ev,
@@ -90,6 +98,7 @@ export class Keyboard extends Component {
 
 Keyboard.PropTypes = {
   layout: PropTypes.arrayOf(PropTypes.array).isRequired,
+  enabled: PropTypes.bool,
   notes: PropTypes.arrayOf(PropTypes.string),
   addNote: PropTypes.func.isRequired,
   removeNote: PropTypes.func.isRequired,

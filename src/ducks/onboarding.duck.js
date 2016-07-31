@@ -1,9 +1,10 @@
 import onboardingStages from '../data/onboarding-stages';
 
 const initialState = {
-  stage: onboardingStages[1],
+  stage: onboardingStages[0],
   keysPressed: 0,
 };
+
 
 
 // ////////////////////////
@@ -11,6 +12,7 @@ const initialState = {
 // //////////////////////
 export const UPDATE_STAGE = 'ONBOARDING/UPDATE_STAGE';
 export const NEXT = 'ONBOARDING/NEXT';
+export const EXPERIMENT_WITH_NOTES = 'ONBOARDING/EXPERIMENT_WITH_NOTES';
 
 
 // ////////////////////////
@@ -19,12 +21,25 @@ export const NEXT = 'ONBOARDING/NEXT';
 export default function onboardingReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_STAGE: {
-      return { stage: action.stage };
+      return {
+        ...state,
+        stage: action.stage
+      };
     }
 
     case NEXT: {
       const currentIndex = onboardingStages.indexOf(state.stage);
-      return { stage: onboardingStages[currentIndex+1] };
+      return {
+        ...state,
+        stage: onboardingStages[currentIndex+1]
+      };
+    }
+
+    case EXPERIMENT_WITH_NOTES: {
+      return {
+        ...state,
+        keysPressed: state.keysPressed + 1,
+      }
     }
 
     default:
@@ -44,3 +59,7 @@ export const updateStage = ({ stage }) => ({
 export const next = () => ({
   type: NEXT,
 });
+
+export const experimentWithNotes = () => ({
+  type: EXPERIMENT_WITH_NOTES,
+})
