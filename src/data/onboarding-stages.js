@@ -4,7 +4,12 @@
 // - initial
 //     No keyboard is shown, only a simple "Why hello there!" message in the center
 //     of the screen.
+//     ENDING TRIGGER: button click
+//
+// - initial-confirmed
+//     A transition stage where the introduction is disposed of
 //     ENDING TRIGGER: time
+//
 //
 // - keys-introduced
 //     The keyboard fades in, centered, and text below reads "These are your keys"
@@ -39,6 +44,7 @@
 
 export default [
   'initial',
+  'initial-confirmed',
   'keys-introduced',
   'keys-confirmed',
   'pad-introduced',

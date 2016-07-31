@@ -24,6 +24,7 @@ import './index.scss';
 
 const App = ({
   isBeforeStage,
+  isAfterStage,
   isAtLeastStage,
   isSameStage,
   keysIntroProgress,
@@ -31,9 +32,21 @@ const App = ({
   <div className="app">
     <Header />
 
-    <Introduction />
+    <FeatureHighlight
+      className="introduction-wrapper"
+      style={{ position: 'absolute' }}
+      showFeature={isSameStage('initial')}
+    >
+      <Introduction />
+    </FeatureHighlight>
 
-    <div className="keys-and-pad">
+    <div
+      className="keys-and-pad"
+      style={{
+        pointerEvents: isAfterStage('initial') ? '' : 'none',
+      }}
+    >
+      {console.log(isAfterStage('initial'))}
       <FeatureHighlight
         className="keyboard-wrapper"
         animateInitialPosition

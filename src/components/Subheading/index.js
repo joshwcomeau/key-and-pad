@@ -1,10 +1,11 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import './index.scss';
 
 
-const Subheading = ({children}) => (
-  <h3 className="subheading">
+const Subheading = ({ className, children }) => (
+  <h3 className={classNames('subheading', className)}>
     <span className="subheading-inline">
       {children}
     </span>

@@ -1,23 +1,56 @@
 @import '../../variables';
 @import '../../mixins';
 
-
-.introduction {
+.introduction-wrapper {
   @include centered;
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   height: 500px;
+}
 
-  .subheading {
-    font-size: 48px;
-    margin-bottom: 2rem;
+.introduction {
+  header {
+    .title {
+      font-size: 48px;
+      margin-bottom: 2rem;
+      font-weight: 900;
+
+      .subheading-inline:after {
+        height: 4px;
+        background: $navy;
+      }
+    }
+
+    p {
+      font-size: 20px;
+      font-weight: 100;
+      margin: 1rem 0;
+      line-height: 30px;
+    }
   }
 
-  p {
-    font-size: 20px;
-    font-weight: 100;
-    margin: 1rem 0;
-    line-height: 30px;
-    -webkit-font-smoothing: subpixel-antialiased;
+  .row {
+    margin-top: 3rem;
+  }
+  .column {
+    padding: 0 1rem;
+    text-align: center;
+
+    &:first-of-type {
+      text-align: left;
+    }
+
+    &:last-of-type {
+      text-align: right;
+    }
+
+    p {
+      font-weight: 100;
+      font-size: 15px;
+    }
+  }
+
+  .requirement-subheading {
+    font-size: 24px;
   }
 }

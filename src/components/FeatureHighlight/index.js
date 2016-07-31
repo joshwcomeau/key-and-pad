@@ -87,7 +87,7 @@ class FeatureHighlight extends Component {
         {...delegatedProps}
         ref={elem => { this.elem = elem; }}
         style={{
-          position: 'relative',
+          position: this.props.style.position || 'relative',
           opacity: this.props.showFeature ? 1 : 0,
           pointerEvents: this.props.showFeature ? '' : 'none',
         }}
@@ -107,6 +107,7 @@ class FeatureHighlight extends Component {
 
 FeatureHighlight.propTypes = {
   children: PropTypes.node,
+  style: PropTypes.object,
   centerHorizontally: PropTypes.bool,
   centerVertically: PropTypes.bool,
   animateInitialPosition: PropTypes.bool,
@@ -117,6 +118,7 @@ FeatureHighlight.propTypes = {
 };
 
 FeatureHighlight.defaultProps = {
+  style: {},
   animateInitialPosition: false,
   transposeLength: 1000,
   fadeLength: 1600,
