@@ -3,6 +3,7 @@ import onboardingStages from '../data/onboarding-stages';
 const initialState = {
   stage: onboardingStages[0],
   keysPressed: 0,
+  padUpdates: 0,
 };
 
 
@@ -13,6 +14,7 @@ const initialState = {
 export const UPDATE_STAGE = 'ONBOARDING/UPDATE_STAGE';
 export const NEXT = 'ONBOARDING/NEXT';
 export const EXPERIMENT_WITH_NOTES = 'ONBOARDING/EXPERIMENT_WITH_NOTES';
+export const EXPERIMENT_WITH_PAD = 'ONBOARDING/EXPERIMENT_WITH_PAD';
 
 
 // ////////////////////////
@@ -42,6 +44,13 @@ export default function onboardingReducer(state = initialState, action) {
       }
     }
 
+    case EXPERIMENT_WITH_PAD: {
+      return {
+        ...state,
+        padUpdates: state.padUpdates + 1,
+      }
+    }
+
     default:
       return state;
   }
@@ -62,4 +71,8 @@ export const next = () => ({
 
 export const experimentWithNotes = () => ({
   type: EXPERIMENT_WITH_NOTES,
+});
+
+export const experimentWithPad = () => ({
+  type: EXPERIMENT_WITH_PAD,
 })

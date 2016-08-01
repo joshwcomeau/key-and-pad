@@ -16,7 +16,10 @@ import {
   isSame,
 } from '../../utils/onboarding-helpers';
 import keyboardLayout from '../../data/keyboard-layout';
-import { numOfKeysPressedNeeded } from '../../data/onboarding-config';
+import {
+  numOfKeypressesNeeded,
+  numOfPadUpdatesNeeded,
+} from '../../data/onboarding-config';
 
 import './reset.scss';
 import './index.scss';
@@ -28,16 +31,18 @@ const App = ({
   isAtLeastStage,
   isSameStage,
   keysIntroProgress,
+  padIntroProgress,
 }) => (
   <div className="app">
     <Header />
 
     <FeatureHighlight
       className="introduction-wrapper"
+      animateInitialPosition
       style={{ position: 'absolute' }}
       showFeature={isSameStage('initial')}
     >
-      <Introduction />
+      <Introduction fadeUp={isAfterStage('initial')}/>
     </FeatureHighlight>
 
     <div
@@ -46,7 +51,6 @@ const App = ({
         pointerEvents: isAfterStage('initial') ? '' : 'none',
       }}
     >
-      {console.log(isAfterStage('initial'))}
       <FeatureHighlight
         className="keyboard-wrapper"
         animateInitialPosition
@@ -67,10 +71,9 @@ const App = ({
             title: "Beautiful!",
             text: "Your music is like sunshine on a rainy day.",
             position: 'bottom',
-            tipPosition: 'left',
             progress: keysIntroProgress,
             centered: true,
-          }
+          },
         ]}
       >
         <Keyboard
@@ -82,6 +85,21 @@ const App = ({
       <FeatureHighlight
         showFeature={isAtLeastStage('pad-introduced')}
         centerVertically={isBeforeStage('control-panel-introduced')}
+        pointerOptions={[
+          {
+            render: isSameStage('pad-introduced'),
+            title: "This is your X/Y Pad.",
+            text: "While playing notes with one hand, click and hold in the pad area to apply effects to the sound.",
+            position: 'bottom',
+            progress: padIntroProgress,
+          }, {
+            render: isSameStage('pad-confirmed'),
+            title: "Magnificent!",
+            text: "Prodigy would approve.",
+            position: 'bottom',
+            progress: padIntroProgress,
+          },
+        ]}
       >
         <XYPad />
       </FeatureHighlight>
@@ -105,8 +123,11 @@ const mapStateToProps = state => ({
   isAtLeastStage: isAtLeast(state.onboarding.stage),
   isSameStage: isSame(state.onboarding.stage),
   keysIntroProgress: (
-    state.onboarding.keysPressed / (numOfKeysPressedNeeded) * 100
-  )
+    state.onboarding.keysPressed / (numOfKeypressesNeeded) * 100
+  ),
+  padIntroProgress: (
+    state.onboarding.padUpdates / (numOfPadUpdatesNeeded) * 100
+  ),
 });
 
 export default connect(mapStateToProps)(App);

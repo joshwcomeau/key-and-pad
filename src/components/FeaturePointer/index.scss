@@ -97,6 +97,7 @@
     width: 60px;
     height: 60px;
     margin: auto;
+    pointer-events: none;
 
     .triangle-1 {
       @include top-triangle(30px, $yellow);

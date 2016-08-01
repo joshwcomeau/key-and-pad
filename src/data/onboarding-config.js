@@ -1,1 +1,2 @@
-export const numOfKeysPressedNeeded = 8;
+export const numOfKeypressesNeeded = 8;
+export const numOfPadUpdatesNeeded = 50;

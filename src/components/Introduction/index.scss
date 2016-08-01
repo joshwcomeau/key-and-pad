@@ -9,6 +9,13 @@
 }
 
 .introduction {
+  .main-contents {
+    transition: transform 1600ms;
+
+    &.fade-up {
+      transform: translateY(-20px);
+    }
+  }
   header {
     .title {
       font-size: 48px;
