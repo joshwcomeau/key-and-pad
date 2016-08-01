@@ -11,7 +11,7 @@ const Icon = ({ color, size, value, ...delegated }) => {
   };
 
   return (
-    <div style={divStyles}>
+    <div style={divStyles} className="icon">
       <svg
         {...delegated}
         viewBox="0 0 24 24"

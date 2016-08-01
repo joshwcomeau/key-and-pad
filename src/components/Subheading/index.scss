@@ -1,4 +1,5 @@
 @import '../../variables';
+@import '../../mixins';
 
 .subheading {
   position: relative;
@@ -9,16 +10,26 @@
   color: $darkgray;
   cursor: default;
   user-select: none;
-  text-shadow:
-    -1px 0px 0px $offwhite,
-    -3px 0px 0px $offwhite,
-    1px 0px 0px $offwhite,
-    3px 0px 0px $offwhite,
-    1px 1px 0px $offwhite,
-    3px 1px 0px $offwhite,
-    -1px 1px 0px $offwhite,
-    -3px 1px 0px $offwhite
-  ;
+
+  &.background-offwhite {
+    @include text-outline($offwhite);
+  }
+
+  &.background-white {
+    @include text-outline($white);
+  }
+
+  &.underline-peach {
+    .subheading-inline:after {
+      background: $peach;
+    }
+  }
+
+  &.underline-navy {
+    .subheading-inline:after {
+      background: $navy;
+    }
+  }
 
   .subheading-inline {
     position: relative;
@@ -31,7 +42,6 @@
       left: 2px;
       right: 0;
       bottom: 0;
-      background: $peach;
       border-radius: 4px;
     }
   }

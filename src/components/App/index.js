@@ -88,16 +88,17 @@ const App = ({
         pointerOptions={[
           {
             render: isSameStage('pad-introduced'),
-            title: "This is your X/Y Pad.",
-            text: "While playing notes with one hand, click and hold in the pad area to apply effects to the sound.",
+            title: 'This is your X/Y pad.',
+            text: 'While playing notes with one hand, click and hold in the pad area to apply effects to the sound.',
             position: 'bottom',
             progress: padIntroProgress,
+            centered: true,
           }, {
             render: isSameStage('pad-confirmed'),
-            title: "Magnificent!",
-            text: "Prodigy would approve.",
+            title: 'Magnificent!',
             position: 'bottom',
             progress: padIntroProgress,
+            centered: true,
           },
         ]}
       >
@@ -107,6 +108,17 @@ const App = ({
 
     <FeatureHighlight
       showFeature={isAtLeastStage('control-panel-introduced')}
+      pointerOptions={[
+        {
+          render: isSameStage('control-panel-introduced'),
+          title: 'Finally, this is your control panel.',
+          text: 'For best results, experiment with all the different settings and effects.',
+          position: 'top',
+          tipPosition: 'center',
+          centered: true,
+          bubble: true
+        }
+      ]}
     >
       <ControlPanel />
     </FeatureHighlight>

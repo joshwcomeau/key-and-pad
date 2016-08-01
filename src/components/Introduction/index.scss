@@ -5,7 +5,7 @@
   @include centered;
   width: 100%;
   max-width: 900px;
-  height: 500px;
+  height: 525px;
 }
 
 .introduction {
@@ -21,11 +21,6 @@
       font-size: 48px;
       margin-bottom: 2rem;
       font-weight: 900;
-
-      .subheading-inline:after {
-        height: 0px;
-        background: $navy;
-      }
     }
 
     p {
@@ -49,33 +44,12 @@
     }
   }
 
-  .requirement-subheading {
-    font-size: 24px;
-
-    .subheading-inline:after {
-      background: $navy;
-    }
-  }
-
   .button-wrapper {
     text-align: center;
     margin: 4rem 0;
   }
   .button {
     position: relative;
-    width: 50%;
-    margin: 0 auto;
-    left: 0;
-    right: 0;
-    background-color: $orange;
-    box-shadow: 0px 3px 0px darken($orange, 18%);
-    font-size: 18px;
-    font-weight: 900;
-    height: 50px;
-    color: $white;
-
-    &:active {
-      box-shadow: 0px 1px 0px darken($orange, 18%);
-    }
+    width: 45%;
   }
 }

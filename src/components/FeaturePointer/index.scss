@@ -7,7 +7,7 @@
   right: 0;
 
   &.bubble {
-    width: 80%;
+    width: 50%;
     margin: auto;
 
     .feature-pointer {
@@ -15,7 +15,7 @@
       background: $white;
       border-radius: $border-radius-large;
       box-shadow:
-        0px 3px 0px rgba(0,0,0,0.2),
+        0px 3px 0px $lightgray,
         0px 10px 25px rgba(0,0,0,0.075)
       ;
       animation: float 10s ease-in-out infinite;
@@ -28,6 +28,8 @@
         background: $white;
         transform: rotate(45deg);
         transform-origin: center center;
+        border-bottom: 3px solid $lightgray;
+        border-right: 3px solid $lightgray;
 
         &:after {
           content: '';
@@ -38,8 +40,8 @@
           top: 0;
           border-left: 8px solid transparent;
           border-right: 8px solid transparent;
-          border-top: 8px solid transparent;
-          border-bottom: 8px solid $lightgray;
+          border-bottom: 8px solid transparent;
+          border-top: 8px solid $orange;
           transform: rotate(-45deg);
           transform-origin: center center;
         }
@@ -58,7 +60,12 @@
 
     &.top .feature-pointer {
       .bubble-pointer-triangle {
-        bottom: -14px;
+        bottom: -16px;
+
+        &:after {
+          top: 10px;
+          left: 10px;
+        }
       }
     }
   }

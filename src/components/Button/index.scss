@@ -11,7 +11,7 @@
   box-shadow: 0px 3px 0px rgba(0,0,0,0.2);
 
   &:active {
-    top: 2px;
+    transform: translateY(2px);
     box-shadow: 0px 1px 0px rgba(0,0,0,0.1);
 
     &.selected {
@@ -22,5 +22,29 @@
   &.selected {
     background: $yellow;
     box-shadow: 0px 3px 0px darken($yellow, 20%);
+  }
+
+  &.primary {
+    background-color: $orange;
+    box-shadow: 0px 3px 0px darken($orange, 18%);
+    font-size: 18px;
+    font-weight: 900;
+    height: 50px;
+    color: $white;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0px 5px 0px darken(#f0411f, 18%);
+    }
+
+    &:active {
+      transform: translateY(2px);
+      box-shadow: 0px 1px 0px darken($orange, 18%);
+    }
+
+    .icon {
+      position: absolute;
+      right: 24px;
+    }
   }
 }

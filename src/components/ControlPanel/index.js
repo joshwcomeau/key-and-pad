@@ -64,7 +64,7 @@ class ControlPanel extends Component {
     return (
       <div className="control-panel">
         <div className="panel keys">
-          <Subheading>keys</Subheading>
+          <Subheading underline="navy">keys</Subheading>
 
           <Row>
             <Column>
@@ -84,7 +84,7 @@ class ControlPanel extends Component {
         </div>
 
         <div className="panel pad">
-          <Subheading>pad</Subheading>
+          <Subheading underline="navy">pad</Subheading>
           <Row>
             {this.renderAxisControls('x')}
             {this.renderAxisControls('y')}

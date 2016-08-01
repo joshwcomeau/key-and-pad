@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import omit from 'lodash.omit';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import FeaturePointer from '../FeaturePointer';
@@ -78,13 +77,9 @@ class FeatureHighlight extends Component {
   }
 
   render() {
-    // Any prop not defined in our PropTypes can be delegated to the div.
-    const primaryPropKeys = Object.keys(FeatureHighlight.propTypes);
-    const delegatedProps = omit(this.props, primaryPropKeys);
-
     return (
       <div
-        {...delegatedProps}
+        className={this.props.className}
         ref={elem => { this.elem = elem; }}
         style={{
           position: this.props.style.position || 'relative',
@@ -92,7 +87,9 @@ class FeatureHighlight extends Component {
           pointerEvents: this.props.showFeature ? '' : 'none',
         }}
       >
+
         {this.props.children}
+
         <ReactCSSTransitionGroup
           transitionName="pointer"
           transitionEnterTimeout={2500}
@@ -108,6 +105,7 @@ class FeatureHighlight extends Component {
 FeatureHighlight.propTypes = {
   children: PropTypes.node,
   style: PropTypes.object,
+  className: PropTypes.string,
   centerHorizontally: PropTypes.bool,
   centerVertically: PropTypes.bool,
   animateInitialPosition: PropTypes.bool,

@@ -11,7 +11,7 @@ class FeaturePointer extends Component {
       title,
       text,
       position,
-      tooltipPosition,
+      tipPosition,
       centered,
       bubble,
       progress,
@@ -20,7 +20,7 @@ class FeaturePointer extends Component {
     const classes = classNames([
       'feature-pointer-wrapper',
       position,
-      `tooltip-${tooltipPosition}`,
+      `tooltip-${tipPosition}`,
       { centered, bubble }
     ]);
 
@@ -36,7 +36,12 @@ class FeaturePointer extends Component {
                   <div className="triangle triangle-3" />
                 </div>
           }
-          <Subheading>{title}</Subheading>
+          <Subheading
+            background={bubble ? 'white' : 'offwhite'}
+            underline="peach"
+          >
+            {title}
+          </Subheading>
           <p>{text}</p>
 
           {

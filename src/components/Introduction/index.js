@@ -27,11 +27,11 @@ const Introduction = ({ next, fadeUp }) => (
       <Row>
         <Column>
           <Icon value="keyboard" size={72} />
-          <Subheading className="requirement-subheading">
+          <Subheading underline="navy">
             Hardware
           </Subheading>
           <p>
-            A physical keyboard and mouse or trackpad.
+            A physical keyboard, as well as a trackpad or mouse.
           </p>
         </Column>
         <Column>
@@ -46,7 +46,7 @@ const Introduction = ({ next, fadeUp }) => (
             speed={250}
             size={72}
           />
-          <Subheading className="requirement-subheading">
+        <Subheading underline="navy">
             Sound
           </Subheading>
           <p>
@@ -56,7 +56,7 @@ const Introduction = ({ next, fadeUp }) => (
         <Column>
           <Icon value="music_note" size={72} />
           <IconWithHover value="happy" hoverValue="very_happy" size={72} />
-          <Subheading className="requirement-subheading">
+          <Subheading underline="navy">
             Creativity
           </Subheading>
           <p>
@@ -67,7 +67,10 @@ const Introduction = ({ next, fadeUp }) => (
     </section>
 
     <div className="button-wrapper">
-      <Button onClick={next}>Let's Go!</Button>
+      <Button className="primary" onClick={next}>
+        Let's Go!
+        <Icon value="arrow_right" color="#FFF" />
+      </Button>
     </div>
   </div>
 );
