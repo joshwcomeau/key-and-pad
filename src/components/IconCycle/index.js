@@ -28,13 +28,14 @@ class IconCycle extends PureComponent {
   }
 
   render() {
-    const { values, speed, styles, ...delegated } = this.props;
+    const { styles, color, size } = this.props;
 
     return (
       <Icon
-        {...delegated}
         value={this.state.value}
-        style={this.props.styles[this.state.index % this.props.styles.length]}
+        style={styles[this.state.index % styles.length]}
+        color={color}
+        size={size}
       />
     )
   }
@@ -44,6 +45,8 @@ IconCycle.propTypes = {
   values: PropTypes.arrayOf(PropTypes.string).isRequired,
   speed: PropTypes.number,
   styles: PropTypes.arrayOf(PropTypes.object),
+  color: PropTypes.string,
+  size: PropTypes.number
 };
 
 IconCycle.defaultProps = {

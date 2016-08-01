@@ -23,7 +23,7 @@ class IconWithHover extends PureComponent {
   }
 
   render() {
-    const { value, hoverValue, ...delegated } = this.props;
+    const { value, hoverValue, color, size } = this.props;
 
     return (
       <span
@@ -31,8 +31,9 @@ class IconWithHover extends PureComponent {
         onMouseLeave={this.handleMouseLeave}
       >
         <Icon
-          {...delegated}
-          value={this.state.hover ? hoverValue: value}
+          value={this.state.hover ? hoverValue : value}
+          color={color}
+          size={size}
         />
       </span>
     )
@@ -42,6 +43,8 @@ class IconWithHover extends PureComponent {
 IconWithHover.propTypes = {
   value: PropTypes.string.isRequired,
   hoverValue: PropTypes.string.isRequired,
+  color: PropTypes.string,
+  size: PropTypes.number,
 };
 
 export default IconWithHover;
