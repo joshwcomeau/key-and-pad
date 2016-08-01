@@ -34,6 +34,10 @@ body, button, input, select, textarea {
   -webkit-font-smoothing: antialiased;
 }
 
+strong {
+  font-weight: 900;
+}
+
 .app {
   .keys-and-pad {
     position: relative;

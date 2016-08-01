@@ -34,7 +34,12 @@ const App = ({
   padIntroProgress,
 }) => (
   <div className="app">
-    <Header />
+    <FeatureHighlight
+      animateInitialPosition
+      showFeature={isAfterStage('initial')}
+    >
+      <Header />
+    </FeatureHighlight>
 
     <FeatureHighlight
       className="introduction-wrapper"

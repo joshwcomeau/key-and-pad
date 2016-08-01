@@ -72,6 +72,11 @@ export default function* onboarding() {
         yield delay(2000);
         yield put(next());
       }
+
+      case 'control-panel-introduced': {
+        yield delay(6000);
+        yield put(next());
+      }
     }
   }
 }

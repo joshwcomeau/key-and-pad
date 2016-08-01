@@ -1,0 +1,32 @@
+@import '../../variables';
+@import '../../mixins';
+
+.logo {
+  font-size: 28px;
+
+  &.small {
+    font-size: inherit;
+
+    .word {
+      letter-spacing: -1px;
+    }
+
+    .join-character {
+      margin: 0 0 0 1px;
+    }
+  }
+
+  .word {
+    color: $black;
+    font-weight: 900;
+    letter-spacing: -2px;
+    text-rendering: geometricPrecision;
+  }
+
+  .join-character {
+    font-weight: 100;
+    display: inline-block;
+    margin: 0 0 0 2px;
+    color: $orange;
+  }
+}

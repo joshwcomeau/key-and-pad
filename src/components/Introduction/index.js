@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { next } from '../../ducks/onboarding.duck';
 
+import Logo from '../Logo';
 import Subheading from '../Subheading';
 import Icon from '../Icon';
 import IconCycle from '../IconCycle';
@@ -20,7 +21,9 @@ const Introduction = ({ next, fadeUp }) => (
     <section className={classNames('main-contents', { 'fade-up': fadeUp })}>
       <header>
         <Subheading className="title">Welcome!</Subheading>
-        <p>Keys&Pad is a Web Audio experiment, combining a keyboard-controlled synthesizer with a mouse-controlled X/Y Pad (eg. Kaoss Pad).</p>
+        <p>
+          <Logo size="small" />
+          &nbsp;is a Web Audio experiment, combining a keyboard-controlled synthesizer with a mouse-controlled X/Y Pad (eg. Kaoss Pad).</p>
         <p>There are a few things you'll need:</p>
       </header>
 

@@ -18,7 +18,7 @@
         0px 3px 0px $lightgray,
         0px 10px 25px rgba(0,0,0,0.075)
       ;
-      animation: float 10s ease-in-out infinite;
+      animation: float 3s ease-in-out 1 forwards;
 
       .bubble-pointer-triangle {
         content: '';
@@ -71,7 +71,7 @@
   }
 
   &.top {
-    top: -16px;
+    top: -32px;
     transform: translateY(-100%);
   }
 
@@ -153,9 +153,8 @@
 }
 
 @keyframes float {
-  0% { transform: translateY(-8px); }
-  50% { transform: translateY(8px); }
-  100% { transform: translateY(-8px); }
+  0% { transform: translateY(-48px); }
+  100% { transform: translateY(0); }
 }
 
 @keyframes triangle1 {

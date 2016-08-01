@@ -6,17 +6,7 @@
 
   h1 {
     cursor: default;
-    font-size: 28px;
-    font-weight: bold;
-    color: $black;
     letter-spacing: -2px;
-    text-rendering: geometricPrecision;
     user-select: none;
-  }
-
-  .join-character {
-    font-weight: 100;
-    display: inline-block;
-    margin: 0 2px;
   }
 }

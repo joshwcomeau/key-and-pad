@@ -1,14 +1,11 @@
 import React from 'react';
 
+import Logo from '../Logo';
 import './index.scss';
 
 const Header = () => (
   <header className="header">
-    <h1>
-      Keys
-      <span className="join-character">&</span>
-      Pad
-    </h1>
+    <Logo />
   </header>
 );
 
