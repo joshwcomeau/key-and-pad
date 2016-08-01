@@ -6,6 +6,7 @@ import { next } from '../../ducks/onboarding.duck';
 import Subheading from '../Subheading';
 import Icon from '../Icon';
 import IconCycle from '../IconCycle';
+import IconWithHover from '../IconWithHover';
 import Button from '../Button';
 import Row from '../Row';
 import Column from '../Column';
@@ -52,7 +53,7 @@ const Introduction = ({ next }) => (
       </Column>
       <Column>
         <Icon value="music_note" size={72} />
-        <Icon value="very_happy" size={72} />
+        <IconWithHover value="happy" hoverValue="very_happy" size={72} />
         <Subheading className="requirement-subheading">
           Creativity
         </Subheading>
