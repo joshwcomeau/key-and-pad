@@ -108,7 +108,7 @@ export const changeAxisEffect = ({ axis, effect }) => ({
 });
 
 export const tweakAxisParameter = ({ axis, options }) => ({
-  type: UPDATE_EFFECTS_AMOUNT,
+  type: TWEAK_AXIS_PARAMETER,
   axis,
   options,
 });

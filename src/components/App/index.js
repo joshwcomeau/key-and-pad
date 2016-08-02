@@ -94,13 +94,14 @@ const App = ({
           {
             render: isSameStage('pad-introduced'),
             title: 'This is your X/Y pad.',
-            text: 'While playing notes with one hand, click and hold in the pad area to apply effects to the sound.',
+            text: 'While playing, click and drag in the pad area to apply effects.',
             position: 'bottom',
             progress: padIntroProgress,
             centered: true,
           }, {
             render: isSameStage('pad-confirmed'),
-            title: 'Magnificent!',
+            title: 'Phenomenal!',
+            text: 'Pack your suitcases, you\'ll be headlining in Ibiza soon.',
             position: 'bottom',
             progress: padIntroProgress,
             centered: true,

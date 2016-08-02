@@ -36,6 +36,53 @@ class ControlPanel extends Component {
   }
 
   renderAxisControls(axis) {
+    const effect = this.props.effects[axis];
+    let controls;
+
+    switch (effect.name) {
+      case 'filter': {
+        controls = (
+          <div className="effect-controls">
+            <h5>resonance (Q)</h5>
+            <div className="slider-container">
+              <Slider
+                min={0}
+                max={50}
+                onChange={val => {
+                  this.props.tweakAxisParameter({
+                    axis,
+                    options: {
+                      resonance: val,
+                    },
+                  });
+                }}
+              />
+            </div>
+          </div>
+        )
+        break;
+      }
+      case 'distortion': {
+        controls = (
+          <div className="effect-controls">
+            <h5>Oversampling</h5>
+            <div className="slider-container">
+              <Slider min={1} max={6} step={1} />
+            </div>
+          </div>
+        )
+        break;
+      }
+      case 'reverb': {
+        controls = <div />
+        break;
+      }
+
+      default: {
+        controls = <div />
+        break;
+      }
+    }
     return (
       <Column className={`pad-${axis}`}>
         <h5>{`${axis} axis`}</h5>
@@ -56,6 +103,8 @@ class ControlPanel extends Component {
             { value: 'reverb', label: 'reverb' },
           ]}
         />
+
+        {controls}
       </Column>
     )
   }
@@ -103,6 +152,7 @@ const mapStateToProps = state => ({
 const actions = {
   updateOscillator,
   changeAxisEffect,
+  tweakAxisParameter,
 };
 
 export default connect(mapStateToProps, actions)(ControlPanel);

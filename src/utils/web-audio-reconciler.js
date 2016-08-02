@@ -99,7 +99,7 @@ export function reconcile() {
 
       // If the effect's parameters were tweaked, update it
       if (effectParamTweaked) {
-        WebAudioManager.updateEffectParameters({ axis, options: currentState.effects[axis].options });
+        WebAudioManager.updateEffectParameters(currentState.effects[axis]);
       }
     })
   }

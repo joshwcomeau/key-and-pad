@@ -207,8 +207,21 @@ export const webAudioManagerFactory = context => {
       }
     },
 
-    updateEffectParameters({ axis, options }) {
+    updateEffectParameters({ name, options }) {
+      switch (name) {
+        case 'filter': {
+          effects.filter.type = options.filterType;
+          effects.filter.Q.value = options.resonance;
+          break;
+        }
 
+        case 'distortion':
+          effects.distortion.oversample = options.oversample;
+
+        default: {
+          // Do nothing
+        }
+      }
     },
   };
 };

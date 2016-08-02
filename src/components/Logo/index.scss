@@ -27,6 +27,6 @@
     font-weight: 100;
     display: inline-block;
     margin: 0 0 0 2px;
-    color: $orange;
+    color: darken($lightgray, 20%);
   }
 }

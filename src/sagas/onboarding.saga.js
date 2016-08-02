@@ -55,6 +55,7 @@ export default function* onboarding() {
       case 'initial-confirmed': {
         yield delay(1000);
         yield put(next());
+        break;
       }
 
       case 'keys-introduced': {
@@ -63,6 +64,7 @@ export default function* onboarding() {
         yield put(next());
         yield delay(2000);
         yield put(next());
+        break;
       }
 
       case 'pad-introduced': {
@@ -71,11 +73,17 @@ export default function* onboarding() {
         yield put(next());
         yield delay(2000);
         yield put(next());
+        break;
       }
 
       case 'control-panel-introduced': {
         yield delay(6000);
         yield put(next());
+        break;
+      }
+
+      default: {
+        // Do nothing
       }
     }
   }

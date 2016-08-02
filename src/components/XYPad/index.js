@@ -18,6 +18,16 @@ export class XYPad extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    // Binding this to window instead of the pad itself so that we catch
+    // events that happen slightly outside the box.
+    window.addEventListener('mouseup', this.handleRelease)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mouseup', this.handleRelease)
+  }
+
   calculateAndUpdatePosition(clientX, clientY) {
     // We need to calculate the relative position of the event, and pass it
     // onto our supplied touch handler.
@@ -57,8 +67,10 @@ export class XYPad extends Component {
   }
 
   handleRelease() {
-    this.props.deactivateEffects();
-    this.setState({ isPressed: false });
+    if (this.state.isPressed) {
+      this.props.deactivateEffects();
+      this.setState({ isPressed: false });
+    }
   }
 
   render() {
@@ -77,8 +89,6 @@ export class XYPad extends Component {
           onTouchStart={this.handlePress}
           onMouseDown={this.handlePress}
           onMouseMove={this.handleClick}
-          onTouchEnd={this.handleRelease}
-          onMouseUp={this.handleRelease}
         >
           <svg
             width="100%"
