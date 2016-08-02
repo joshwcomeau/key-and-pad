@@ -10,6 +10,7 @@ import {
   createDelayWithContext,
   createReverbWithContext,
   getLogarithmicFrequencyValueWithContext,
+  getDistortionOversample,
 } from './web-audio-helpers';
 import effectDefaultOptions from '../data/effect-default-options.js';
 
@@ -65,6 +66,7 @@ export const webAudioManagerFactory = context => {
     }),
     distortion: createDistortion({
       ...effectDefaultOptions.distortion,
+      oversample: getDistortionOversample(effectDefaultOptions.distortion),
       output: context.destination,
     }),
     delay: createDelay({
@@ -216,7 +218,8 @@ export const webAudioManagerFactory = context => {
         }
 
         case 'distortion':
-          effects.distortion.oversample = options.oversample;
+          effects.distortion.oversample = getDistortionOversample(options);
+          break;
 
         default: {
           // Do nothing

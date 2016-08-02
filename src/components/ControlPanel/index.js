@@ -55,6 +55,7 @@ class ControlPanel extends Component {
                 min={0}
                 max={50}
                 step={0.1}
+                defaultValue={effect.options.resonance}
                 onChange={val => {
                   // Debounce the actual action-dispatch since it's kinda
                   // slow, and doesn't need to be low-latency.
@@ -74,9 +75,24 @@ class ControlPanel extends Component {
       case 'distortion': {
         controls = (
           <div className="effect-controls">
-            <h5>Oversampling</h5>
+            <h5>oversampling</h5>
             <div className="slider-container">
-              <Slider min={1} max={6} step={1} />
+              <Slider
+                min={0}
+                max={4}
+                step={2}
+                defaultValue={effect.options.oversample}
+                onChange={val => {
+                  // Debounce the actual action-dispatch since it's kinda
+                  // slow, and doesn't need to be low-latency.
+                  this.tweakAxisParameter({
+                    axis,
+                    options: {
+                      oversample: val,
+                    },
+                  });
+                }}
+              />
             </div>
           </div>
         )

@@ -121,3 +121,18 @@ export const getLogarithmicFrequencyValueWithContext = context => n => {
 
   return max * multiplier;
 }
+
+export const getDistortionOversample = ({ oversample }) => {
+  switch (oversample) {
+    case 0: return 'none';
+    case 2: return '2x';
+    case 4: return '4x';
+    default: {
+      console.error(`
+        Invalid oversample supplied for distortion.
+        Valid values are 0, 2, 4.
+        You provided ${oversample}
+      `);
+    }
+  }
+}
