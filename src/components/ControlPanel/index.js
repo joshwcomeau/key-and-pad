@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import debounce from 'lodash.debounce';
 
 // eslint-disable-next-line no-unused-vars
 import { changeAxisEffect, tweakAxisParameter } from '../../ducks/effects.duck';
@@ -17,6 +18,11 @@ import Select from '../Select';
 import './index.scss';
 
 class ControlPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.tweakAxisParameter = debounce(props.tweakAxisParameter, 500);
+  }
+
   renderOscillatorToggles(oscillatorIndex) {
     const waveforms = ['sine', 'triangle', 'square', 'sawtooth'];
     const selectedWaveform = this.props.oscillators[oscillatorIndex].waveform;
@@ -48,8 +54,11 @@ class ControlPanel extends Component {
               <Slider
                 min={0}
                 max={50}
+                step={0.1}
                 onChange={val => {
-                  this.props.tweakAxisParameter({
+                  // Debounce the actual action-dispatch since it's kinda
+                  // slow, and doesn't need to be low-latency.
+                  this.tweakAxisParameter({
                     axis,
                     options: {
                       resonance: val,
