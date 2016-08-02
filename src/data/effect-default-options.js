@@ -4,7 +4,7 @@ export default {
     resonance: 10
   },
   distortion: {
-    oversample: 4,
+    oversample: 2,
   },
   delay: {
     length: 2,

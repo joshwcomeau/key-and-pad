@@ -9,23 +9,30 @@
 
   .panel {
     &.keys {
-      flex: 3;
+      flex: 1;
       border-right: 1px solid $lightgray;
     }
     &.pad {
-      flex: 5;
+      flex: 1;
       padding-left: 16px;
     }
   }
 
+  h4 {
+    font-size: 18px;
+    font-weight: normal;
+    margin: 22px 0 12px;
+  }
+
   h5 {
+    font-size: 14px;
     font-weight: 100;
     margin: 18px 0 6px;
   }
 
   .oscillator-waveform-toggle-group {
     .button {
-      width: 23%;
+      width: 20%;
       padding: 0;
     }
     svg {

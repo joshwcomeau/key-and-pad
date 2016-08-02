@@ -1,65 +1,49 @@
 @import '../../variables';
+@import '../../mixins';
 
-.slider {
+.slider-container {
   position: relative;
-  height: 16px;
 
-  &:before, &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    height: 6px;
-    width: 1px;
-  }
-
-  &:before {
-    left: 0;
-    background: $navy
-  }
-
-  &:after {
-    right: 0;
-    background: $lightgray;
-  }
-
-  .bar {
-    top: 7px;
-    height: 2px;
-
-  }
-
-  .bar-0 {
-    background: $navy;
-  }
-
-  .bar-1 {
-    background: $lightgray;
-  }
-  .handle {
-    position: absolute;
-    background: $orange;
-    width: 16px;
+  .slider {
+    position: relative;
     height: 16px;
-    border-radius: 25px;
-    box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
-  }
 
-  .oscillator-handle {
-    position: absolute;
-    width: 32px;
-    height: 32px;
+    .bar {
+      top: 7px;
+      height: 2px;
 
-    svg {
+    }
+
+    .bar-0 {
+      background: $navy;
+    }
+
+    .bar-1 {
+      background: $lightgray;
+    }
+    .handle {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
+      background: $peach;
+      width: 16px;
+      height: 16px;
+      border-radius: 25px;
+      box-shadow: 1px 1px 1px rgba(0,0,0,0.1);
     }
   }
 
+  &.with-midpoint .slider .bar {
+    background: $lightgray;
+  }
 
+  &.with-orange-handle .slider .handle {
+    background: $orange;
+  }
+
+  .slider-midpoint {
+    @include centered;
+    z-index: -1;
+    width: 1px;
+    height: 7px;
+    background: $lightgray;
+  }
 }

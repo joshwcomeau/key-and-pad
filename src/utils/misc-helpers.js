@@ -52,3 +52,16 @@ export const updatedWithinPath = curry((obj1, obj2, path) => (
 export const delay = ms => new Promise(resolve => (
   window.setTimeout(resolve, ms)
 ));
+
+/** toRoman
+  Incredibly naive function to convert an integer to a roman numeral.
+  Only handles values between 1 and 3, because that's all I actually need.
+
+  @example
+    toRoman(1) --> I
+  @example
+    toRoman(2) --> II
+
+  @param num - number
+*/
+export const toRoman = num => 'I'.repeat(num);

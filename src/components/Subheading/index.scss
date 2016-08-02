@@ -31,6 +31,18 @@
     }
   }
 
+  &.underline-dark-gray {
+    .subheading-inline:after {
+      background: $darkgray;
+    }
+  }
+
+  &.underline-medium-gray {
+    .subheading-inline:after {
+      background: $mediumgray;
+    }
+  }
+
   .subheading-inline {
     position: relative;
 

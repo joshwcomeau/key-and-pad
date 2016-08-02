@@ -1,16 +1,23 @@
 /* eslint-disable react/jsx-handler-names */
 import React from 'react';
 import ReactSlider from 'react-slider';
+import classNames from 'classnames';
 
 import './index.scss';
 
 
-const Slider = settings => {
+const Slider = ({ withMidpoint, className, ...settings }) => {
+  const sliderContainerClass = classNames(
+    'slider-container',
+    className,
+    { 'with-midpoint': withMidpoint }
+  );
+
   return (
-    <ReactSlider
-      withBars
-      {...settings}
-    />
+    <div className={sliderContainerClass}>
+      <ReactSlider withBars {...settings} />
+      {withMidpoint ? <div className="slider-midpoint" /> : null}
+    </div>
   );
 };
 

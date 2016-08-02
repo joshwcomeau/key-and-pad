@@ -5,6 +5,7 @@ import debounce from 'lodash.debounce';
 // eslint-disable-next-line no-unused-vars
 import { changeAxisEffect, tweakAxisParameter } from '../../ducks/effects.duck';
 import { updateOscillator } from '../../ducks/oscillators.duck';
+import { toRoman } from '../../utils/misc-helpers';
 
 // eslint-disable-next-line no-unused-vars
 import Slider from '../Slider';
@@ -23,7 +24,7 @@ class ControlPanel extends Component {
     this.tweakAxisParameter = debounce(props.tweakAxisParameter, 500);
   }
 
-  renderOscillatorToggles(oscillatorIndex) {
+  renderWaveformToggles(oscillatorIndex) {
     const waveforms = ['sine', 'triangle', 'square', 'sawtooth'];
     const selectedWaveform = this.props.oscillators[oscillatorIndex].waveform;
 
@@ -50,24 +51,22 @@ class ControlPanel extends Component {
         controls = (
           <div className="effect-controls">
             <h5>resonance (Q)</h5>
-            <div className="slider-container">
-              <Slider
-                min={0}
-                max={50}
-                step={0.1}
-                defaultValue={effect.options.resonance}
-                onChange={val => {
-                  // Debounce the actual action-dispatch since it's kinda
-                  // slow, and doesn't need to be low-latency.
-                  this.tweakAxisParameter({
-                    axis,
-                    options: {
-                      resonance: val,
-                    },
-                  });
-                }}
-              />
-            </div>
+            <Slider
+              min={0}
+              max={50}
+              step={0.1}
+              defaultValue={effect.options.resonance}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: {
+                    resonance: val,
+                  },
+                });
+              }}
+            />
           </div>
         )
         break;
@@ -76,24 +75,22 @@ class ControlPanel extends Component {
         controls = (
           <div className="effect-controls">
             <h5>oversampling</h5>
-            <div className="slider-container">
-              <Slider
-                min={0}
-                max={4}
-                step={2}
-                defaultValue={effect.options.oversample}
-                onChange={val => {
-                  // Debounce the actual action-dispatch since it's kinda
-                  // slow, and doesn't need to be low-latency.
-                  this.tweakAxisParameter({
-                    axis,
-                    options: {
-                      oversample: val,
-                    },
-                  });
-                }}
-              />
-            </div>
+            <Slider
+              min={0}
+              max={4}
+              step={2}
+              defaultValue={effect.options.oversample}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: {
+                    oversample: val,
+                  },
+                });
+              }}
+            />
           </div>
         )
         break;
@@ -110,7 +107,7 @@ class ControlPanel extends Component {
     }
     return (
       <Column className={`pad-${axis}`}>
-        <h5>{`${axis} axis`}</h5>
+        <h4>{`${axis} axis`}</h4>
         <Select
           clearable={false}
           searchable={false}
@@ -134,31 +131,53 @@ class ControlPanel extends Component {
     )
   }
 
+  renderOscillatorControls(index) {
+    const oscillator = this.props.oscillators[index];
+    const romanNum = toRoman(index + 1);
+
+    return (
+      <Column>
+        <h4>oscillator {romanNum}</h4>
+        <ButtonToggleGroup className="oscillator-waveform-toggle-group">
+          {this.renderWaveformToggles(index)}
+        </ButtonToggleGroup>
+
+        <h5>octave</h5>
+        <Slider
+          min={-3}
+          max={3}
+          step={1}
+          defaultValue={oscillator.octaveAdjustment}
+          withMidpoint
+        />
+
+        <h5>detune</h5>
+        <Slider
+          min={-100}
+          max={100}
+          step={1}
+          defaultValue={oscillator.detune}
+          withMidpoint
+          className="with-orange-handle"
+        />
+      </Column>
+    )
+  }
+
   render() {
     return (
       <div className="control-panel">
         <div className="panel keys">
-          <Subheading underline="navy">key controls</Subheading>
+          <Subheading underline="medium-gray">key controls</Subheading>
 
           <Row>
-            <Column>
-              <h5>oscillator I</h5>
-              <ButtonToggleGroup className="oscillator-waveform-toggle-group">
-                {this.renderOscillatorToggles(0)}
-              </ButtonToggleGroup>
-            </Column>
-
-            <Column>
-              <h5>oscillator II</h5>
-              <ButtonToggleGroup className="oscillator-waveform-toggle-group">
-                {this.renderOscillatorToggles(1)}
-              </ButtonToggleGroup>
-            </Column>
+            {this.renderOscillatorControls(0)}
+            {this.renderOscillatorControls(1)}
           </Row>
         </div>
 
         <div className="panel pad">
-          <Subheading underline="navy">pad controls</Subheading>
+          <Subheading underline="medium-gray">pad controls</Subheading>
           <Row>
             {this.renderAxisControls('x')}
             {this.renderAxisControls('y')}

@@ -8,7 +8,9 @@
     cursor: crosshair;
     position: relative;
     border-radius: $border-radius-large;
-    border: 1px solid rgba(0,0,0,0.125);
+    border-bottom: 3px solid rgba(0,0,0,0.2);
+    border-left: 1px solid rgba(0,0,0,0.1);
+    border-right: 1px solid rgba(0,0,0,0.1);
     width: $x-y-pad-size;
     height: $x-y-pad-size;
     background: $white;

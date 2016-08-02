@@ -3,10 +3,12 @@ const initialState = [
     waveform: 'triangle',
     gain: 0.5,
     octaveAdjustment: 0,
+    detune: 0
   }, {
     waveform: 'square',
     gain: 0.15,
     octaveAdjustment: -1,
+    detune: 0
   },
 ];
 

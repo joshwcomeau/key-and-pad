@@ -8,10 +8,10 @@ const initialState = {
     options: effectDefaultOptions.filter
   },
   y: {
-    name: 'reverb',
+    name: 'distortion',
     active: false,
     amount: 0,
-    options: effectDefaultOptions.reverb,
+    options: effectDefaultOptions.distortion,
   },
 };
 
