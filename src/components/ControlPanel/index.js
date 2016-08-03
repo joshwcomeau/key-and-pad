@@ -149,6 +149,10 @@ class ControlPanel extends Component {
           step={1}
           defaultValue={oscillator.octaveAdjustment}
           withMidpoint
+          onChange={val => this.props.updateOscillator({
+            index,
+            options: { octaveAdjustment: val }
+          })}
         />
 
         <h5>detune</h5>
@@ -159,6 +163,10 @@ class ControlPanel extends Component {
           defaultValue={oscillator.detune}
           withMidpoint
           className="with-orange-handle"
+          onChange={val => this.props.updateOscillator({
+            index,
+            options: { detune: val }
+          })}
         />
       </Column>
     )

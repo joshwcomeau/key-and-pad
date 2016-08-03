@@ -25,6 +25,8 @@ Subheading.propTypes = {
   underline: PropTypes.oneOf([
     'peach',
     'navy',
+    'medium-gray',
+    'dark-gray',
   ]),
   background: PropTypes.oneOf([
     'white',

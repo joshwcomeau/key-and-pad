@@ -144,6 +144,20 @@ export const webAudioManagerFactory = context => {
       return this;
     },
 
+    updateOscillator({ oscillatorIndex, detune, octaveAdjustment }) {
+      const oscillatorAndGain = activeOscillators[oscillatorIndex];
+
+      // It's possible that while our redux store has oscillators,
+      // our Web Audio Manager does not. This is because we only
+      // store _playing_ oscillators here, once they stop they're
+      // destroyed. TODO: Maybe add some kind of 'active' flag to
+      // redux oscillators?
+      if (oscillatorAndGain) {
+        const { oscillator } = oscillatorAndGain;
+        oscillator.detune.value = detune;
+      }
+    },
+
     destroyEffectChain({ rerouteOscillators = false } = {}) {
       // We don't actually need to destroy anything, we just need to
       // disconnect all audio. This will render the output silent,
