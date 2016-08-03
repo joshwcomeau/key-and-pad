@@ -46,23 +46,10 @@ export function reconcile() {
   if (!soundsUpdated) { return; }
 
   // If the notes changed, simply destroy all oscillators and rebuild.
-  if (notesUpdated) {
+  if (notesUpdated || oscillatorsUpdated) {
     WebAudioManager
       .stopAllOscillators()
       .createOscillators(currentState)
-  }
-
-  if (oscillatorsUpdated) {
-    // Even though only one oscillator has changed, I believe it's faster
-    // to simply update both, rather than do a deep equality check to find
-    // the updated one. Test this theory!
-    currentState.oscillators.forEach((oscillator, index) => {
-      WebAudioManager.updateOscillator({
-        oscillatorIndex: index,
-        ...oscillator,
-      });
-    })
-
   }
 
   if (effectsUpdated) {

@@ -11,6 +11,7 @@ import {
   createReverbWithContext,
   getLogarithmicFrequencyValueWithContext,
   getDistortionOversample,
+  getOctaveMultiplier,
 } from './web-audio-helpers';
 import effectDefaultOptions from '../data/effect-default-options.js';
 
@@ -113,7 +114,7 @@ export const webAudioManagerFactory = context => {
 
     createOscillators({ notes, oscillators }) {
       notes.forEach(({ value }) => {
-        oscillators.forEach(({ waveform, gain, octaveAdjustment }) => {
+        oscillators.forEach(({ waveform, gain, detune, octaveAdjustment }) => {
           // TODO: Handle octaveAdjustment
           const output = createGain({
             value: gain,
@@ -122,7 +123,8 @@ export const webAudioManagerFactory = context => {
 
           const newOscillator = createOscillator({
             waveform,
-            frequency: toFreq(value),
+            frequency: toFreq(value) * getOctaveMultiplier(octaveAdjustment),
+            detune,
             output,
           });
 
@@ -142,20 +144,6 @@ export const webAudioManagerFactory = context => {
       });
 
       return this;
-    },
-
-    updateOscillator({ oscillatorIndex, detune, octaveAdjustment }) {
-      const oscillatorAndGain = activeOscillators[oscillatorIndex];
-
-      // It's possible that while our redux store has oscillators,
-      // our Web Audio Manager does not. This is because we only
-      // store _playing_ oscillators here, once they stop they're
-      // destroyed. TODO: Maybe add some kind of 'active' flag to
-      // redux oscillators?
-      if (oscillatorAndGain) {
-        const { oscillator } = oscillatorAndGain;
-        oscillator.detune.value = detune;
-      }
     },
 
     destroyEffectChain({ rerouteOscillators = false } = {}) {

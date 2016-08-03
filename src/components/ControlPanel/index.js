@@ -147,7 +147,7 @@ class ControlPanel extends Component {
           min={-3}
           max={3}
           step={1}
-          defaultValue={oscillator.octaveAdjustment}
+          value={oscillator.octaveAdjustment}
           withMidpoint
           onChange={val => this.props.updateOscillator({
             index,
@@ -155,12 +155,25 @@ class ControlPanel extends Component {
           })}
         />
 
+        <h5>gain</h5>
+        <Slider
+          min={0}
+          max={1}
+          step={0.01}
+          value={oscillator.gain}
+          onChange={val => this.props.updateOscillator({
+            index,
+            options: { gain: val }
+          })}
+        />
+
+
         <h5>detune</h5>
         <Slider
           min={-100}
           max={100}
           step={1}
-          defaultValue={oscillator.detune}
+          value={oscillator.detune}
           withMidpoint
           className="with-orange-handle"
           onChange={val => this.props.updateOscillator({

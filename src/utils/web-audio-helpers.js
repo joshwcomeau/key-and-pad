@@ -136,3 +136,24 @@ export const getDistortionOversample = ({ oversample }) => {
     }
   }
 }
+
+/** getOctaveMultiplier
+  Converts a +/- octave value (eg. +1, 0, -2) to a value that can be used
+  to multiply the frequency to achieve that adjustment
+
+  @example
+    getOctaveMultiplier(0)  --> 1
+  @example
+    getOctaveMultiplier(2)  --> 4
+  @example
+    getOctaveMultiplier(-1) --> -2
+
+  @param
+    octaveAdjustment - number
+
+  @returns
+    number
+*/
+export const getOctaveMultiplier = octaveAdjustment => (
+  Math.pow(2, octaveAdjustment)
+);
