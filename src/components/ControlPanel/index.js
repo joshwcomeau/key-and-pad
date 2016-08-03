@@ -50,6 +50,28 @@ class ControlPanel extends Component {
       case 'filter': {
         controls = (
           <div className="effect-controls">
+            <h5>type</h5>
+            <Select
+              clearable={false}
+              searchable={false}
+              value={this.props.effects[axis].options.filterType}
+              className="axis-param-select"
+              onChange={({ value }) => {
+                console.log("Change", value)
+                this.props.tweakAxisParameter({
+                  axis,
+                  options: { filterType: value },
+                })
+              }}
+              options={[
+                { value: 'lowpass', label: 'low pass' },
+                { value: 'highpass', label: 'high pass' },
+                { value: 'bandpass', label: 'band pass' },
+                { value: 'allpass', label: 'all pass' },
+                { value: 'notch', label: 'notch' },
+              ]}
+            />
+
             <h5>resonance (Q)</h5>
             <Slider
               min={0}
@@ -61,9 +83,7 @@ class ControlPanel extends Component {
                 // slow, and doesn't need to be low-latency.
                 this.tweakAxisParameter({
                   axis,
-                  options: {
-                    resonance: val,
-                  },
+                  options: { resonance: val },
                 });
               }}
             />
@@ -85,9 +105,7 @@ class ControlPanel extends Component {
                 // slow, and doesn't need to be low-latency.
                 this.tweakAxisParameter({
                   axis,
-                  options: {
-                    oversample: val,
-                  },
+                  options: { oversample: val },
                 });
               }}
             />
@@ -142,19 +160,6 @@ class ControlPanel extends Component {
           {this.renderWaveformToggles(index)}
         </ButtonToggleGroup>
 
-        <h5>octave</h5>
-        <Slider
-          min={-3}
-          max={3}
-          step={1}
-          value={oscillator.octaveAdjustment}
-          withMidpoint
-          onChange={val => this.props.updateOscillator({
-            index,
-            options: { octaveAdjustment: val }
-          })}
-        />
-
         <h5>gain</h5>
         <Slider
           min={0}
@@ -167,6 +172,19 @@ class ControlPanel extends Component {
           })}
         />
 
+        <h5>octave</h5>
+        <Slider
+          min={-3}
+          max={3}
+          step={1}
+          value={oscillator.octaveAdjustment}
+          withMidpoint
+          className="with-orange-handle"
+          onChange={val => this.props.updateOscillator({
+            index,
+            options: { octaveAdjustment: val }
+          })}
+        />
 
         <h5>detune</h5>
         <Slider
