@@ -44,7 +44,31 @@ avoiding the other effects (distortion and reverb).
 */
 
 export const webAudioManagerFactory = context => {
-  let activeOscillators = [];
+  /*
+  // Store all currently-playing oscillators here.
+  // Shape is:
+  [
+    // All oscillators corresponding to redux Oscillator I
+    [
+      // Each oscillator has the oscillator itself, and its own gain
+      // Oscillators are monophonic, so there will be 1 oscillator per note.
+      {
+        oscillator: oscillatorNode,
+        output: gainNode
+      },
+      {
+        oscillator: oscillatorNode,
+        output: gainNode
+      }
+    ], [
+      // Same shape, but for redux Oscillator II
+    ]
+  ]
+  */
+  let activeOscillators = [
+    [],
+    [],
+  ];
 
   // All of our creation helpers can have the global audio context applied
   // early, to save us some typing.
@@ -59,7 +83,6 @@ export const webAudioManagerFactory = context => {
   const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
 
   // Create some effect nodes
-  // TODO: Better way of setting default effect parameters.
   const effects = {
     filter: createFilter({
       ...effectDefaultOptions.filter,
@@ -98,24 +121,30 @@ export const webAudioManagerFactory = context => {
 
     stopAllOscillators() {
       // TODO: Look into whether I need to kill the gains created for each osc.
-      activeOscillators.forEach(({ oscillator, output }) => {
-        // Add a brief release, to avoid clipping
-        fade({
-          direction: 'out',
-          output,
-          oscillator,
-        })
-      });
+      activeOscillators.forEach(oscillatorArray => {
+        oscillatorArray.forEach(({ oscillator, output }) => {
+          // Add a brief release, to avoid clipping
+          fade({
+            direction: 'out',
+            output,
+            oscillator,
+          })
+        });
 
-      activeOscillators = [];
+        activeOscillators = [
+          [],
+          [],
+        ];
+      });
 
       return this;
     },
 
     createOscillators({ notes, oscillators }) {
       notes.forEach(({ value }) => {
-        oscillators.forEach(({ waveform, gain, detune, octaveAdjustment }) => {
-          // TODO: Handle octaveAdjustment
+        oscillators.forEach((oscillator, index) => {
+          const { waveform, gain, detune, octaveAdjustment } = oscillator;
+
           const output = createGain({
             value: gain,
             output: masterOscillatorOutput,
@@ -136,7 +165,7 @@ export const webAudioManagerFactory = context => {
             maxAmplitude: gain,
           });
 
-          activeOscillators.push({
+          activeOscillators[index].push({
             oscillator: newOscillator,
             output: output
           });
@@ -144,6 +173,22 @@ export const webAudioManagerFactory = context => {
       });
 
       return this;
+    },
+
+    updateOscillators({ oscillators }, { multiplyOctave = false} = {}) {
+      oscillators.forEach((oscillatorData, index) => {
+        activeOscillators[index].forEach(({ oscillator, output }) => {
+
+          console.log("octave multiplier", getOctaveMultiplier(oscillatorData.octaveAdjustment));
+
+          output.gain.value = oscillatorData.gain;
+          oscillator.detune.value = oscillatorData.detune;
+
+          if (multiplyOctave) {
+            oscillator.frequency.value *= getOctaveMultiplier(oscillatorData.octaveAdjustment);
+          }
+        });
+      });
     },
 
     destroyEffectChain({ rerouteOscillators = false } = {}) {

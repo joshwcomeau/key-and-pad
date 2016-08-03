@@ -22,7 +22,7 @@ export const UPDATE_OSCILLATOR = 'OSCILLATORS/UPDATE_OSCILLATOR';
 // ////////////////////////
 // REDUCERS //////////////
 // //////////////////////
-export default function keyboardReducer(state = initialState, action) {
+export default function oscillatorsReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_OSCILLATOR: {
       return state.map((oscillator, index) => {

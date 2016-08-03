@@ -45,14 +45,56 @@ export function reconcile() {
   const soundsUpdated = notesUpdated || oscillatorsUpdated || effectsUpdated;
   if (!soundsUpdated) { return; }
 
+  // In certain circumstances, we want to destroy and rebuild all oscillators.
+  // These circumstances include:
+  //   - when the user plays or releases a note
+  //   - when the user tweaks the "octave" parameter
+  //
+  // In other circumstances, though, we want to mutate the existing oscillators:
+  //   - detune changes
+  //   - gain changes
+  //
+  // The reason is that the latter need to be smooth, as the user may change them
+  // several times a second, and a lot of clicking happens if we destroy and
+  // rebuild the oscillators on every mutation.
+
   // If the notes changed, simply destroy all oscillators and rebuild.
-  if (notesUpdated || oscillatorsUpdated) {
+  if (notesUpdated) {
     WebAudioManager
       .stopAllOscillators()
       .createOscillators(currentState)
   }
 
-  if (effectsUpdated) {
+  else if (oscillatorsUpdated) {
+    // For most properties, it's safe to just apply their transformation
+    // regardless of whether they've changed or not. The exception is
+    // octaveAdjustment.
+    //
+    // Because it multiplies the current oscillator frequency, if we apply
+    // it when it hasn't actually changed, it will continue to multiply the
+    // frequency.
+    //
+    // The solution, then, is to treat it separately. Figure out if this
+    // is an oscillatorADjustment change or not, and act accordingly.
+    const adjustedOctaveOscillator = currentState.oscillators.find(
+      ({ octaveAdjustment }, index) => (
+        octaveAdjustment !== previousState.oscillators[index].octaveAdjustment
+      )
+    );
+
+    if (!!adjustedOctaveOscillator) {
+      console.log("Octave was adjusted", adjustedOctaveOscillator)
+      WebAudioManager.updateOscillators(
+        { oscillators: [adjustedOctaveOscillator] },
+        { multiplyOctave: true }
+      );
+    } else {
+      console.log("Other osc tweak")
+      WebAudioManager.updateOscillators(currentState)
+    }
+  }
+
+  else if (effectsUpdated) {
     const { effects } = currentState;
 
     // First, deal with the effects being toggled on or off (by touching the
