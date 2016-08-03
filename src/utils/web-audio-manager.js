@@ -167,6 +167,7 @@ export const webAudioManagerFactory = context => {
 
           activeOscillators[index].push({
             oscillator: newOscillator,
+            noteValue: value,
             output: output
           });
         });
@@ -175,17 +176,31 @@ export const webAudioManagerFactory = context => {
       return this;
     },
 
-    updateOscillators({ oscillators }, { multiplyOctave = false} = {}) {
-      oscillators.forEach((oscillatorData, index) => {
-        activeOscillators[index].forEach(({ oscillator, output }) => {
+    updateOscillators({ notes, oscillators, effects }) {
+      notes.forEach(({ value }) => {
+        oscillators.forEach(({ gain, detune, octaveAdjustment }, index) => {
+          const activeOscillator = activeOscillators[index].find(osc => (
+            osc.noteValue === value
+          ));
 
-          console.log("octave multiplier", getOctaveMultiplier(oscillatorData.octaveAdjustment));
+          const { oscillator, output } = activeOscillator;
 
-          output.gain.value = oscillatorData.gain;
-          oscillator.detune.value = oscillatorData.detune;
+          oscillator.detune.value = detune;
+          oscillator.frequency.value = toFreq(value) * getOctaveMultiplier(octaveAdjustment);
 
-          if (multiplyOctave) {
-            oscillator.frequency.value *= getOctaveMultiplier(oscillatorData.octaveAdjustment);
+          // If the gain value changes, we actually need to destroy and
+          // rebuild it, otherwise it doesn't take effect until the next
+          // note change.
+          if (output.gain.value !== gain) {
+            activeOscillator.output = createGain({
+              value: gain,
+              output: masterOscillatorOutput,
+            });
+            oscillator.disconnect();
+            oscillator.connect(activeOscillator.output);
+
+            // disconnect the old `output`, so that it can be collected
+            output.disconnect();
           }
         });
       });

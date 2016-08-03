@@ -62,36 +62,11 @@ export function reconcile() {
   if (notesUpdated) {
     WebAudioManager
       .stopAllOscillators()
-      .createOscillators(currentState)
+      .createOscillators(currentState);
   }
 
   else if (oscillatorsUpdated) {
-    // For most properties, it's safe to just apply their transformation
-    // regardless of whether they've changed or not. The exception is
-    // octaveAdjustment.
-    //
-    // Because it multiplies the current oscillator frequency, if we apply
-    // it when it hasn't actually changed, it will continue to multiply the
-    // frequency.
-    //
-    // The solution, then, is to treat it separately. Figure out if this
-    // is an oscillatorADjustment change or not, and act accordingly.
-    const adjustedOctaveOscillator = currentState.oscillators.find(
-      ({ octaveAdjustment }, index) => (
-        octaveAdjustment !== previousState.oscillators[index].octaveAdjustment
-      )
-    );
-
-    if (!!adjustedOctaveOscillator) {
-      console.log("Octave was adjusted", adjustedOctaveOscillator)
-      WebAudioManager.updateOscillators(
-        { oscillators: [adjustedOctaveOscillator] },
-        { multiplyOctave: true }
-      );
-    } else {
-      console.log("Other osc tweak")
-      WebAudioManager.updateOscillators(currentState)
-    }
+    WebAudioManager.updateOscillators(currentState);
   }
 
   else if (effectsUpdated) {
