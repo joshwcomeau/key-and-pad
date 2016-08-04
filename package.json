@@ -51,6 +51,7 @@
     "lodash.invoke": "^4.5.0",
     "lodash.invokemap": "^4.5.0",
     "lodash.omit": "^4.3.0",
+    "lodash.pick": "^4.3.0",
     "lodash.throttle": "^4.1.0",
     "react": "^15.3.0",
     "react-addons-css-transition-group": "^15.3.0",

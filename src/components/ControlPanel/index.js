@@ -113,7 +113,41 @@ class ControlPanel extends Component {
         break;
       }
       case 'reverb': {
-        controls = <div />
+        controls = (
+          <div className="effect-controls">
+            <h5>length</h5>
+            <Slider
+              min={0}
+              max={8}
+              step={0.1}
+              defaultValue={effect.options.time}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: { time: val },
+                });
+              }}
+            />
+
+          <h5>filter cutoff</h5>
+            <Slider
+              min={0}
+              max={20000}
+              step={1}
+              defaultValue={effect.options.cutoff}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: { cutoff: val },
+                });
+              }}
+            />
+          </div>
+        )
         break;
       }
 

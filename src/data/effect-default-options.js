@@ -13,5 +13,6 @@ export default {
     dry: 1,
     wet: 0,
     time: 3,
+    cutoff: 20000,
   },
 };

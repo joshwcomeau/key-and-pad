@@ -84,7 +84,10 @@ export function reconcile() {
         .destroyEffectChain()
         .rebuildEffectChain({ ...currentState.effects });
     } else if (isToggled && !isActive) {
-      WebAudioManager.destroyEffectChain({ rerouteOscillators: true });
+      WebAudioManager.destroyEffectChain({
+        rerouteOscillators: true,
+        softRelease: true,
+      });
     }
 
     // Next, deal with changes to individual axes.

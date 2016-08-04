@@ -71,6 +71,7 @@ export const createFilterWithContext = context => ({
 
   return {
     node: filterNode,
+    sustain: false,
     connect(destination) { filterNode.connect(destination); },
     disconnect() { filterNode.disconnect(); },
   };
@@ -100,6 +101,7 @@ export const createDistortionWithContext = context => ({
 
   return {
     node: distortionNode,
+    sustain: false,
     connect(destination) {
       compressorNode.connect(destination);
       distortionNode.connect(compressorNode);
@@ -121,6 +123,7 @@ export const createDelayWithContext = context => ({ length, output }) => {
 
   return {
     node: delayNode,
+    sustain: true,
     connect(destination) { delayNode.connect(destination); },
     disconnect() { delayNode.disconnect(); },
   };
@@ -137,6 +140,7 @@ export const createReverbWithContext = context => ({ time, dry, wet, output }) =
 
   return {
     node: reverb,
+    sustain: true,
     connect(destination) { reverb.connect(destination); },
     disconnect() { reverb.disconnect(); },
   };

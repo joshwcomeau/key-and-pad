@@ -1,5 +1,6 @@
 import { toFreq } from 'tonal-freq'
-import invokeMap from 'lodash/invokemap';
+import invokeMap from 'lodash.invokemap';
+import pick from 'lodash.pick'
 
 import {
   fadeWithContext,
@@ -206,11 +207,15 @@ export const webAudioManagerFactory = context => {
       });
     },
 
-    destroyEffectChain({ rerouteOscillators = false } = {}) {
+    destroyEffectChain({ rerouteOscillators = false, softRelease = false } = {}) {
+      const effectsToDisconnect = softRelease
+        ? pick(effects, { sustain: false })
+        : effects;
+
       // We don't actually need to destroy anything, we just need to
       // disconnect all audio. This will render the output silent,
       // so a new effect chain should be rebuilt ASAP.
-      invokeMap(effects, 'disconnect');
+      invokeMap(effectsToDisconnect, 'disconnect');
       masterOscillatorOutput.disconnect();
 
       // If we are releasing the effects, point our masterOscillatorOutput
@@ -264,8 +269,6 @@ export const webAudioManagerFactory = context => {
         case 'reverb': {
           effects.reverb.node.wet.value = amount;
           effects.reverb.node.dry.value = 1 - amount * 0.25;
-          console.log('wet', effects.reverb.node.wet.value)
-          console.log('dry', effects.reverb.node.dry)
           break;
         }
         default: {
@@ -284,6 +287,11 @@ export const webAudioManagerFactory = context => {
 
         case 'distortion':
           effects.distortion.node.oversample = getDistortionOversample(options);
+          break;
+
+        case 'reverb':
+          effects.reverb.node.time = options.time;
+          effects.reverb.node.cutoff.value = options.cutoff;
           break;
 
         default: {
