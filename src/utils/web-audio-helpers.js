@@ -69,7 +69,11 @@ export const createFilterWithContext = context => ({
   filterNode.Q.value = resonance;
   filterNode.connect(output);
 
-  return filterNode;
+  return {
+    node: filterNode,
+    connect(destination) { filterNode.connect(destination); },
+    disconnect() { filterNode.disconnect(); },
+  };
 };
 
 export const createDistortionWithContext = context => ({
@@ -78,17 +82,36 @@ export const createDistortionWithContext = context => ({
   output,
 }) => {
   const distortionNode = context.createWaveShaper();
-
-  // Create an update method so that it can be updated externally.
-  distortionNode.updateCurve = amount => {
-    distortionNode.curve = calculateDistortionCurve(context, amount);
-  }
-
   distortionNode.oversample = oversample;
-  distortionNode.connect(output);
-  distortionNode.updateCurve(amount);
 
-  return distortionNode;
+  // We also want to route the distortionNode through a compressor.
+  // This is because distortion can get FUCKING LOUD, and I don't wish to
+  // deafen users :)
+  const compressorNode = context.createDynamicsCompressor();
+  compressorNode.threshold.value = -20;
+  compressorNode.knee.value = 0;
+  compressorNode.ratio.value = 3;
+  compressorNode.reduction.value = 15;
+  compressorNode.attack.value = 0;
+  compressorNode.release.value = 0.25;
+  compressorNode.connect(output);
+
+  distortionNode.connect(compressorNode);
+
+  return {
+    node: distortionNode,
+    connect(destination) {
+      compressorNode.connect(destination);
+      distortionNode.connect(compressorNode);
+    },
+    disconnect() {
+      compressorNode.disconnect();
+      distortionNode.disconnect();
+    },
+    updateCurve(amount) {
+      distortionNode.curve = calculateDistortionCurve(context, amount);
+    },
+  };
 }
 
 export const createDelayWithContext = context => ({ length, output }) => {
@@ -96,7 +119,11 @@ export const createDelayWithContext = context => ({ length, output }) => {
 
   delayNode.connect(output);
 
-  return delayNode;
+  return {
+    node: delayNode,
+    connect(destination) { delayNode.connect(destination); },
+    disconnect() { delayNode.disconnect(); },
+  };
 }
 
 export const createReverbWithContext = context => ({ time, dry, wet, output }) => {
@@ -108,7 +135,11 @@ export const createReverbWithContext = context => ({ time, dry, wet, output }) =
   reverb.dry.value = dry;
   reverb.wet.value = wet;
 
-  return reverb;
+  return {
+    node: reverb,
+    connect(destination) { reverb.connect(destination); },
+    disconnect() { reverb.disconnect(); },
+  };
 }
 
 export const getLogarithmicFrequencyValueWithContext = context => n => {

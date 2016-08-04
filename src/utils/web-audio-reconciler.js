@@ -108,9 +108,7 @@ export function reconcile() {
       // If the effect itself was swapped out, we need to destroy the effect
       // chain and recreate it
       if (effectNameChanged) {
-        WebAudioManager
-          .destroyEffectChain()
-          .rebuildEffectChain({ ...currentState.effects });
+        WebAudioManager.destroyEffectChain({ rerouteOscillators: true });
       }
 
       // If the effect's parameters were tweaked, update it

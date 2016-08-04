@@ -210,7 +210,8 @@ export const webAudioManagerFactory = context => {
       // We don't actually need to destroy anything, we just need to
       // disconnect all audio. This will render the output silent,
       // so a new effect chain should be rebuilt ASAP.
-      invokeMap([...effects, masterOscillatorOutput], 'disconnect');
+      invokeMap(effects, 'disconnect');
+      masterOscillatorOutput.disconnect();
 
       // If we are releasing the effects, point our masterOscillatorOutput
       // to the context's default destination.
@@ -230,11 +231,11 @@ export const webAudioManagerFactory = context => {
       // IF both axes are part of the same effect (eg. filter res/freq),
       // then obviously it is just routed through one effect.
       if (xEffect === yEffect) {
-        masterOscillatorOutput.connect(xEffect);
+        masterOscillatorOutput.connect(xEffect.node);
         xEffect.connect(context.destination);
       } else {
-        masterOscillatorOutput.connect(xEffect);
-        xEffect.connect(yEffect);
+        masterOscillatorOutput.connect(xEffect.node);
+        xEffect.connect(yEffect.node);
         yEffect.connect(context.destination);
       }
 
@@ -249,7 +250,7 @@ export const webAudioManagerFactory = context => {
       // makes sense.
       switch (name) {
         case 'filter': {
-          effects.filter.frequency.value = getLogarithmicFrequencyValue(amount);
+          effects.filter.node.frequency.value = getLogarithmicFrequencyValue(amount);
           break;
         }
         case 'distortion': {
@@ -257,12 +258,12 @@ export const webAudioManagerFactory = context => {
           break;
         }
         case 'delay': {
-          effects.delay.delayTime.value = amount * 10;
+          effects.delay.node.delayTime.value = amount * 10;
           break;
         }
         case 'reverb': {
-          effects.reverb.wet.value = amount;
-          effects.reverb.dry.value = -(amount*0.5);
+          effects.reverb.node.wet.value = amount;
+          effects.reverb.node.dry.value = -(amount*0.5);
           break;
         }
         default: {
@@ -274,13 +275,13 @@ export const webAudioManagerFactory = context => {
     updateEffectParameters({ name, options }) {
       switch (name) {
         case 'filter': {
-          effects.filter.type = options.filterType;
-          effects.filter.Q.value = options.resonance;
+          effects.filter.node.type = options.filterType;
+          effects.filter.node.Q.value = options.resonance;
           break;
         }
 
         case 'distortion':
-          effects.distortion.oversample = getDistortionOversample(options);
+          effects.distortion.node.oversample = getDistortionOversample(options);
           break;
 
         default: {

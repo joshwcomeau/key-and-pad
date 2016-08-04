@@ -57,7 +57,6 @@ class ControlPanel extends Component {
               value={this.props.effects[axis].options.filterType}
               className="axis-param-select"
               onChange={({ value }) => {
-                console.log("Change", value)
                 this.props.tweakAxisParameter({
                   axis,
                   options: { filterType: value },

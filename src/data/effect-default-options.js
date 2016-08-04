@@ -11,7 +11,7 @@ export default {
   },
   reverb: {
     dry: 1,
-    wet: 1,
+    wet: 0,
     time: 3,
   },
 };
