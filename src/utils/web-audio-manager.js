@@ -263,7 +263,9 @@ export const webAudioManagerFactory = context => {
         }
         case 'reverb': {
           effects.reverb.node.wet.value = amount;
-          effects.reverb.node.dry.value = -(amount*0.5);
+          effects.reverb.node.dry.value = 1 - amount * 0.25;
+          console.log('wet', effects.reverb.node.wet.value)
+          console.log('dry', effects.reverb.node.dry)
           break;
         }
         default: {
