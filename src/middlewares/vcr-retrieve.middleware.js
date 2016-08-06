@@ -57,14 +57,11 @@ const vcrRetrieveMiddleware = store => next => action => {
 };
 
 function playActions([action, ...restOfActions], next) {
-  // Play the first action in the List
   next(action);
-
-  const durationUntilNextAction = restOfActions[0].delay;
 
   window.setTimeout(
     () => playActions(restOfActions, next),
-    durationUntilNextAction
+    restOfActions[0].delay
   );
 }
 
