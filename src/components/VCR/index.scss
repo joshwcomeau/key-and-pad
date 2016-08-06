@@ -31,15 +31,32 @@ $neon-green: #65e41f;
     border-radius: 10px 10px 3px 3px;
   }
 
+  .vcr-button {
+    padding: 2px 10px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0px 0px 1px rgba(0,0,0,0.8);
+    border-radius: 3px;
+    cursor: pointer;
+
+    &.eject-button {
+      position: absolute;
+      top: 14px;
+      left: 21px;
+    }
+  }
+
   .casette-slot {
     position: absolute;
     top: 5px;
     left: 75px;
     height: 40px;
     line-height: 40px;
-    width: 225px;
+    width: 255px;
     cursor: pointer;
-    border: 2px solid rgba(0,0,0,0.2);
+    border-top: 2px solid rgba(0,0,0,0.2);
+    border-left: 1px solid rgba(0,0,0,0.2);
+    border-right: 1px solid rgba(0,0,0,0.2);
+    border-bottom: 2px solid rgba(0,0,0,0.2);
     border-radius: 2px;
     text-transform: uppercase;
     font-size: 14px;
@@ -73,11 +90,10 @@ $neon-green: #65e41f;
     left: 80px;
     height: 30px;
     line-height: 30px;
-    width: 215px;
+    width: 245px;
     background: rgba(0,0,0,0.5);
     color: $neon-green;
     font-family: "Lucida Console", Monaco5, monospace;
-    text-align: center;
     font-size: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -98,31 +114,59 @@ $neon-green: #65e41f;
     }
   }
 
-  .vcr-foot {
+  .primary-action-buttons {
     position: absolute;
-    bottom: -4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 12px;
+    top: 6px;
+
+    .play-button {
+      position: relative;
+      z-index: 2;
+      border-radius: 100%;
+      padding: 5px;
+      background: $darkgray;
+      border-top: 1px solid rgba(255,255,255,0.4);
+      border-bottom: 1px solid rgba(0,0,0,0.6);
+
+    }
+
+    .fast-rewind-button {
+      position: relative;
+      z-index: 1;
+      transform: translateX(5px);
+    }
+
+    .fast-forward-button {
+      position: relative;
+      z-index: 1;
+      transform: translateX(-5px);
+    }
+  }
+
+  .power-light {
+    position: absolute;
+    right: 9px;
+    bottom: 9px;
+    width: 12px;
     height: 4px;
-    width: 45px;
-    border-radius: 0 0 4px 4px;
-    background: $black;
-
-    &.vcr-foot-left {
-      left: 4%;
-    }
-
-    &.vcr-foot-right {
-      right: 4%;
-    }
+    border-radius: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0px 0px 2px rgba(0,0,0,0.9);
+    animation: glow 2s infinite
   }
 
   .decorative-outputs {
     position: absolute;
-    left: 8px;
-    bottom: 8px;
+    left: 11px;
+    bottom: 5px;
     border-radius: 30px;
     background: rgba(0,0,0,0.3);
     padding: 4px;
     display: flex;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
 
     .decorative-output {
       position: relative;
@@ -162,6 +206,28 @@ $neon-green: #65e41f;
         background: $rca-white;
       }
     }
-
   }
+
+  .vcr-foot {
+    position: absolute;
+    bottom: -4px;
+    height: 4px;
+    width: 45px;
+    border-radius: 0 0 4px 4px;
+    background: $black;
+
+    &.vcr-foot-left {
+      left: 4%;
+    }
+
+    &.vcr-foot-right {
+      right: 4%;
+    }
+  }
+}
+
+@keyframes glow {
+  0% { background: $neon-green; }
+  50% { background: #51942d; }
+  100% { background: $neon-green; }
 }
