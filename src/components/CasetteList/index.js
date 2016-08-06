@@ -6,7 +6,6 @@ import './index.scss';
 
 
 const CasetteList = ({ casettes = {} } = {}) => {
-  console.log("Casette List given", casettes)
   const casetteIds = Object.keys(casettes);
 
   return (

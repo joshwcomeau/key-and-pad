@@ -2,7 +2,7 @@ import vcrDataHandler from '../utils/vcr-data-handler';
 import {
   CASETTES_LIST_REQUEST,
   SELECT_CASETTE,
-  PLAY,
+  TOGGLE_PLAY,
   casetteActionsReceive,
   casettesListReceive
 } from '../ducks/vcr-player.duck';
@@ -43,11 +43,24 @@ const vcrRetrieveMiddleware = store => next => action => {
       return;
     }
 
-    case PLAY: {
-      const state = store.getState().vcrPlayer;
-      const relevantActions = state.actions[state.selectedCasette];
+    case TOGGLE_PLAY: {
+      // Dispatch the action right away, so that it updates our state.
+      // This is how we know whether this is a 'PLAY' or 'PAUSE' action.
+      next(action);
 
-      playActions(relevantActions, next);
+      const state = store.getState().vcrPlayer;
+      const actions = state.actions[state.selectedCasette];
+      const { isPlaying } = state;
+
+      if (isPlaying) {
+        return playActions({
+          store,
+          next,
+          actions,
+        });
+      }
+
+      return;
     }
 
     default: {
@@ -56,13 +69,21 @@ const vcrRetrieveMiddleware = store => next => action => {
   }
 };
 
-function playActions([action, ...restOfActions], next) {
+function playActions({ store, next, actions }) {
+  const [action, ...restOfActions] = actions;
+
   next(action);
 
-  window.setTimeout(
-    () => playActions(restOfActions, next),
-    restOfActions[0].delay
-  );
+  const { isPlaying } = store.getState().vcrPlayer;
+
+  console.log("Playing", isPlaying)
+
+  if (isPlaying) {
+    window.setTimeout(
+      () => playActions({ store, next, actions: restOfActions }),
+      restOfActions[0].delay
+    );
+  }
 }
 
-export default vcrRetrieveMiddleware
+export default vcrRetrieveMiddleware;

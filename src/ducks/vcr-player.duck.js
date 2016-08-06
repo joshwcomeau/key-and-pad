@@ -1,6 +1,8 @@
 const initialState = {
   casettes: {},
   actions: {},
+  selectedCasette: null,
+  isPlaying: false,
 };
 
 
@@ -12,7 +14,7 @@ export const CASETTES_LIST_RECEIVE = 'VCR_PLAYER/CASETTES_LIST_RECEIVE';
 export const CASETTES_LIST_FAILURE = 'VCR_PLAYER/CASETTES_LIST_FAILURE';
 export const SELECT_CASETTE = 'VCR_PLAYER/SELECT_CASETTE';
 export const CASETTE_ACTIONS_RECEIVE = 'VCR_PLAYER/CASETTE_ACTIONS_RECEIVE';
-export const PLAY = 'VCR_PLAYER/PLAY';
+export const TOGGLE_PLAY = 'VCR_PLAYER/TOGGLE_PLAY';
 
 // ////////////////////////
 // REDUCERS //////////////
@@ -53,6 +55,14 @@ export default function vcrPlayerReducer(state = initialState, action) {
       }
     }
 
+    case TOGGLE_PLAY: {
+      console.log("Toggled play reducer", state.isPlaying)
+      return {
+        ...state,
+        isPlaying: !state.isPlaying,
+      }
+    }
+
     default:
       return state;
   }
@@ -82,6 +92,6 @@ export const casetteActionsReceive = ({ id, casetteActions }) => ({
   casetteActions,
 });
 
-export const play = () => ({
-  type: PLAY,
+export const togglePlay = () => ({
+  type: TOGGLE_PLAY,
 });

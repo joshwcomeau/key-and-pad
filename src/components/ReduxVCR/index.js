@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import {
   casettesListRequest,
   selectCasette,
-  play ,
+  togglePlay,
 } from '../../ducks/vcr-player.duck';
 import VCR from '../VCR';
 import CasetteList from '../CasetteList';
@@ -23,13 +23,13 @@ class ReduxVCR extends Component {
   }
 
   render() {
-    const { position, casettes, play } = this.props;
+    const { position, casettes, togglePlay } = this.props;
 
     const classes = classNames('redux-vcr-component', position);
 
     return (
       <div className={classes}>
-        <VCR handleClickPlay={play} />
+        <VCR handleClickPlay={togglePlay} />
         <CasetteList casettes={casettes} />
       </div>
     );
@@ -59,6 +59,6 @@ export default connect(
   {
     casettesListRequest,
     selectCasette,
-    play,
+    togglePlay,
   }
 )(ReduxVCR);
