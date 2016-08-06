@@ -22,8 +22,6 @@ class VCR extends Component {
   }
 
   render() {
-    const { position } = this.props;
-
     return (
       <div className="vcr">
         <div className="vcr-top-edge" />
@@ -73,16 +71,9 @@ class VCR extends Component {
 }
 
 VCR.propTypes = {
-  position: PropTypes.oneOf([
-    'top-left',
-    'top-right',
-    'bottom-left',
-    'bottom-right',
-  ]),
 };
 
 VCR.defaultProps = {
-  position: 'bottom-left',
 };
 
 export default VCR;

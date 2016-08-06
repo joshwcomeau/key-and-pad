@@ -3,8 +3,8 @@ import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from '../reducers';
 import onboardingSaga from '../sagas/onboarding.saga';
-import vcrMiddleware from '../middlewares/vcr.middleware'
-import vcrPersist from '../utils/vcr-persist';
+import vcrPersistMiddleware from '../middlewares/vcr-persist.middleware';
+import vcrRetrieveMiddleware from '../middlewares/vcr-retrieve.middleware';
 
 import DevTools from '../components/DevTools';
 
@@ -14,7 +14,8 @@ export default function configureStore() {
 
   const middlewares = [
     sagaMiddleware,
-    vcrMiddleware(vcrPersist),
+    vcrPersistMiddleware,
+    vcrRetrieveMiddleware,
   ];
 
   const store = createStore(
@@ -35,6 +36,7 @@ export default function configureStore() {
 
 function wrapReducer(reducer) {
   return (state = {}, action) => {
+    console.log(state, action)
     switch(action.type) {
       // When our special action is dispatched, we want to re-initialize
       // the state, so that our casette can be played from a blank state.

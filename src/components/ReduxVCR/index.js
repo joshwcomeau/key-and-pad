@@ -1,18 +1,31 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
+
+import { casettesListRequest } from '../../ducks/vcr-player.duck';
+import VCR from '../VCR';
+import CasetteList from '../CasetteList';
+
 import './index.scss';
 
-import VCR from '../VCR';
 
-const ReduxVCR = ({ position }) => {
-  const classes = classNames('redux-vcr-component', position);
+class ReduxVCR extends Component {
+  componentDidMount() {
+    this.props.casettesListRequest();
+  }
 
-  return (
-    <div className={classes}>
-      <VCR />
-      <CasetteList
-    </div>
-  )
+  render() {
+    const { position } = this.props;
+
+    const classes = classNames('redux-vcr-component', position);
+
+    return (
+      <div className={classes}>
+        <VCR />
+        <CasetteList />
+      </div>
+    );
+  }
 }
 
 ReduxVCR.propTypes = {
@@ -28,4 +41,6 @@ ReduxVCR.defaultProps = {
   position: 'bottom-left',
 };
 
-export default ReduxVCR;
+
+
+export default connect(null, { casettesListRequest })(ReduxVCR);
