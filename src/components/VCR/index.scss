@@ -1,22 +1,10 @@
-$white: #FFF;
-$offwhite: #f4f7f8;
-$verylightgray: #d5e0e4;
-$lightgray: #becbcd;
-$mediumgray: #606667;
-$darkgray: #2f3233;
-$black: #111212;
+@import '../../vcr-variables';
 
-$rca-yellow: #f1ce0e;
-$rca-red: #f11e0e;
-$rca-white: #f7f0ef;
-
-$neon-green: #65e41f;
-
-.vcr {
+.redux-vcr-component .vcr {
   position: relative;
   background: $darkgray;
-  width: 450px;
-  height: 90px;
+  width: 550px;
+  height: 100px;
   border-radius: 3px;
   color: $white;
   border-top: 5px solid $mediumgray;
@@ -40,9 +28,9 @@ $neon-green: #65e41f;
     position: absolute;
     top: 5px;
     left: 75px;
-    height: 40px;
-    line-height: 34px;
-    width: 255px;
+    height: 50px;
+    line-height: 44px;
+    width: 355px;
   }
 
   .casette-slot-door {
@@ -125,7 +113,7 @@ $neon-green: #65e41f;
     left: 80px;
     height: 30px;
     line-height: 30px;
-    width: 245px;
+    width: 345px;
     background: rgba(0,0,0,0.5);
     color: $neon-green;
     font-family: "Lucida Console", Monaco5, monospace;

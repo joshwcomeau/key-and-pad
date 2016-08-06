@@ -23,14 +23,14 @@ class ReduxVCR extends Component {
   }
 
   render() {
-    const { position, play } = this.props;
+    const { position, casettes, play } = this.props;
 
     const classes = classNames('redux-vcr-component', position);
 
     return (
       <div className={classes}>
         <VCR handleClickPlay={play} />
-        <CasetteList />
+        <CasetteList casettes={casettes} />
       </div>
     );
   }
@@ -49,6 +49,16 @@ ReduxVCR.defaultProps = {
   position: 'bottom-left',
 };
 
+const mapStateToProps = state => ({
+  casettes: state.vcrPlayer.casettes,
+})
 
 
-export default connect(null, { casettesListRequest, selectCasette, play })(ReduxVCR);
+export default connect(
+  mapStateToProps,
+  {
+    casettesListRequest,
+    selectCasette,
+    play,
+  }
+)(ReduxVCR);

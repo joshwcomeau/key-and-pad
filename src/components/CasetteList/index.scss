@@ -1,3 +1,7 @@
-.casette-list {
-
+.redux-vcr-component .casette-list {
+  position: absolute;
+  left: 0;
+  top: -200px;
+  display: flex;
+  flex-direction: column-reverse;
 }
