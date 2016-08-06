@@ -8,7 +8,7 @@ import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
 import FeatureHighlight from '../FeatureHighlight';
 import DevTools from '../DevTools';
-import VCR from '../VCR';
+import ReduxVCR from '../ReduxVCR';
 
 
 import {
@@ -132,7 +132,7 @@ const App = ({
     </FeatureHighlight>
 
     <DevTools />
-    <VCR />
+    <ReduxVCR />
   </div>
 );
 
