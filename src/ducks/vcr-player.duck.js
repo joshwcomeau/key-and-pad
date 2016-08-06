@@ -1,5 +1,6 @@
 const initialState = {
-  casettes: [],
+  casettes: {},
+  actions: {},
 };
 
 
@@ -7,9 +8,11 @@ const initialState = {
 // ACTION TYPES //////////
 // //////////////////////
 export const CASETTES_LIST_REQUEST = 'VCR_PLAYER/CASETTES_LIST_REQUEST';
-export const CASETTES_LIST_SUCCESS = 'VCR_PLAYER/CASETTES_LIST_SUCCESS';
+export const CASETTES_LIST_RECEIVE = 'VCR_PLAYER/CASETTES_LIST_RECEIVE';
 export const CASETTES_LIST_FAILURE = 'VCR_PLAYER/CASETTES_LIST_FAILURE';
-
+export const SELECT_CASETTE = 'VCR_PLAYER/SELECT_CASETTE';
+export const CASETTE_ACTIONS_RECEIVE = 'VCR_PLAYER/CASETTE_ACTIONS_RECEIVE';
+export const PLAY = 'VCR_PLAYER/PLAY';
 
 // ////////////////////////
 // REDUCERS //////////////
@@ -21,7 +24,7 @@ export default function vcrPlayerReducer(state = initialState, action) {
       return state;
     }
 
-    case CASETTES_LIST_SUCCESS: {
+    case CASETTES_LIST_RECEIVE: {
       return {
         ...state,
         casettes: action.casettes,
@@ -29,8 +32,25 @@ export default function vcrPlayerReducer(state = initialState, action) {
     }
 
     case CASETTES_LIST_FAILURE: {
-      console.error("Failed to receive casettes :(")
+      console.error("Failed to receive casettes :(");
       return state;
+    }
+
+    case CASETTE_ACTIONS_RECEIVE: {
+      return {
+        ...state,
+        actions: {
+          ...state.actions,
+          [action.id]: action.casetteActions,
+        }
+      }
+    }
+
+    case SELECT_CASETTE: {
+      return {
+        ...state,
+        selectedCasette: action.id
+      }
     }
 
     default:
@@ -44,4 +64,24 @@ export default function vcrPlayerReducer(state = initialState, action) {
 // //////////////////////
 export const casettesListRequest = () => ({
   type: CASETTES_LIST_REQUEST,
-})
+});
+
+export const casettesListReceive = ({ casettes }) => ({
+  type: CASETTES_LIST_RECEIVE,
+  casettes,
+});
+
+export const selectCasette = ({ id }) => ({
+  type: SELECT_CASETTE,
+  id,
+});
+
+export const casetteActionsReceive = ({ id, casetteActions }) => ({
+  type: CASETTE_ACTIONS_RECEIVE,
+  id,
+  casetteActions,
+});
+
+export const play = () => ({
+  type: PLAY,
+});

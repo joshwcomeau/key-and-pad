@@ -51,10 +51,11 @@ const vcrDataHandler = {
   },
 
   retrieveList() {
-    console.log("Retrieving list!")
-    firebase.database().ref(`casettes`).once('value').then(snapshot => {
-      console.log("Snapshot!", snapshot.val())
-    })
+    return firebase.database().ref('casettes').once('value');
+  },
+
+  retrieveAction({ id }) {
+    return firebase.database().ref(`actions/${id}`).once('value');
   }
 };
 

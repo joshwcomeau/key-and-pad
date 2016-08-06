@@ -46,7 +46,13 @@ class VCR extends Component {
             <Icon value="fast_rewind" color="#f4f7f8" size={12} />
           </div>
 
-          <div className="vcr-button play-button">
+          <div
+            className="vcr-button play-button"
+            onClick={() => {
+              console.log("Click!")
+              this.props.handleClickPlay()
+            }}
+          >
             <Icon value="play" color="#f4f7f8" size={24} />
           </div>
 
@@ -71,6 +77,7 @@ class VCR extends Component {
 }
 
 VCR.propTypes = {
+  handleClickPlay: PropTypes.func.isRequired,
 };
 
 VCR.defaultProps = {

@@ -11,12 +11,18 @@ PLAYER
 wrap-reducer
 vcr-player-duck
 Icon (along with all used icon SVGs)
+vcr-retrieve.middleware.js
+components/ReduxVCR
+components/VCR
+components/CasetteList
+components/Casette
 
 PERSIST
-vcr-persist.js
+vcr-persist.middleware.js
+vcr-data-handler.js
 
 CAPTURE
-vcr.middleware.js
+vcr-data-handler.js
 
 
 CAPTURE
