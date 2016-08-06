@@ -53,6 +53,7 @@
     "lodash.omit": "^4.3.0",
     "lodash.pick": "^4.3.0",
     "lodash.throttle": "^4.1.0",
+    "node-uuid": "^1.4.7",
     "react": "^15.3.0",
     "react-addons-css-transition-group": "^15.3.0",
     "react-dom": "^15.3.0",
