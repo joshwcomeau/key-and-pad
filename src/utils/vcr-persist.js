@@ -1,7 +1,10 @@
-import firebase from "firebase/app";
+import firebase from 'firebase/app';
+import debounce from 'lodash.debounce'
+
 import 'firebase/database';
 
 let database;
+
 
 export default {
   initialize() {
@@ -14,6 +17,10 @@ export default {
 
     firebase.initializeApp(config);
     database = firebase.database();
+
+    // Debounce our `persist` method, to avoid spamming firebase whenever
+    // a small change happens
+    this.persist = debounce(this.persist, 1000);
   },
 
   persist(casette) {
