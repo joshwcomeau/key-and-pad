@@ -44,19 +44,10 @@ const vcrRetrieveMiddleware = store => next => action => {
     }
 
     case PLAY: {
-      // This is where the magic happens!
-      let actionIndex = 0;
+      const state = store.getState().vcrPlayer;
+      const relevantActions = state.actions[state.selectedCasette];
 
-      window.setInterval(() => {
-        const { selectedCasette, actions } = store.getState().vcrPlayer;
-        const relevantActions = actions[selectedCasette];
-
-        const nextAction = relevantActions[actionIndex];
-
-        next(nextAction);
-
-        actionIndex++;
-      }, 1000);
+      playActions(relevantActions, next);
     }
 
     default: {
@@ -64,5 +55,17 @@ const vcrRetrieveMiddleware = store => next => action => {
     }
   }
 };
+
+function playActions([action, ...restOfActions], next) {
+  // Play the first action in the List
+  next(action);
+
+  const durationUntilNextAction = restOfActions[0].delay;
+
+  window.setTimeout(
+    () => playActions(restOfActions, next),
+    durationUntilNextAction
+  );
+}
 
 export default vcrRetrieveMiddleware

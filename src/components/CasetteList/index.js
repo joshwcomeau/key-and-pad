@@ -6,7 +6,7 @@ import './index.scss';
 const CasetteList = () => {
   return (
     <div className="casette-list">
-      Casette List
+
     </div>
   )
 }

@@ -48,10 +48,7 @@ class VCR extends Component {
 
           <div
             className="vcr-button play-button"
-            onClick={() => {
-              console.log("Click!")
-              this.props.handleClickPlay()
-            }}
+            onClick={this.props.handleClickPlay}
           >
             <Icon value="play" color="#f4f7f8" size={24} />
           </div>
