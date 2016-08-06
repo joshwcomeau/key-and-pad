@@ -33,7 +33,6 @@ export default function configureStore() {
   return store;
 }
 
-
 function wrapReducer(reducer) {
   return (state = {}, action) => {
     switch(action.type) {
