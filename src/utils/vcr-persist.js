@@ -4,6 +4,7 @@ import debounce from 'lodash.debounce'
 import 'firebase/database';
 
 let database;
+const sessionStart = Date.now();
 
 
 export default {
@@ -26,6 +27,34 @@ export default {
   persist(casette) {
     const { id, actions } = casette;
 
-    database.ref(`casettes/${id}`).set(actions);
+    // For efficiency, we want our firebase structure to look like:
+    /*
+      {
+        casettes: {
+          abc123: { timestamp: 123456789, numOfActions: 200 },
+          xyz789: { ... }
+        ],
+        actions: {
+          abc123: [
+            {
+              time: 100,
+              action: {
+                // Redux action
+                type: 'DO_THING',
+                payload: { ... }
+              }
+            }
+          ],
+          xyz789: [ ... ],
+        },
+      }
+    */
+
+    database.ref(`casettes/${id}`).set({
+      timestamp: sessionStart,
+      numOfActions: actions.length,
+    });
+
+    database.ref(`actions/${id}`).set(actions);
   },
 };
