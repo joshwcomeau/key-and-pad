@@ -1,23 +1,26 @@
 import uuid from 'node-uuid';
 
-const vcrMiddleware = store => {
-  const startTime = getCurrentTime();
-  const casette = {
-    // TODO: Allow for custom ID?
-    id: uuid.v4(),
-    actions: [],
-  };
+const vcrMiddleware = persistor => {
+  persistor.initialize();
 
-  return next => action => {
-    casette.actions.push({
-      ...action,
-      time: getCurrentTime() - startTime,
-    });
+  return store => {
+    const startTime = getCurrentTime();
+    const casette = {
+      // TODO: Allow for custom ID?
+      id: uuid.v4(),
+      actions: [],
+    };
 
-    console.log(casette);
+    return next => action => {
+      casette.actions.push({
+        ...action,
+        time: getCurrentTime() - startTime,
+      });
 
+      persistor.persist(casette);
 
-    return next(action);
+      return next(action);
+    };
   };
 };
 

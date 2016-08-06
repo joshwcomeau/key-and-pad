@@ -42,6 +42,7 @@
   "dependencies": {
     "babel-polyfill": "^6.9.1",
     "classnames": "^2.2.5",
+    "firebase": "^3.2.1",
     "keycode": "^2.1.2",
     "lodash.curry": "^4.1.0",
     "lodash.debounce": "^4.0.7",
