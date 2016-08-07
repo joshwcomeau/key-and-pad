@@ -2,6 +2,7 @@
 
 .redux-vcr-component .vcr {
   position: relative;
+  z-index: 2;
   background: $darkgray;
   width: 550px;
   height: 100px;

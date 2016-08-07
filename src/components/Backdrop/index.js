@@ -8,14 +8,18 @@ const Backdrop = ({ isShown, animation, opacity, color }) => {
 
   if (isShown) {
     backdropMarkup = (
-      <div key="bd" className="backdrop-wrapper">
+      <span key="bd">
         <div className="backdrop" style={{ opacity, background: color }} />
-      </div>
+      </span>
     );
   }
 
   return (
-    <FlipMove enterAnimation={animation} leaveAnimation={animation}>
+    <FlipMove
+      enterAnimation={animation}
+      leaveAnimation={animation}
+      className="backdrop-wrapper"
+    >
       {isShown ? backdropMarkup : <div />}
     </FlipMove>
   );

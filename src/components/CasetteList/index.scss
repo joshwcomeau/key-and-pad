@@ -1,7 +1,13 @@
 .redux-vcr-component .casette-list {
-  position: absolute;
+  position: fixed;
+  z-index: 3;
+  top: 130px;
   left: 0;
-  top: -200px;
+  right: 0;
+  bottom: 130px;
+  width: 100%;
   display: flex;
   flex-direction: column-reverse;
+  align-items: center;
+  justify-content: center;
 }
