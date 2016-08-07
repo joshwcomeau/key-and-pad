@@ -6,10 +6,8 @@
   background: $darkgray;
   width: 550px;
   height: 100px;
-  border-radius: 3px;
   color: $white;
-  border-top: 5px solid $mediumgray;
-  border-radius: 10px 10px 3px 3px;
+  border-radius: 8px 8px 5px 5px;
 
   .vcr-button {
     padding: 2px 10px;
@@ -243,6 +241,29 @@
     }
   }
 
+  .vcr-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    border-radius: 8px 8px 5px 5px;
+    background: $darkgray;
+  }
+
+  .vcr-top {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    top: -26px;
+    z-index: -1;
+    background: lighten($darkgray, 13%);
+    border-radius: 4px;
+    transform: perspective(250px) rotateX(45deg);
+    transform-origin: bottom center;
+  }
+
   .vcr-top-edge {
     position: absolute;
     top: -1px;
@@ -250,7 +271,7 @@
     right: 0;
     height: 5px;
     border-radius: 5px 5px 0 0;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(255,255,255,0.05);
   }
 
   .vcr-foot {

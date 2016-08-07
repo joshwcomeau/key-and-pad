@@ -13,7 +13,7 @@ $spool-size: 60px;
   height: $spine-height;
   margin: 1px;
   background: $darkgray;
-  border-radius: 0 0 3px 3px;
+  border-radius: 1px 1px 2px 2px;
   cursor: default;
 
   .front {
@@ -22,7 +22,7 @@ $spool-size: 60px;
     left: 0;
     width: 100%;
     height: $front-height;
-    background: darken($darkgray, 10%);
+    background: lighten($darkgray, 10%);
     transform: translateY(-100%) perspective(200px) rotateX(60deg);
     transform-origin: bottom center;
 
@@ -32,7 +32,7 @@ $spool-size: 60px;
       left: 0;
       right: 0;
       height: $front-height * 0.25;
-      background: rgba(255,255,255,0.05);
+      background: rgba(0,0,0,0.05);
       border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
@@ -66,7 +66,7 @@ $spool-size: 60px;
         bottom: 0;
         margin: auto;
         border-radius: 100%;
-        border: 20px solid $mediumgray;
+        border: 20px solid $darkgray;
       }
     }
   }
