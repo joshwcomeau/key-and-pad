@@ -47,7 +47,7 @@ class ReduxVCR extends Component {
           handleClickSlot={viewCasettes}
           handleClickScreen={viewCasettes}
         />
-        { isSelectingCasette ? <CasetteList casettes={casettes} /> : null }
+        { isSelectingCasette ? <CasetteList /> : null }
         <Backdrop
           isShown={isSelectingCasette}
           opacity={0.9}

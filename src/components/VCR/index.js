@@ -79,7 +79,10 @@ class VCR extends Component {
 
     return (
       <div className="vcr">
+
+        <div className="vcr-top" />
         <div className="vcr-top-edge" />
+        <div className="vcr-bg" />
         <div className="vcr-button eject-button">
           <Icon value="eject" color="#f4f7f8" size={12} />
         </div>

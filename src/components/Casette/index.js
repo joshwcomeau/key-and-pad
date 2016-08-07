@@ -4,9 +4,10 @@ import classNames from 'classnames';
 import './index.scss';
 
 
-const Casette = ({ sessionName, timestamp, numOfActions }) => {
+const Casette = ({ sessionName, timestamp, numOfActions, handleClick }) => {
+  console.log("PROP", handleClick)
   return (
-    <div className="casette">
+    <div className="casette" onClick={() => handleClick({ id: sessionName })}>
       <div className="front">
         <div className="head" />
         <div className="spool left-spool">
@@ -44,12 +45,14 @@ Casette.propTypes = {
   sessionName: PropTypes.string.isRequired,
   timestamp: PropTypes.number.isRequired,
   numOfActions: PropTypes.number.isRequired,
+  handleClick: PropTypes.func,
   // theme: PropTypes.oneOf(['rainbow', ''])
 };
 
 Casette.defaultProps = {
   // TODO: Make this randomly select from the list.
-  theme: 'rainbow'
+  theme: 'rainbow',
+  handleClick() {},
 };
 
 export default Casette;
