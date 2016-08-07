@@ -10,4 +10,25 @@
   flex-direction: column-reverse;
   align-items: center;
   justify-content: center;
+
+  .casette-wrapper {
+    &.fading-away {
+      animation: fadeAway 1s forwards;
+    }
+
+    &.selected {
+      animation: selected 1s forwards;
+    }
+  }
+}
+
+@keyframes fadeAway {
+  from { opacity: 1 }
+  to { opacity: 0; }
+}
+
+@keyframes selected {
+  0% { transform: scale(1) translateY(0); }
+  75% { transform: scale(1.25) translateY(50px); opacity: 1; }
+  100% {transform: scale(1.25) translateY(250px); opacity: 0; }
 }
