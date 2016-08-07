@@ -19,9 +19,9 @@ class ReduxVCR extends Component {
   componentDidMount() {
     this.props.casettesListRequest();
 
-    setTimeout(() => {
-      this.props.selectCasette({ id: '3fef7270-804a-4718-abdf-156904ee8661' })
-    }, 2000)
+    // setTimeout(() => {
+    //   this.props.selectCasette({ id: '3fef7270-804a-4718-abdf-156904ee8661' })
+    // }, 2000)
   }
 
   render() {
@@ -30,6 +30,7 @@ class ReduxVCR extends Component {
       isPlaying,
       isSelectingCasette,
       casettes,
+      selectedCasette,
       togglePlay,
       viewCasettes,
     } = this.props;
@@ -40,6 +41,8 @@ class ReduxVCR extends Component {
       <div className={classes}>
         <VCR
           isPlaying={isPlaying}
+          isSelectingCasette={isSelectingCasette}
+          selectedCasette={selectedCasette}
           handleClickPlay={togglePlay}
           handleClickSlot={viewCasettes}
           handleClickScreen={viewCasettes}
@@ -72,6 +75,7 @@ const mapStateToProps = state => ({
   isPlaying: state.vcrPlayer.isPlaying,
   isSelectingCasette: state.vcrPlayer.isSelectingCasette,
   casettes: state.vcrPlayer.casettes,
+  selectedCasette: state.vcrPlayer.selectedCasette,
 })
 
 

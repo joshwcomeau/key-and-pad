@@ -88,7 +88,7 @@
 
   .casette-slot {
     z-index: 1;
-    cursor: pointer;
+    cursor: default;
     background: darken($darkgray, 13%);
     border-radius: 2px;
     border-bottom: 15px solid darken($darkgray, 10%);
@@ -113,7 +113,6 @@
     bottom: 5px;
     left: 80px;
     height: 30px;
-    line-height: 30px;
     width: 345px;
     background: rgba(0,0,0,0.5);
     color: $neon-green;
@@ -122,11 +121,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    padding: 4px 16px 4px 8px;
+    padding: 4px 12px;
     border-radius: 2px;
     border-bottom: 1px solid rgba(255,255,255,0.3);
+    cursor: pointer;
 
-    &:before {
+    .vcr-screen-label {
       content: 'Now Playing';
       position: absolute;
       top: 0;
@@ -135,6 +135,17 @@
       font-size: 8px;
       line-height: 16px;
       color: $white;
+    }
+
+    .vcr-screen-session-name {
+      line-height: 30px;
+    }
+
+    .vcr-screen-idle, .vcr-screen-selecting {
+      text-align: center;
+      line-height: 20px;
+      width: 65%;
+      margin: 0 auto;
     }
   }
 

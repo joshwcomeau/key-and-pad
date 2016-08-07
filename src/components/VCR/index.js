@@ -8,6 +8,65 @@ import './index.scss';
 // RCAOutput, etc). Because I want to limit extraction costs from this repo,
 // this should come once ReduxVCR is its own thing.
 class VCR extends Component {
+  getStatus() {
+    if (this.props.isSelectingCasette) {
+      return 'selecting-casette';
+    } else if (this.props.isPlaying) {
+      return 'playing';
+    } else if (this.props.selectedCasette) {
+      return 'queued';
+    } else {
+      return 'idle';
+    }
+  }
+
+  renderScreen() {
+    let screenContents;
+
+    switch (this.getStatus()) {
+      case 'idle': {
+        return (
+          <div className="vcr-screen-contents">
+            <div className="vcr-screen-idle">
+              {/*
+                Well, since this is a retro-themed devtool,
+                why not go oldschool?
+              */}
+              <marquee>Click to Select a Casette</marquee>
+            </div>
+          </div>
+        );
+      }
+      case 'selecting-casette': {
+        return (
+          <div className="vcr-screen-contents">
+            <div className="vcr-screen-selecting">Selecting...</div>
+          </div>
+        );
+      }
+      case 'queued': {
+        return (
+          <div className="vcr-screen-contents">
+            <div className="vcr-screen-label" key="label">Selected</div>
+            <div className="vcr-screen-session-name">
+              {this.props.selectedCasette}
+            </div>
+          </div>
+        );
+      }
+      case 'playing': {
+        return (
+          <div className="vcr-screen-contents">
+            <div className="vcr-screen-label">Now Playing</div>
+            <div className="vcr-screen-session-name">
+              {this.props.selectedCasette}
+            </div>
+          </div>
+        );
+      }
+    }
+  }
+
   render() {
     const {
       doorLabel,
@@ -34,7 +93,7 @@ class VCR extends Component {
         <div className="casette-slot" onClick={handleClickSlot} />
 
         <div className="vcr-screen" onClick={handleClickScreen}>
-          231e7e68-8b63-443d-958b-60d6c4b95cea
+          {this.renderScreen()}
         </div>
 
         <div className="primary-action-buttons">
@@ -73,6 +132,7 @@ VCR.propTypes = {
   doorLabel: PropTypes.string,
   isPlaying: PropTypes.bool,
   isSelectingCasette: PropTypes.bool,
+  selectedCasette: PropTypes.string,
   handleClickPlay: PropTypes.func.isRequired,
   handleClickSlot: PropTypes.func,
   handleClickScreen: PropTypes.func,
