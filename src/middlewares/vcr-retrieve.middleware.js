@@ -4,7 +4,7 @@ import {
   SELECT_CASETTE,
   TOGGLE_PLAY,
   casetteActionsReceive,
-  casettesListReceive
+  casettesListReceive,
 } from '../ducks/vcr-player.duck';
 
 
