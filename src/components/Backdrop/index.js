@@ -1,15 +1,29 @@
 import React, { PropTypes } from 'react';
 import FlipMove from 'react-flip-move';
 
+import Icon from '../Icon';
 import './index.scss';
 
-const Backdrop = ({ isShown, animation, opacity, color }) => {
+const Backdrop = ({
+  isShown,
+  handleClickClose,
+  animation,
+  opacity,
+  background,
+  closeColor,
+}) => {
   let backdropMarkup;
 
   if (isShown) {
     backdropMarkup = (
       <span key="bd">
-        <div className="backdrop" style={{ opacity, background: color }} />
+        {/* Nesting inside a span because FlipMove applies opacity to it. */}
+        {/* We avoid having it overwrite our custom opacity this way. */}
+        <div className="backdrop" style={{ opacity, background }}>
+          <button className="close-backdrop" onClick={handleClickClose}>
+            <Icon value="close" size={48} color={closeColor} />
+          </button>
+        </div>
       </span>
     );
   }
@@ -27,6 +41,7 @@ const Backdrop = ({ isShown, animation, opacity, color }) => {
 
 Backdrop.propTypes = {
   isShown: PropTypes.bool,
+  handleClickClose: PropTypes.func,
   animation: PropTypes.oneOf([
     'elevator',
     'fade',
@@ -34,13 +49,16 @@ Backdrop.propTypes = {
     'accordionVertical',
   ]),
   opacity: PropTypes.number,
-  color: PropTypes.string,
+  background: PropTypes.string,
+  closeColor: PropTypes.string,
 };
 
 Backdrop.defaultProps = {
+  handleClickClose() {},
   animation: 'fade',
   opacity: 0.75,
-  color: '#000',
+  background: '#000',
+  closeColor: '#F11E0E'
 };
 
 export default Backdrop;

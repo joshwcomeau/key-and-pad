@@ -7,5 +7,14 @@
     left: 0;
     right: 0;
     bottom: 0;
+
+    .close-backdrop {
+      position: absolute;
+      top: 2rem;
+      right: 2rem;
+      background: transparent;
+      border: none;
+      padding: 1rem;
+    }
   }
 }

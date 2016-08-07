@@ -1,13 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 
-import {
-  casettesListRequest,
-  viewCasettes,
-  selectCasette,
-  togglePlay,
-} from '../../ducks/vcr-player.duck';
+import * as actionCreators from '../../ducks/vcr-player.duck';
 import VCR from '../VCR';
 import CasetteList from '../CasetteList';
 import Backdrop from '../Backdrop';
@@ -26,19 +20,16 @@ class ReduxVCR extends Component {
 
   render() {
     const {
-      position,
       isPlaying,
       isSelectingCasette,
-      casettes,
       selectedCasette,
       togglePlay,
       viewCasettes,
+      hideCasettes,
     } = this.props;
 
-    const classes = classNames('redux-vcr-component', position);
-
     return (
-      <div className={classes}>
+      <div className="redux-vcr-component">
         <VCR
           isPlaying={isPlaying}
           isSelectingCasette={isSelectingCasette}
@@ -50,8 +41,9 @@ class ReduxVCR extends Component {
         { isSelectingCasette ? <CasetteList /> : null }
         <Backdrop
           isShown={isSelectingCasette}
+          handleClickClose={hideCasettes}
           opacity={0.9}
-          color="#FFF"
+          background="#FFF"
         />
       </div>
     );
@@ -59,12 +51,15 @@ class ReduxVCR extends Component {
 }
 
 ReduxVCR.propTypes = {
-  position: PropTypes.oneOf([
-    'top-left',
-    'top-right',
-    'bottom-left',
-    'bottom-right',
-  ]),
+  isPlaying: PropTypes.bool,
+  isSelectingCasette: PropTypes.bool,
+  casettes: PropTypes.object,
+  selectedCasette: PropTypes.string,
+  casettesListRequest: PropTypes.func,
+  viewCasettes: PropTypes.func,
+  hideCasettes: PropTypes.func,
+  selectCasette: PropTypes.func,
+  togglePlay: PropTypes.func,
 };
 
 ReduxVCR.defaultProps = {
@@ -76,15 +71,16 @@ const mapStateToProps = state => ({
   isSelectingCasette: state.vcrPlayer.isSelectingCasette,
   casettes: state.vcrPlayer.casettes,
   selectedCasette: state.vcrPlayer.selectedCasette,
-})
+});
 
 
 export default connect(
   mapStateToProps,
   {
-    casettesListRequest,
-    viewCasettes,
-    selectCasette,
-    togglePlay,
+    casettesListRequest: actionCreators.casettesListRequest,
+    viewCasettes: actionCreators.viewCasettes,
+    hideCasettes: actionCreators.hideCasettes,
+    selectCasette: actionCreators.selectCasette,
+    togglePlay: actionCreators.togglePlay,
   }
 )(ReduxVCR);
