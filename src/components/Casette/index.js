@@ -5,7 +5,6 @@ import './index.scss';
 
 
 const Casette = ({ sessionName, timestamp, numOfActions }) => {
-  console.log(sessionName, timestamp, numOfActions)
   return (
     <div className="casette">
       <div className="front">

@@ -12,6 +12,7 @@ wrap-reducer
 vcr-player-duck
 Icon (along with all used icon SVGs)
 vcr-retrieve.middleware.js
+components/Backdrop
 components/ReduxVCR
 components/VCR
 components/CasetteList
@@ -24,6 +25,9 @@ vcr-data-handler.js
 CAPTURE
 vcr-data-handler.js
 
+Also require some NPM packages:
+- classnames
+- react-addons-css-transition-group
 
 CAPTURE
 

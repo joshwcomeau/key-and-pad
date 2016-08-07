@@ -4,24 +4,20 @@ import Icon from '../Icon';
 import './index.scss';
 
 
+// TODO: This should probably be broken into a few components (VCRButton,
+// RCAOutput, etc). Because I want to limit extraction costs from this repo,
+// this should come once ReduxVCR is its own thing.
 class VCR extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleSlotClick = this.handleSlotClick.bind(this);
-
-    this.state = {
-      isOpen: false,
-    };
-  }
-
-  handleSlotClick() {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-  }
-
   render() {
+    const {
+      doorLabel,
+      isPlaying,
+      isSelectingCasette,
+      handleClickPlay,
+      handleClickSlot,
+      handleClickScreen,
+    } = this.props;
+
     return (
       <div className="vcr">
         <div className="vcr-top-edge" />
@@ -29,15 +25,15 @@ class VCR extends Component {
           <Icon value="eject" color="#f4f7f8" size={12} />
         </div>
         <div
-          className={`casette-slot-door ${this.state.isOpen ? 'is-open' : ''}`}
+          className={`casette-slot-door ${isSelectingCasette ? 'is-open' : ''}`}
         >
           <span className="casette-slot-door-label">
-            HI-FI STEREO SYSTEM
+            {doorLabel}
           </span>
         </div>
-        <div className="casette-slot" onClick={this.handleSlotClick} />
+        <div className="casette-slot" onClick={handleClickSlot} />
 
-        <div className="vcr-screen">
+        <div className="vcr-screen" onClick={handleClickScreen}>
           231e7e68-8b63-443d-958b-60d6c4b95cea
         </div>
 
@@ -48,7 +44,7 @@ class VCR extends Component {
 
           <div
             className="vcr-button play-button"
-            onClick={this.props.handleClickPlay}
+            onClick={handleClickPlay}
           >
             <Icon value="play" color="#f4f7f8" size={24} />
           </div>
@@ -74,10 +70,18 @@ class VCR extends Component {
 }
 
 VCR.propTypes = {
+  doorLabel: PropTypes.string,
+  isPlaying: PropTypes.bool,
+  isSelectingCasette: PropTypes.bool,
   handleClickPlay: PropTypes.func.isRequired,
+  handleClickSlot: PropTypes.func,
+  handleClickScreen: PropTypes.func,
 };
 
 VCR.defaultProps = {
+  doorLabel: 'HI-FI STEREO SYSTEM',
+  isPlaying: false,
+  isSelectingCasette: false,
 };
 
 export default VCR;

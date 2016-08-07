@@ -76,8 +76,6 @@ function playActions({ store, next, actions }) {
 
   const { isPlaying } = store.getState().vcrPlayer;
 
-  console.log("Playing", isPlaying)
-
   if (isPlaying) {
     window.setTimeout(
       () => playActions({ store, next, actions: restOfActions }),
