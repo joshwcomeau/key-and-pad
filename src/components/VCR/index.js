@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import classNames from 'classnames';
 import Icon from '../Icon';
 
 import './index.scss';
@@ -7,6 +8,55 @@ import './index.scss';
 // TODO: This should probably be broken into a few components (VCRButton,
 // RCAOutput, etc). Because I want to limit extraction costs from this repo,
 // this should come once ReduxVCR is its own thing.
+const VCRButton = ({
+  className, iconValue, iconSize, glowing, rounded, onClick,
+}) => {
+  const classes = classNames('vcr-button', className, {
+    'vcr-button-glowing': glowing,
+    'vcr-button-rounded': rounded,
+  });
+
+  // TODO: Switch from hardcoding the color to setting it in CSS with !important.
+  // The icon's color needs to be set dynamically, via JS.
+
+  return (
+    <button className={classes} onClick={onClick}>
+      <Icon value={iconValue} size={iconSize} color="#f4f7f8" />
+    </button>
+  );
+};
+
+VCRButton.propTypes = {
+  className: PropTypes.string,
+  iconValue: PropTypes.string.isRequired,
+  iconSize: PropTypes.number,
+  glowing: PropTypes.bool,
+  rounded: PropTypes.bool,
+  onClick: PropTypes.func.isRequired,
+};
+
+VCRButton.defaultProps = {
+  iconSize: 12,
+  handleClick() {},
+};
+
+
+const VCRPowerLight = ({ mode }) => {
+  const classes = classNames('vcr-power-light', {
+    'light-off': mode === 'stopped',
+    'light-amber': mode === 'paused',
+    'light-green': mode === 'playing',
+  });
+
+  console.log("MODE", mode)
+
+  return (
+    <div className={classes}>
+      <div className="lightbulb" />
+    </div>
+  );
+};
+
 class VCR extends Component {
   renderScreen() {
     const { playStatus, casetteStatus } = this.props;
@@ -52,6 +102,7 @@ class VCR extends Component {
   render() {
     const {
       doorLabel,
+      playStatus,
       casetteStatus,
       handleClickPlay,
       handleClickSlot,
@@ -65,11 +116,12 @@ class VCR extends Component {
       <div className="vcr">
 
         <div className="vcr-top" />
-        <div className="vcr-top-edge" />
         <div className="vcr-bg" />
-        <div className="vcr-button eject-button" onClick={handleClickEject}>
-          <Icon value="eject" color="#f4f7f8" size={12} />
-        </div>
+        <VCRButton
+          className="eject-button"
+          onClick={handleClickEject}
+          iconValue="eject"
+        />
         <div
           className={`casette-slot-door ${doorOpen ? 'is-open' : ''}`}
         >
@@ -84,20 +136,26 @@ class VCR extends Component {
         </div>
 
         <div className="primary-action-buttons">
-          <div className="vcr-button fast-rewind-button">
-            <Icon value="fast_rewind" color="#f4f7f8" size={12} />
-          </div>
+          <VCRButton
+            className="fast-rewind-button"
+            onClick={() => {}}
+            iconValue="fast_rewind"
+          />
 
-          <div
-            className="vcr-button play-button"
-            onClick={handleClickPlay}
-          >
-            <Icon value="play" color="#f4f7f8" size={24} />
-          </div>
+          <VCRButton
+            className="play-button"
+            onClick={casetteStatus === 'loaded' ? handleClickPlay : null}
+            iconValue={playStatus === 'paused' ? 'pause' : 'play'}
+            iconSize={24}
+            glowing={casetteStatus === 'loaded' && playStatus === 'stopped'}
+            rounded
+          />
 
-          <div className="vcr-button fast-forward-button">
-            <Icon value="fast_forward" color="#f4f7f8" size={12} />
-          </div>
+          <VCRButton
+            className="fast-forward-button"
+            onClick={() => {}}
+            iconValue="fast_forward"
+          />
         </div>
 
         <div className="decorative-outputs">
@@ -106,7 +164,7 @@ class VCR extends Component {
           <div className="decorative-output red" />
         </div>
 
-        <div className="power-light" />
+        <VCRPowerLight mode={playStatus} />
 
         <div className="vcr-foot vcr-foot-left" />
         <div className="vcr-foot vcr-foot-right" />

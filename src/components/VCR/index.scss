@@ -4,23 +4,62 @@
   position: relative;
   z-index: 2;
   background: $darkgray;
-  width: 550px;
+  width: 500px;
   height: 100px;
   color: $white;
   border-radius: 8px 8px 5px 5px;
 
   .vcr-button {
     padding: 2px 10px;
+    border: 0;
     border-top: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0px 0px 1px rgba(0,0,0,0.8);
     border-radius: 3px;
+    background: $darkgray;
     cursor: pointer;
+
+    &.vcr-button-rounded {
+      border-radius: 100%;
+      padding: 5px;
+      border-top: 1px solid rgba(255,255,255,0.4);
+      border-bottom: 1px solid rgba(0,0,0,0.6);
+    }
+
+    &.vcr-button-glowing {
+      animation: vcrButtonGlow 3s linear infinite;
+    }
 
     &.eject-button {
       position: absolute;
-      top: 14px;
+      top: 20px;
       left: 21px;
     }
+
+    &.play-button {
+      position: relative;
+      z-index: 2;
+    }
+
+    &.fast-rewind-button {
+      position: relative;
+      z-index: 1;
+      transform: translateX(5px);
+    }
+
+    &.fast-forward-button {
+      position: relative;
+      z-index: 1;
+      transform: translateX(-5px);
+    }
+  }
+
+  .primary-action-buttons {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 12px;
+    top: 10px;
   }
 
   .casette-slot-door, .casette-slot {
@@ -29,7 +68,7 @@
     left: 75px;
     height: 50px;
     line-height: 44px;
-    width: 355px;
+    width: 305px;
   }
 
   .casette-slot-door {
@@ -111,7 +150,7 @@
     bottom: 5px;
     left: 80px;
     height: 30px;
-    width: 345px;
+    width: 295px;
     background: rgba(0,0,0,0.5);
     color: $neon-green;
     font-family: "Lucida Console", Monaco5, monospace;
@@ -147,39 +186,7 @@
     }
   }
 
-  .primary-action-buttons {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 12px;
-    top: 6px;
-
-    .play-button {
-      position: relative;
-      z-index: 2;
-      border-radius: 100%;
-      padding: 5px;
-      background: $darkgray;
-      border-top: 1px solid rgba(255,255,255,0.4);
-      border-bottom: 1px solid rgba(0,0,0,0.6);
-
-    }
-
-    .fast-rewind-button {
-      position: relative;
-      z-index: 1;
-      transform: translateX(5px);
-    }
-
-    .fast-forward-button {
-      position: relative;
-      z-index: 1;
-      transform: translateX(-5px);
-    }
-  }
-
-  .power-light {
+  .vcr-power-light {
     position: absolute;
     right: 9px;
     bottom: 9px;
@@ -188,7 +195,28 @@
     border-radius: 4px;
     border-bottom: 1px solid rgba(255,255,255,0.6);
     box-shadow: 0px 0px 2px rgba(0,0,0,0.9);
-    animation: glow 2s infinite
+    overflow: hidden;
+
+    &.light-off .lightbulb {
+      background: rgba(255,255,255,0.15);
+    }
+
+    &.light-amber .lightbulb {
+      background: #0F0;
+    }
+
+    &.light-green .lightbulb {
+      background: $neon-green;
+    }
+
+    .lightbulb {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      animation: pulse 2s infinite;
+    }
   }
 
   .decorative-outputs {
@@ -249,6 +277,7 @@
     bottom: 0;
     z-index: -1;
     border-radius: 8px 8px 5px 5px;
+    border-top: 1px solid rgba(255,255,255,0.3);
     background: $darkgray;
   }
 
@@ -292,8 +321,14 @@
   }
 }
 
-@keyframes glow {
-  0% { background: $neon-green; }
-  50% { background: #51942d; }
-  100% { background: $neon-green; }
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+@keyframes vcrButtonGlow {
+  0% { background: darken($darkgray, 3%); }
+  50% { background: lighten($darkgray, 5%); }
+  100% { background: darken($darkgray, 3%); }
 }
