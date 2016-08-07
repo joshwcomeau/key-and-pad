@@ -20,27 +20,29 @@ class ReduxVCR extends Component {
 
   render() {
     const {
-      isPlaying,
-      isSelectingCasette,
+      playStatus,
+      casetteStatus,
       selectedCasette,
-      togglePlay,
+      togglePlayPause,
       viewCasettes,
       hideCasettes,
+      ejectCasette,
     } = this.props;
 
     return (
       <div className="redux-vcr-component">
         <VCR
-          isPlaying={isPlaying}
-          isSelectingCasette={isSelectingCasette}
+          playStatus={playStatus}
+          casetteStatus={casetteStatus}
           selectedCasette={selectedCasette}
-          handleClickPlay={togglePlay}
+          handleClickPlay={togglePlayPause}
           handleClickSlot={viewCasettes}
           handleClickScreen={viewCasettes}
+          handleClickEject={ejectCasette}
         />
-        { isSelectingCasette ? <CasetteList /> : null }
+        { casetteStatus === 'selecting' ? <CasetteList /> : null }
         <Backdrop
-          isShown={isSelectingCasette}
+          isShown={casetteStatus === 'selecting'}
           handleClickClose={hideCasettes}
           opacity={0.9}
           background="#FFF"
@@ -51,15 +53,16 @@ class ReduxVCR extends Component {
 }
 
 ReduxVCR.propTypes = {
-  isPlaying: PropTypes.bool,
-  isSelectingCasette: PropTypes.bool,
+  playStatus: PropTypes.string,
+  casetteStatus: PropTypes.string,
   casettes: PropTypes.object,
   selectedCasette: PropTypes.string,
   casettesListRequest: PropTypes.func,
   viewCasettes: PropTypes.func,
   hideCasettes: PropTypes.func,
   selectCasette: PropTypes.func,
-  togglePlay: PropTypes.func,
+  ejectCasette: PropTypes.func,
+  togglePlayPause: PropTypes.func,
 };
 
 ReduxVCR.defaultProps = {
@@ -67,8 +70,8 @@ ReduxVCR.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  isPlaying: state.vcrPlayer.isPlaying,
-  isSelectingCasette: state.vcrPlayer.isSelectingCasette,
+  playStatus: state.vcrPlayer.playStatus,
+  casetteStatus: state.vcrPlayer.casetteStatus,
   casettes: state.vcrPlayer.casettes,
   selectedCasette: state.vcrPlayer.selectedCasette,
 });
@@ -81,6 +84,7 @@ export default connect(
     viewCasettes: actionCreators.viewCasettes,
     hideCasettes: actionCreators.hideCasettes,
     selectCasette: actionCreators.selectCasette,
-    togglePlay: actionCreators.togglePlay,
+    ejectCasette: actionCreators.ejectCasette,
+    togglePlayPause: actionCreators.togglePlayPause,
   }
 )(ReduxVCR);

@@ -8,74 +8,58 @@ import './index.scss';
 // RCAOutput, etc). Because I want to limit extraction costs from this repo,
 // this should come once ReduxVCR is its own thing.
 class VCR extends Component {
-  getStatus() {
-    if (this.props.isSelectingCasette) {
-      return 'selecting-casette';
-    } else if (this.props.isPlaying) {
-      return 'playing';
-    } else if (this.props.selectedCasette) {
-      return 'queued';
-    } else {
-      return 'idle';
-    }
-  }
-
   renderScreen() {
-    let screenContents;
+    const { playStatus, casetteStatus } = this.props;
 
-    switch (this.getStatus()) {
-      case 'idle': {
-        return (
-          <div className="vcr-screen-contents">
-            <div className="vcr-screen-idle">
-              {/*
-                Well, since this is a retro-themed devtool,
-                why not go oldschool?
-              */}
-              <marquee>Click to Select a Casette</marquee>
-            </div>
+    if (casetteStatus === 'idle') {
+      return (
+        <div className="vcr-screen-contents">
+          <div className="vcr-screen-idle">
+            {/*
+              Well, since this is a retro-themed devtool,
+              why not go oldschool? >:D
+              TODO: Replace this with a Marquee component
+            */}
+            <marquee>Click to Select a Casette</marquee>
           </div>
-        );
-      }
-      case 'selecting-casette': {
-        return (
-          <div className="vcr-screen-contents">
-            <div className="vcr-screen-selecting">Selecting...</div>
-          </div>
-        );
-      }
-      case 'queued': {
-        return (
-          <div className="vcr-screen-contents">
-            <div className="vcr-screen-label" key="label">Selected</div>
-            <div className="vcr-screen-session-name">
-              {this.props.selectedCasette}
-            </div>
-          </div>
-        );
-      }
-      case 'playing': {
-        return (
-          <div className="vcr-screen-contents">
-            <div className="vcr-screen-label">Now Playing</div>
-            <div className="vcr-screen-session-name">
-              {this.props.selectedCasette}
-            </div>
-          </div>
-        );
-      }
+        </div>
+      );
+    } else if (casetteStatus === 'selecting') {
+      return (
+        <div className="vcr-screen-contents">
+          <div className="vcr-screen-selecting">Selecting...</div>
+        </div>
+      );
     }
+
+    let labelText;
+    switch (playStatus) {
+      case 'playing': labelText = 'Now Playing'; break;
+      case 'paused': labelText = 'Paused'; break;
+      default: labelText = 'Selected'; break;
+    }
+
+    return (
+      <div className="vcr-screen-contents">
+        <div className="vcr-screen-label">{labelText}</div>
+        <div className="vcr-screen-session-name">
+          {this.props.selectedCasette}
+        </div>
+      </div>
+    );
   }
 
   render() {
     const {
       doorLabel,
-      isPlaying,
-      isSelectingCasette,
+      casetteStatus,
       handleClickPlay,
       handleClickSlot,
       handleClickScreen,
+      handleClickEject,
     } = this.props;
+
+    const doorOpen = casetteStatus === 'selecting';
 
     return (
       <div className="vcr">
@@ -83,11 +67,11 @@ class VCR extends Component {
         <div className="vcr-top" />
         <div className="vcr-top-edge" />
         <div className="vcr-bg" />
-        <div className="vcr-button eject-button">
+        <div className="vcr-button eject-button" onClick={handleClickEject}>
           <Icon value="eject" color="#f4f7f8" size={12} />
         </div>
         <div
-          className={`casette-slot-door ${isSelectingCasette ? 'is-open' : ''}`}
+          className={`casette-slot-door ${doorOpen ? 'is-open' : ''}`}
         >
           <span className="casette-slot-door-label">
             {doorLabel}
@@ -127,24 +111,23 @@ class VCR extends Component {
         <div className="vcr-foot vcr-foot-left" />
         <div className="vcr-foot vcr-foot-right" />
       </div>
-    )
+    );
   }
 }
 
 VCR.propTypes = {
   doorLabel: PropTypes.string,
-  isPlaying: PropTypes.bool,
-  isSelectingCasette: PropTypes.bool,
+  playStatus: PropTypes.string,
+  casetteStatus: PropTypes.string,
   selectedCasette: PropTypes.string,
   handleClickPlay: PropTypes.func.isRequired,
   handleClickSlot: PropTypes.func,
   handleClickScreen: PropTypes.func,
+  handleClickEject: PropTypes.func.isRequired,
 };
 
 VCR.defaultProps = {
   doorLabel: 'HI-FI STEREO SYSTEM',
-  isPlaying: false,
-  isSelectingCasette: false,
 };
 
 export default VCR;
