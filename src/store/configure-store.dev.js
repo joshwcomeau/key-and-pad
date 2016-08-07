@@ -3,6 +3,10 @@ import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from '../reducers';
 import onboardingSaga from '../sagas/onboarding.saga';
+import vcrPersistMiddleware from '../middlewares/vcr-persist.middleware';
+import vcrRetrieveMiddleware from '../middlewares/vcr-retrieve.middleware';
+import wrapReducer from '../utils/wrap-reducer';
+
 import DevTools from '../components/DevTools';
 
 
@@ -11,10 +15,12 @@ export default function configureStore() {
 
   const middlewares = [
     sagaMiddleware,
+    vcrPersistMiddleware,
+    vcrRetrieveMiddleware,
   ];
 
   const store = createStore(
-    rootReducer,
+    wrapReducer(rootReducer),
     compose(
       applyMiddleware.apply(this, middlewares),
       DevTools.instrument()

@@ -1,0 +1,7 @@
+.redux-vcr-component {
+  position: fixed;
+  z-index: 99999;
+
+  &.bottom-left { bottom: 1rem; left: 1rem; }
+  &.bottom-right { bottom: 1rem; right: 1rem; }
+}

@@ -2,8 +2,32 @@ Module has 3 main exports:
 
 redux-vcr/capture
 redux-vcr/persist
-redux-vcr/play
+redux-vcr/player
 
+
+When it comes time to decouple from this project, here are the needed pieces:
+
+PLAYER
+wrap-reducer
+vcr-player-duck
+Icon (along with all used icon SVGs)
+vcr-retrieve.middleware.js
+components/Backdrop
+components/ReduxVCR
+components/VCR
+components/CasetteList
+components/Casette
+
+PERSIST
+vcr-persist.middleware.js
+vcr-data-handler.js
+
+CAPTURE
+vcr-data-handler.js
+
+Also require some NPM packages:
+- classnames
+- react-addons-css-transition-group
 
 CAPTURE
 
@@ -44,6 +68,6 @@ Config:
 - bucket
 
 
-REPLAY
+PLAYER
 
 A React component, included in dev mode, that fetches a list of recent session IDs and allows you to play them.

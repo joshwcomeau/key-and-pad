@@ -6,8 +6,10 @@ import Introduction from '../Introduction';
 import XYPad from '../XYPad';
 import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
-import DevTools from '../DevTools';
 import FeatureHighlight from '../FeatureHighlight';
+import DevTools from '../DevTools';
+import ReduxVCR from '../ReduxVCR';
+
 
 import {
   isBefore,
@@ -130,6 +132,7 @@ const App = ({
     </FeatureHighlight>
 
     <DevTools />
+    <ReduxVCR />
   </div>
 );
 
