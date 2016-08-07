@@ -1,7 +1,7 @@
 import onboardingStages from '../data/onboarding-stages';
 
 const initialState = {
-  stage: onboardingStages[7],
+  stage: onboardingStages[0],
   keysPressed: 0,
   padUpdates: 0,
 };

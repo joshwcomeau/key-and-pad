@@ -77,6 +77,11 @@ class FeatureHighlight extends Component {
   }
 
   render() {
+    // If we've specified that we want this element removed from the DOM,
+    // don't even render it.
+    if (this.props.removeFeature) {
+      return null;
+    }
     return (
       <div
         className={this.props.className}
@@ -112,6 +117,7 @@ FeatureHighlight.propTypes = {
   transposeLength: PropTypes.number,
   fadeLength: PropTypes.number,
   showFeature: PropTypes.bool,
+  removeFeature: PropTypes.bool,
   pointerOptions: PropTypes.array, // validated in FeaturePointer component
 };
 

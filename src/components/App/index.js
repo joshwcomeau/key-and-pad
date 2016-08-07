@@ -48,8 +48,9 @@ const App = ({
       animateInitialPosition
       style={{ position: 'absolute' }}
       showFeature={isSameStage('initial')}
+      removeFeature={isAfterStage('keys-introduced')}
     >
-      <Introduction fadeUp={isAfterStage('initial')}/>
+      <Introduction fadeUp={isAfterStage('initial')} />
     </FeatureHighlight>
 
     <div
