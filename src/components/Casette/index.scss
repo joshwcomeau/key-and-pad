@@ -1,11 +1,11 @@
 @import '../../vcr-variables';
 
 $casette-width: 340px;
-$front-height: 200px;
+$front-height: 120px;
 $spine-height: 45px;
 $square-offset: 12px;
 $square-size: $spine-height / 2 - 5px;
-$spool-size: 100px;
+$spool-size: 60px;
 
 .redux-vcr-component .casette {
   position: relative;
@@ -14,6 +14,7 @@ $spool-size: 100px;
   margin: 1px;
   background: $darkgray;
   border-radius: 0 0 3px 3px;
+  cursor: default;
 
   .front {
     position: absolute;
@@ -22,7 +23,7 @@ $spool-size: 100px;
     width: 100%;
     height: $front-height;
     background: darken($darkgray, 10%);
-    transform: translateY(-100%) perspective(200px) rotateX(60deg) ;
+    transform: translateY(-100%) perspective(200px) rotateX(60deg);
     transform-origin: bottom center;
 
     .head {
@@ -65,7 +66,7 @@ $spool-size: 100px;
         bottom: 0;
         margin: auto;
         border-radius: 100%;
-        border: 35px solid $mediumgray;
+        border: 20px solid $mediumgray;
       }
     }
   }
@@ -107,11 +108,11 @@ $spool-size: 100px;
     right: 30px;
     bottom: 5px;
     background: $offwhite;
-    border-radius: 8px;
+    border-radius: 4px;
     font-size: 9px;
 
     .line {
-      margin: 3px 4px;
+      margin: 3px 6px;
       padding: 0 4px 2px;
       border-bottom: 1px solid $lightgray;
       overflow: hidden;
