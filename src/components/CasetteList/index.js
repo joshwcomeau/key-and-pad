@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import * as actionCreators from '../../ducks/vcr-player.duck';
+import { paginatedCasetteListSelector } from '../../selectors/casette.selectors';
 import Casette from '../Casette';
 import './index.scss';
 
@@ -33,9 +34,9 @@ class CasetteList extends Component {
     }, 1000);
   }
 
-  renderCasette(id) {
-    const { casettes } = this.props;
+  renderCasette(casette) {
     const { selectedCasette } = this.state;
+    const { id } = casette;
 
     const classes = classNames({
       'casette-wrapper': true,
@@ -46,36 +47,35 @@ class CasetteList extends Component {
     return (
       <div key={id} className={classes}>
         <Casette
-          sessionName={id}
+          {...casette}
           handleClick={this.animateCasetteSelection}
-          {...casettes[id]}
         />
       </div>
     );
   }
 
   render() {
-    const casetteIds = Object.keys(this.props.casettes);
-
     return (
       <div className="casette-list">
-        {casetteIds.map(this.renderCasette)}
+        {this.props.casettes.map(this.renderCasette)}
       </div>
     );
   }
 }
 
 CasetteList.propTypes = {
-  casettes: PropTypes.object,
+  casettes: PropTypes.array,
   selectCasette: PropTypes.func,
 };
 
 CasetteList.defaultProps = {
 };
 
-const mapStateToProps = state => ({
-  casettes: state.vcrPlayer.casettes,
-});
+const mapStateToProps = state => {
+  return {
+    casettes: paginatedCasetteListSelector(state),
+  };
+};
 
 export default connect(mapStateToProps, {
   selectCasette: actionCreators.selectCasette,

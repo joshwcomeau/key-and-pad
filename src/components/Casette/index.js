@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react';
-import classNames from 'classnames';
 
 import './index.scss';
 
 
-const Casette = ({ sessionName, timestamp, numOfActions, handleClick }) => {
-  console.log("PROP", handleClick)
+const Casette = ({ id, timestamp, numOfActions, handleClick }) => {
   return (
-    <div className="casette" onClick={() => handleClick({ id: sessionName })}>
+    <div className="casette" onClick={() => handleClick({ id })}>
       <div className="front">
         <div className="head" />
         <div className="spool left-spool">
@@ -26,7 +24,7 @@ const Casette = ({ sessionName, timestamp, numOfActions, handleClick }) => {
         <div className="label">
           <div className="line">
             <span className="line-name">Name:</span>
-            {sessionName}
+            {id}
           </div>
           <div className="line">
             <span className="line-name">Recorded:</span>
@@ -38,11 +36,11 @@ const Casette = ({ sessionName, timestamp, numOfActions, handleClick }) => {
         <div className="vhs-footer">VHS</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Casette.propTypes = {
-  sessionName: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   timestamp: PropTypes.number.isRequired,
   numOfActions: PropTypes.number.isRequired,
   handleClick: PropTypes.func,

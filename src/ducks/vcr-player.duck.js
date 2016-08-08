@@ -4,6 +4,8 @@ const initialState = {
   selectedCasette: null,
   playStatus: 'stopped', // One of 'playing', 'paused', 'stopped'
   casetteStatus: 'idle', // One of 'idle', 'selecting', 'loaded'
+  casettePageNumber: 0,
+  casettePageLimit: 3,
 };
 
 

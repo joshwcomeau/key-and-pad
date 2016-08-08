@@ -28,6 +28,8 @@ vcr-data-handler.js
 Also require some NPM packages:
 - classnames
 - react-addons-css-transition-group
+- reselect
+- momentjs
 
 CAPTURE
 
