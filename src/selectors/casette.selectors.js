@@ -12,7 +12,7 @@ export const casetteListSelector = createSelector(
 
     return casetteIds
       .map(id => ({ id, ...casettes[id] }))
-      .sort((a, b) => a.timestamp - b.timestamp);
+      .sort((a, b) => b.timestamp - a.timestamp);
   }
 );
 

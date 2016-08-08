@@ -9,11 +9,20 @@
   height: 300px;
   margin: auto;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   .casette-wrapper {
+    &:nth-of-type(1) {
+      z-index: 3
+    }
+    &:nth-of-type(2) {
+      z-index: 2
+    }
+    &:nth-of-type(3) {
+      z-index: 1
+    }
     &.fading-away {
       animation: fadeAway 1s forwards;
     }
@@ -25,14 +34,34 @@
 
   .vcr-pagination-control {
     position: absolute;
+    border: 0;
+    background: none;
     right: 0;
+    outline: none;
+
+    &:disabled {
+      opacity: 0.5;
+    }
 
     &.previous {
       top: 0;
+
+      &:active:not(:disabled) svg {
+        transform: translateY(-10px);
+        transition: transform 500ms;
+      }
     }
 
     &.next {
       bottom: 0;
+
+      &:active:not(:disabled) svg {
+        transform: translateY(10px);
+      }
+    }
+
+    svg {
+      transition: transform 250ms;
     }
   }
 }
