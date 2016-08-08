@@ -3,8 +3,14 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import * as actionCreators from '../../ducks/vcr-player.duck';
-import { paginatedCasetteListSelector } from '../../selectors/casette.selectors';
+import {
+  isFirstPageSelector,
+  isLastPageSelector,
+  paginatedCasetteListSelector,
+} from '../../selectors/casette.selectors';
+
 import Casette from '../Casette';
+import Icon from '../Icon';
 import './index.scss';
 
 
@@ -55,9 +61,39 @@ class CasetteList extends Component {
   }
 
   render() {
+    const {
+      casettes,
+      isFirstPage,
+      isLastPage,
+      goToNextCasettePage,
+      goToPreviousCasettePage,
+    } = this.props;
+
+    console.log("Rendering", casettes)
+
+    const previousButtonClasses = classNames([
+      'vcr-pagination-control',
+      'previous',
+    ]);
+
     return (
       <div className="casette-list">
-        {this.props.casettes.map(this.renderCasette)}
+        {casettes.map(this.renderCasette)}
+
+        <button
+          className={previousButtonClasses}
+          onClick={goToPreviousCasettePage}
+          disabled={isFirstPage}
+        >
+          <Icon value="arrow_up" />
+        </button>
+        <button
+          className="vcr-pagination-control next"
+          onClick={goToNextCasettePage}
+          disabled={isLastPage}
+        >
+          <Icon value="arrow_down" />
+        </button>
       </div>
     );
   }
@@ -65,7 +101,11 @@ class CasetteList extends Component {
 
 CasetteList.propTypes = {
   casettes: PropTypes.array,
+  isFirstPage: PropTypes.bool,
+  isLastPage: PropTypes.bool,
   selectCasette: PropTypes.func,
+  goToNextCasettePage: PropTypes.func,
+  goToPreviousCasettePage: PropTypes.func,
 };
 
 CasetteList.defaultProps = {
@@ -74,9 +114,13 @@ CasetteList.defaultProps = {
 const mapStateToProps = state => {
   return {
     casettes: paginatedCasetteListSelector(state),
+    isFirstPage: isFirstPageSelector(state),
+    isLastPage: isLastPageSelector(state),
   };
 };
 
 export default connect(mapStateToProps, {
   selectCasette: actionCreators.selectCasette,
+  goToNextCasettePage: actionCreators.goToNextCasettePage,
+  goToPreviousCasettePage: actionCreators.goToPreviousCasettePage,
 })(CasetteList);

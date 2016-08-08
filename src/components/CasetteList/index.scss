@@ -1,11 +1,13 @@
 .redux-vcr-component .casette-list {
   position: fixed;
   z-index: 3;
-  top: 130px;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: 130px;
-  width: 100%;
+  bottom: 0;
+  width: 400px;
+  height: 300px;
+  margin: auto;
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
@@ -18,6 +20,19 @@
 
     &.selected {
       animation: selected 1s forwards;
+    }
+  }
+
+  .vcr-pagination-control {
+    position: absolute;
+    right: 0;
+
+    &.previous {
+      top: 0;
+    }
+
+    &.next {
+      bottom: 0;
     }
   }
 }

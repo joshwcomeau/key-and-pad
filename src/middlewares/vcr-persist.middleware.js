@@ -13,8 +13,9 @@ const ignoredActions = getValues(vcrPlayerDuck).filter(duckItem => (
 
 let timeSinceLastEvent = getCurrentTime();
 const casette = {
-  // TODO: Allow for custom ID?
+  // TODO: Allow for custom ID and label?
   id: uuid.v4(),
+  label: 'Josh session',
   actions: [],
 };
 

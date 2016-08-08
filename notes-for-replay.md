@@ -12,6 +12,7 @@ wrap-reducer
 vcr-player-duck
 Icon (along with all used icon SVGs)
 vcr-retrieve.middleware.js
+casette.selectors
 components/Backdrop
 components/ReduxVCR
 components/VCR

@@ -17,7 +17,7 @@ const database = firebase.database();
 
 const vcrDataHandler = {
   persist(casette) {
-    const { id, actions } = casette;
+    const { id, label, actions } = casette;
 
     // For efficiency, we want our firebase structure to look like:
     /*
@@ -43,6 +43,7 @@ const vcrDataHandler = {
     */
 
     database.ref(`casettes/${id}`).set({
+      label,
       timestamp: sessionStart,
       numOfActions: actions.length,
     });
@@ -53,8 +54,6 @@ const vcrDataHandler = {
   retrieveList() {
     return firebase.database()
       .ref('casettes')
-      .orderByChild('timestamp')
-      .limitToFirst(5)
       .once('value');
   },
 

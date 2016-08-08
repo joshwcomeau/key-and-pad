@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import moment from 'moment';
 
 import './index.scss';
 
 
-const Casette = ({ id, timestamp, numOfActions, handleClick }) => {
+const Casette = ({ id, label, timestamp, numOfActions, handleClick }) => {
   return (
     <div className="casette" onClick={() => handleClick({ id })}>
       <div className="front">
@@ -23,13 +24,13 @@ const Casette = ({ id, timestamp, numOfActions, handleClick }) => {
         </div>
         <div className="label">
           <div className="line">
-            <span className="line-name">Name:</span>
-            {id}
+            <span className="line-name">Name: </span>
+            {label || id}
           </div>
           <div className="line">
-            <span className="line-name">Recorded:</span>
-            {timestamp}
-            <span className="line-name indented">Actions:</span>
+            <span className="line-name">Recorded: </span>
+            {moment(timestamp).format('MMMM Do YYYY, h:mm A')}
+            <span className="line-name indented">Actions: </span>
             {numOfActions}
           </div>
         </div>
