@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-marquee */
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import Icon from '../Icon';
@@ -47,8 +48,6 @@ const VCRPowerLight = ({ mode }) => {
     'light-amber': mode === 'paused',
     'light-green': mode === 'playing',
   });
-
-  console.log("MODE", mode)
 
   return (
     <div className={classes}>
@@ -144,7 +143,7 @@ class VCR extends Component {
 
           <VCRButton
             className="play-button"
-            onClick={casetteStatus === 'loaded' ? handleClickPlay : null}
+            onClick={casetteStatus === 'loaded' ? handleClickPlay : () => {}}
             iconValue={playStatus === 'paused' ? 'pause' : 'play'}
             iconSize={24}
             glowing={casetteStatus === 'loaded' && playStatus === 'stopped'}

@@ -12,6 +12,7 @@
 .keyboard-row {
   margin-top: 6px;
   overflow: hidden;
+  white-space: nowrap;
 
   &:nth-child(odd) {
     margin-left: 30px;

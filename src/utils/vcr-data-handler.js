@@ -51,7 +51,11 @@ const vcrDataHandler = {
   },
 
   retrieveList() {
-    return firebase.database().ref('casettes').once('value');
+    return firebase.database()
+      .ref('casettes')
+      .orderByChild('timestamp')
+      .limitToFirst(5)
+      .once('value');
   },
 
   retrieveAction({ id }) {

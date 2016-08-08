@@ -34,6 +34,11 @@ class FeatureHighlight extends Component {
     } = this.props;
 
     window.requestAnimationFrame(() => {
+      // If the element has been removed in the last frame, abort!
+      if (!this.elem) {
+        return;
+      }
+
       // Add a transition to the element unless this is the initial transposition,
       // and we've elected to not animate the original one.
       if (animateInitialPosition || !initial) {
