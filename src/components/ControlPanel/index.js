@@ -76,7 +76,7 @@ class ControlPanel extends Component {
               min={0}
               max={50}
               step={0.1}
-              defaultValue={effect.options.resonance}
+              value={effect.options.resonance}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
@@ -98,7 +98,7 @@ class ControlPanel extends Component {
               min={0}
               max={4}
               step={2}
-              defaultValue={effect.options.oversample}
+              value={effect.options.oversample}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
@@ -120,7 +120,7 @@ class ControlPanel extends Component {
               min={0}
               max={8}
               step={0.1}
-              defaultValue={effect.options.time}
+              value={effect.options.time}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
@@ -136,7 +136,7 @@ class ControlPanel extends Component {
               min={0}
               max={20000}
               step={1}
-              defaultValue={effect.options.cutoff}
+              value={effect.options.cutoff}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
