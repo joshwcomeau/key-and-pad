@@ -2,10 +2,12 @@ import vcrDataHandler from '../utils/vcr-data-handler';
 import {
   CASETTES_LIST_REQUEST,
   SELECT_CASETTE,
-  TOGGLE_PLAY_PAUSE,
+  PLAY_CASETTE,
+  PAUSE_CASETTE,
   casetteActionsReceive,
   casettesListReceive,
   incrementActionsPlayed,
+  stopCasette,
 } from '../ducks/vcr-player.duck';
 
 
@@ -44,7 +46,7 @@ const vcrRetrieveMiddleware = store => next => action => {
       return;
     }
 
-    case TOGGLE_PLAY_PAUSE: {
+    case PLAY_CASETTE: {
       // Dispatch the action right away, so that it updates our state.
       // This is how we know whether this is a 'PLAY' or 'PAUSE' action.
       next(action);
@@ -69,19 +71,20 @@ function playActions({ store, next }) {
 
   const { playStatus, numOfCasetteActionsPlayed } = state;
 
-  console.log("Playing", numOfCasetteActionsPlayed)
-
   if (playStatus !== 'playing') {
     return false;
   }
-
-  // TODO: If we're at the end of the casette, set status to stopped.
 
   // Dispatch the next action immediately, and increment the number played.
   const [currentAction, nextAction] = actions.slice(numOfCasetteActionsPlayed);
 
   next(currentAction);
   next(incrementActionsPlayed());
+
+  // If we're at the end of the casette, set status to stopped.
+  if (numOfCasetteActionsPlayed === (actions.length - 1)) {
+    return next(stopCasette());
+  }
 
   window.setTimeout(
     () => playActions({ store, next }),

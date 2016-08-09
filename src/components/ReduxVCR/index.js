@@ -19,7 +19,8 @@ class ReduxVCR extends Component {
       playStatus,
       casetteStatus,
       selectedCasette,
-      togglePlayPause,
+      playCasette,
+      pauseCasette,
       viewCasettes,
       hideCasettes,
       ejectCasette,
@@ -31,7 +32,8 @@ class ReduxVCR extends Component {
           playStatus={playStatus}
           casetteStatus={casetteStatus}
           selectedCasette={selectedCasette}
-          handleClickPlay={togglePlayPause}
+          handleClickPlay={playCasette}
+          handleClickPause={pauseCasette}
           handleClickSlot={viewCasettes}
           handleClickScreen={viewCasettes}
           handleClickEject={ejectCasette}
@@ -58,7 +60,8 @@ ReduxVCR.propTypes = {
   hideCasettes: PropTypes.func,
   selectCasette: PropTypes.func,
   ejectCasette: PropTypes.func,
-  togglePlayPause: PropTypes.func,
+  playCasette: PropTypes.func,
+  pauseCasette: PropTypes.func,
 };
 
 ReduxVCR.defaultProps = {
@@ -81,6 +84,7 @@ export default connect(
     hideCasettes: actionCreators.hideCasettes,
     selectCasette: actionCreators.selectCasette,
     ejectCasette: actionCreators.ejectCasette,
-    togglePlayPause: actionCreators.togglePlayPause,
+    playCasette: actionCreators.playCasette,
+    pauseCasette: actionCreators.pauseCasette,
   }
 )(ReduxVCR);

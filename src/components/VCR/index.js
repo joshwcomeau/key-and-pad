@@ -104,12 +104,22 @@ class VCR extends Component {
       playStatus,
       casetteStatus,
       handleClickPlay,
+      handleClickPause,
       handleClickSlot,
       handleClickScreen,
       handleClickEject,
     } = this.props;
 
     const doorOpen = casetteStatus === 'selecting';
+
+    let playPauseAction;
+    if (casetteStatus !== 'loaded') {
+      playPauseAction = () => {};
+    } else if (playStatus === 'playing') {
+      playPauseAction = handleClickPause;
+    } else {
+      playPauseAction = handleClickPlay;
+    }
 
     return (
       <div className="vcr">
@@ -143,8 +153,8 @@ class VCR extends Component {
 
           <VCRButton
             className="play-button"
-            onClick={casetteStatus === 'loaded' ? handleClickPlay : () => {}}
-            iconValue={playStatus === 'paused' ? 'pause' : 'play'}
+            onClick={playPauseAction}
+            iconValue={playStatus === 'playing' ? 'pause' : 'play'}
             iconSize={24}
             glowing={casetteStatus === 'loaded' && playStatus === 'stopped'}
             rounded
@@ -179,6 +189,7 @@ VCR.propTypes = {
   casetteStatus: PropTypes.string,
   selectedCasette: PropTypes.string,
   handleClickPlay: PropTypes.func.isRequired,
+  handleClickPause: PropTypes.func.isRequired,
   handleClickSlot: PropTypes.func,
   handleClickScreen: PropTypes.func,
   handleClickEject: PropTypes.func.isRequired,
