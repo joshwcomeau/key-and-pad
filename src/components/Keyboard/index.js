@@ -12,7 +12,7 @@ import Tooltip from '../Tooltip';
 import './index.scss';
 
 
-export class Keyboard extends Component {
+class Keyboard extends Component {
   constructor(props) {
     super(props);
     this.handlePress = this.handlePress.bind(this);
@@ -50,11 +50,11 @@ export class Keyboard extends Component {
       ev,
       noteValue,
       currentNotes: this.props.notes,
-      mode: 'press'
+      mode: 'press',
     });
 
     if (isValid) {
-      this.props.addNote({ value: noteValue, letter })
+      this.props.addNote({ value: noteValue, letter });
     }
   }
 
@@ -84,7 +84,7 @@ export class Keyboard extends Component {
         key={letter}
         letter={letter}
         keyStyle={keyStyle}
-        active={this.props.notes.find(note => note.letter === letter)}
+        active={this.props.notes.includes(note => note.letter === letter)}
       />
     )
   }
@@ -113,10 +113,10 @@ export class Keyboard extends Component {
   }
 }
 
-Keyboard.PropTypes = {
+Keyboard.propTypes = {
   layout: PropTypes.arrayOf(PropTypes.array).isRequired,
   enabled: PropTypes.bool,
-  notes: PropTypes.arrayOf(PropTypes.string),
+  notes: PropTypes.arrayOf(PropTypes.object),
   addNote: PropTypes.func.isRequired,
   removeNote: PropTypes.func.isRequired,
 };
@@ -125,5 +125,7 @@ Keyboard.PropTypes = {
 const mapStateToProps = state => ({
   notes: state.notes,
 });
+
+export const KeyboardPresentational = Keyboard;
 
 export default connect(mapStateToProps, { addNote, removeNote })(Keyboard);

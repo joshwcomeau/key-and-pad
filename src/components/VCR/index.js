@@ -173,6 +173,7 @@ class VCR extends Component {
 }
 
 VCR.propTypes = {
+  mode: PropTypes.oneOf(['stopped', 'playing', 'paused']),
   doorLabel: PropTypes.string,
   playStatus: PropTypes.string,
   casetteStatus: PropTypes.string,

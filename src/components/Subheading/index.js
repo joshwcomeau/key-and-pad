@@ -31,7 +31,7 @@ Subheading.propTypes = {
   background: PropTypes.oneOf([
     'white',
     'offwhite',
-  ])
+  ]),
 };
 
 Subheading.defaultProps = {

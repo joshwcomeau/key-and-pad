@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-handler-names */
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactSlider from 'react-slider';
 import classNames from 'classnames';
 
@@ -19,6 +19,11 @@ const Slider = ({ withMidpoint, className, ...settings }) => {
       {withMidpoint ? <div className="slider-midpoint" /> : null}
     </div>
   );
+};
+
+Slider.propTypes = {
+  withMidpoint: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 export default Slider;

@@ -4,7 +4,12 @@ import classNames from 'classnames';
 import './index.scss';
 
 
-const XYPadAxisLabel = ({ label, className, includeRightArrow, includeLeftArrow }) => (
+const XYPadAxisLabel = ({
+  label,
+  className,
+  includeRightArrow,
+  includeLeftArrow,
+}) => (
   <div className={classNames('x-y-pad-axis-label', className)}>
     <h4 className="label-text">{label}</h4>
     <div className="axis-label-line" />
@@ -22,6 +27,8 @@ XYPadAxisLabel.propTypes = {
     PropTypes.string,
     PropTypes.array,
   ]),
+  includeRightArrow: PropTypes.bool,
+  includeLeftArrow: PropTypes.bool,
 };
 
 export default XYPadAxisLabel;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import ReactSelect from 'react-select';
 import classNames from 'classnames';
 
@@ -8,5 +8,9 @@ import './index.scss';
 const Select = ({ className, ...args }) => (
   <ReactSelect className={classNames('select', className)} {...args} />
 );
+
+Select.propTypes = {
+  className: PropTypes.string,
+};
 
 export default Select;

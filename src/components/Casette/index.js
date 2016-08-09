@@ -42,6 +42,7 @@ const Casette = ({ id, label, timestamp, numOfActions, handleClick }) => {
 
 Casette.propTypes = {
   id: PropTypes.string.isRequired,
+  label: PropTypes.string,
   timestamp: PropTypes.number.isRequired,
   numOfActions: PropTypes.number.isRequired,
   handleClick: PropTypes.func,

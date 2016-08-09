@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import './index.scss';
 
@@ -9,5 +9,9 @@ const Logo = ({ size }) => (
     <span className="word">Pad</span>
   </span>
 );
+
+Logo.propTypes = {
+  size: PropTypes.string,
+};
 
 export default Logo;

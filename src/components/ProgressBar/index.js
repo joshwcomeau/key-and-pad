@@ -5,7 +5,8 @@ import './index.scss';
 
 
 const ProgressBar = ({ className, progress }) => (
-  <div className={classNames([
+  <div
+    className={classNames([
       'progress-bar',
       className,
       { complete: progress >= 100 },
@@ -14,7 +15,7 @@ const ProgressBar = ({ className, progress }) => (
     <div className="progress-border" />
     <div
       className="progress"
-      style={{ transform: `translateX(${progress}%)`}}
+      style={{ transform: `translateX(${progress}%)` }}
     />
   </div>
 );

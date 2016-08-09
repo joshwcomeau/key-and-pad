@@ -16,11 +16,11 @@ const Icon = ({ color, size, value, ...delegated }) => {
         {...delegated}
         viewBox="0 0 24 24"
         style={{ fill: color, ...delegated.style }}
-        dangerouslySetInnerHTML={{ __html: iconMap[value ]}}
+        dangerouslySetInnerHTML={{ __html: iconMap[value] }}
       />
     </div>
   );
-}
+};
 
 Icon.propTypes = {
   color: PropTypes.string,

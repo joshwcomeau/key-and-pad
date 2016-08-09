@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
 
@@ -60,7 +60,7 @@ class ControlPanel extends Component {
                 this.props.tweakAxisParameter({
                   axis,
                   options: { filterType: value },
-                })
+                });
               }}
               options={[
                 { value: 'lowpass', label: 'low pass' },
@@ -87,7 +87,7 @@ class ControlPanel extends Component {
               }}
             />
           </div>
-        )
+        );
         break;
       }
       case 'distortion': {
@@ -109,7 +109,7 @@ class ControlPanel extends Component {
               }}
             />
           </div>
-        )
+        );
         break;
       }
       case 'reverb': {
@@ -131,7 +131,7 @@ class ControlPanel extends Component {
               }}
             />
 
-          <h5>filter cutoff</h5>
+            <h5>filter cutoff</h5>
             <Slider
               min={0}
               max={20000}
@@ -147,12 +147,12 @@ class ControlPanel extends Component {
               }}
             />
           </div>
-        )
+        );
         break;
       }
 
       default: {
-        controls = <div />
+        controls = <div />;
         break;
       }
     }
@@ -168,7 +168,7 @@ class ControlPanel extends Component {
             this.props.changeAxisEffect({
               axis,
               effect: value,
-            })
+            });
           }}
           options={[
             { value: 'filter', label: 'filter' },
@@ -179,7 +179,7 @@ class ControlPanel extends Component {
 
         {controls}
       </Column>
-    )
+    );
   }
 
   renderOscillatorControls(index) {
@@ -201,7 +201,7 @@ class ControlPanel extends Component {
           value={oscillator.gain}
           onChange={val => this.props.updateOscillator({
             index,
-            options: { gain: val }
+            options: { gain: val },
           })}
         />
 
@@ -215,7 +215,7 @@ class ControlPanel extends Component {
           className="with-orange-handle"
           onChange={val => this.props.updateOscillator({
             index,
-            options: { octaveAdjustment: val }
+            options: { octaveAdjustment: val },
           })}
         />
 
@@ -229,11 +229,11 @@ class ControlPanel extends Component {
           className="with-orange-handle"
           onChange={val => this.props.updateOscillator({
             index,
-            options: { detune: val }
+            options: { detune: val },
           })}
         />
       </Column>
-    )
+    );
   }
 
   render() {
@@ -259,6 +259,17 @@ class ControlPanel extends Component {
     );
   }
 }
+
+ControlPanel.propTypes = {
+  effects: PropTypes.shape({
+    x: PropTypes.object,
+    y: PropTypes.object,
+  }),
+  oscillators: PropTypes.array,
+  updateOscillator: PropTypes.func,
+  changeAxisEffect: PropTypes.func,
+  tweakAxisParameter: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   effects: state.effects,

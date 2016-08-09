@@ -15,15 +15,12 @@ class FeatureHighlight extends Component {
     this.state = {};
   }
 
-  componentDidUpdate(prevProps) {
-    this.transpose();
-
-    // If the tooltip was just killed in this update,
-    // we don't want to wipe it from the DOM immediatel
-  }
-
   componentDidMount() {
     this.transpose({ initial: true });
+  }
+
+  componentDidUpdate() {
+    this.transpose();
   }
 
   transpose({ initial = false } = {}) {
@@ -42,7 +39,9 @@ class FeatureHighlight extends Component {
       // Add a transition to the element unless this is the initial transposition,
       // and we've elected to not animate the original one.
       if (animateInitialPosition || !initial) {
-        this.elem.style.transition = `transform ${this.props.transposeLength}ms, opacity ${this.props.fadeLength}ms`;
+        const transform = `transform ${this.props.transposeLength}ms`;
+        const opacity = `opacity ${this.props.fadeLength}ms`;
+        this.elem.style.transition = [transform, opacity].join(', ');
       }
 
       const { top, left, width, height } = this.elem.getBoundingClientRect();
@@ -66,18 +65,18 @@ class FeatureHighlight extends Component {
         offsetTop = 0;
       }
 
-
       this.elem.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
-    })
+    });
   }
 
+  // eslint-disable-next-line consistent-return
   renderPointer() {
     const relevantPointerOptions = this.props.pointerOptions.find(p => (
       p.render
     ));
 
     if (relevantPointerOptions) {
-      return <FeaturePointer key="pointer" {...relevantPointerOptions} />
+      return <FeaturePointer key="pointer" {...relevantPointerOptions} />;
     }
   }
 
@@ -108,7 +107,7 @@ class FeatureHighlight extends Component {
           {this.renderPointer()}
         </ReactCSSTransitionGroup>
       </div>
-    )
+    );
   }
 }
 

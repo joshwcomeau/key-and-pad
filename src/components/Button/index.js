@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 import './index.scss';
 
 
-const Button = ({ className, children, handleClick, ...delegatedProps }) => {
+const Button = ({ children, className, handleClick, ...delegatedProps }) => {
   return (
     <button
       onTouchTap={handleClick}
@@ -13,7 +13,13 @@ const Button = ({ className, children, handleClick, ...delegatedProps }) => {
     >
       {children}
     </button>
-  )
+  );
+};
+
+Button.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  handleClick: PropTypes.func,
 };
 
 export default Button;

@@ -69,8 +69,6 @@ class CasetteList extends Component {
       goToPreviousCasettePage,
     } = this.props;
 
-    console.log("Rendering", casettes)
-
     const previousButtonClasses = classNames([
       'vcr-pagination-control',
       'previous',

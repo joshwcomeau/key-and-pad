@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Header from '../Header';
@@ -68,16 +68,16 @@ const App = ({
         pointerOptions={[
           {
             render: isSameStage('keys-introduced'),
-            title: "These are your keys.",
-            text: "Try pressing some buttons on your keyboard to get the hang of it.",
+            title: 'These are your keys.',
+            text: 'Try pressing some buttons on your keyboard to get the hang of it.',
             position: 'bottom',
             tipPosition: 'left',
             progress: keysIntroProgress,
             centered: true,
           }, {
             render: isSameStage('keys-confirmed'),
-            title: "Beautiful!",
-            text: "Your music is like sunshine on a rainy day.",
+            title: 'Beautiful!',
+            text: 'Your music is like sunshine on a rainy day.',
             position: 'bottom',
             progress: keysIntroProgress,
             centered: true,
@@ -125,8 +125,8 @@ const App = ({
           position: 'top',
           tipPosition: 'center',
           centered: true,
-          bubble: true
-        }
+          bubble: true,
+        },
       ]}
     >
       <ControlPanel />
@@ -136,6 +136,15 @@ const App = ({
     <ReduxVCR />
   </div>
 );
+
+App.propTypes = {
+  isBeforeStage: PropTypes.func,
+  isAfterStage: PropTypes.func,
+  isAtLeastStage: PropTypes.func,
+  isSameStage: PropTypes.func,
+  keysIntroProgress: PropTypes.number,
+  padIntroProgress: PropTypes.number,
+};
 
 const mapStateToProps = state => ({
   // Partially apply our stage selectors with the current stage.

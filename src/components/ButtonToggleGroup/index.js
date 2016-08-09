@@ -7,7 +7,7 @@ import './index.scss';
 const ButtonToggleGroup = ({ children, className, ...delegatedProps }) => {
   return (
     <div
-      className={classNames("button-toggle-group", className)}
+      className={classNames('button-toggle-group', className)}
       {...delegatedProps}
     >
       {children}
@@ -17,6 +17,7 @@ const ButtonToggleGroup = ({ children, className, ...delegatedProps }) => {
 
 ButtonToggleGroup.propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
 };
 
 export default ButtonToggleGroup;

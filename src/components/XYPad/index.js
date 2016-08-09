@@ -8,7 +8,7 @@ import XYPadAxisLabel from '../XYPadAxisLabel';
 import './index.scss';
 
 
-export class XYPad extends Component {
+class XYPad extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -21,11 +21,11 @@ export class XYPad extends Component {
   componentDidMount() {
     // Binding this to window instead of the pad itself so that we catch
     // events that happen slightly outside the box.
-    window.addEventListener('mouseup', this.handleRelease)
+    window.addEventListener('mouseup', this.handleRelease);
   }
 
   componentWillUnmount() {
-    window.removeEventListener('mouseup', this.handleRelease)
+    window.removeEventListener('mouseup', this.handleRelease);
   }
 
   calculateAndUpdatePosition(clientX, clientY) {
@@ -41,13 +41,13 @@ export class XYPad extends Component {
 
     this.props.updateEffectsAmount({
       xAmount: x,
-      yAmount: y
+      yAmount: y,
     });
 
     // Also, we need a visual cue!
     // move the red circle to the cursor's position
     // I'm doing this imperatively for perf reasons :(
-    this.setState({ offsetX, offsetY, isPressed: true })
+    this.setState({ offsetX, offsetY, isPressed: true });
   }
 
   handleClick(ev) {
@@ -108,7 +108,7 @@ export class XYPad extends Component {
           label={yAxisLabel}
           className="vertical-axis"
           includeLeftArrow
-          />
+        />
       </div>
     );
   }
@@ -125,6 +125,8 @@ const mapStateToProps = state => ({
   xAxisLabel: state.effects.x.name,
   yAxisLabel: state.effects.y.name,
 });
+
+export const XYPadPresentational = XYPad;
 
 export default connect(
   mapStateToProps,

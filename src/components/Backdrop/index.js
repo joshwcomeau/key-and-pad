@@ -58,7 +58,7 @@ Backdrop.defaultProps = {
   animation: 'fade',
   opacity: 0.75,
   background: '#000',
-  closeColor: '#F11E0E'
+  closeColor: '#F11E0E',
 };
 
 export default Backdrop;

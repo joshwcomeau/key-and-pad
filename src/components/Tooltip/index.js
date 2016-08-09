@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 
-import './index.scss';
-
 import debounce from 'lodash/debounce';
+import './index.scss';
 
 
 class Tooltip extends Component {
@@ -13,17 +12,13 @@ class Tooltip extends Component {
   }
 
   componentDidMount() {
-    this._container = this._tooltip.parentNode;
+    this.containerElem = this.tooltipElem.parentNode;
 
     this.setPositionStyles = debounce(this.setPositionStyles.bind(this), 500);
 
     window.addEventListener('resize', this.setPositionStyles);
 
     this.setPositionStyles();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.setPositionStyles);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -38,38 +33,42 @@ class Tooltip extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setPositionStyles);
+  }
+
   setPositionStyles() {
     const { position, buffer } = this.props;
 
     // We need to manually position the tooltip based on the container's
     // size, and requested props. This is annoyingly imperative, but it's
     // the only way to ensure the tooltip can be used declaratively :)
-    const containerBox = this._container.getBoundingClientRect();
-    const tooltipBox = this._tooltip.getBoundingClientRect();
+    const containerBox = this.containerElem.getBoundingClientRect();
+    const tooltipBox = this.tooltipElem.getBoundingClientRect();
 
     switch (position) {
       case 'top': {
         const leftOffset = (containerBox.width - tooltipBox.width) / 2;
-        this._tooltip.style.left = `${leftOffset}px`;
-        this._tooltip.style.top = `${-tooltipBox.height - buffer}px`;
+        this.tooltipElem.style.left = `${leftOffset}px`;
+        this.tooltipElem.style.top = `${-tooltipBox.height - buffer}px`;
         break;
       }
       case 'left': {
         const topOffset = (containerBox.height - tooltipBox.height) / 2;
-        this._tooltip.style.top = `${topOffset}px`;
-        this._tooltip.style.left = `${-tooltipBox.width - buffer}px`;
+        this.tooltipElem.style.top = `${topOffset}px`;
+        this.tooltipElem.style.left = `${-tooltipBox.width - buffer}px`;
         break;
       }
       case 'right': {
         const topOffset = (containerBox.height - tooltipBox.height) / 2;
-        this._tooltip.style.top = `${topOffset}px`;
-        this._tooltip.style.right = `${-tooltipBox.width - buffer}px`;
+        this.tooltipElem.style.top = `${topOffset}px`;
+        this.tooltipElem.style.right = `${-tooltipBox.width - buffer}px`;
         break;
       }
       case 'bottom': {
         const leftOffset = (containerBox.width - tooltipBox.width) / 2;
-        this._tooltip.style.left = `${leftOffset}px`;
-        this._tooltip.style.bottom = `${-tooltipBox.height - buffer}px`;
+        this.tooltipElem.style.left = `${leftOffset}px`;
+        this.tooltipElem.style.bottom = `${-tooltipBox.height - buffer}px`;
         break;
       }
       default: {
@@ -112,11 +111,11 @@ class Tooltip extends Component {
     return (
       <div
         className={classes}
-        ref={el => { this._tooltip = el; }}
+        ref={el => { this.tooltipElem = el; }}
         style={{
           opacity: this.state.shown ? '1' : '0',
           pointerEvents: this.state.shown ? '' : 'none',
-          transform: this.state.shown ? 'translateY(0)' : ''
+          transform: this.state.shown ? 'translateY(0)' : '',
         }}
       >
         <div className="tooltip-content">{text}</div>

@@ -20,7 +20,7 @@ class IconCycle extends PureComponent {
         index: nextIndex,
         value: this.props.values[nextIndex],
       });
-    }, this.props.speed)
+    }, this.props.speed);
   }
 
   componentWillUnmount() {
@@ -37,7 +37,7 @@ class IconCycle extends PureComponent {
         color={color}
         size={size}
       />
-    )
+    );
   }
 }
 
@@ -46,7 +46,7 @@ IconCycle.propTypes = {
   speed: PropTypes.number,
   styles: PropTypes.arrayOf(PropTypes.object),
   color: PropTypes.string,
-  size: PropTypes.number
+  size: PropTypes.number,
 };
 
 IconCycle.defaultProps = {

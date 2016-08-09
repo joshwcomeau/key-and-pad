@@ -74,6 +74,8 @@ function playActions({ store, next, actions }) {
 
   next(action);
 
+  // TODO: Dispatch an action to increment casette_action_index.
+
   const { playStatus } = store.getState().vcrPlayer;
 
   if (playStatus === 'playing') {

@@ -12,10 +12,6 @@ import './index.scss';
 class ReduxVCR extends Component {
   componentDidMount() {
     this.props.casettesListRequest();
-
-    // setTimeout(() => {
-    //   this.props.selectCasette({ id: '3fef7270-804a-4718-abdf-156904ee8661' })
-    // }, 2000)
   }
 
   render() {

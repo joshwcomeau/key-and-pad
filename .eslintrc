@@ -16,6 +16,7 @@
     "new-cap": 0,
     "arrow-body-style": 0,
     "no-return-assign": 0,
+    "no-mixed-operators": 0,
     "prefer-template": 0,
     "quote-props": 0,
   },

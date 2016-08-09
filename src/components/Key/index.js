@@ -12,10 +12,16 @@ const Key = ({ letter, keyStyle, active, ...data}) => {
       {letter}
     </div>
   );
-}
+};
 
 Key.propTypes = {
   letter: PropTypes.string.isRequired,
+  keyStyle: PropTypes.oneOf([
+    'black',
+    'white',
+    'placeholder',
+  ]),
+  active: PropTypes.bool,
 };
 
 export default Key;

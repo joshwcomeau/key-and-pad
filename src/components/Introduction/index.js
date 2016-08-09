@@ -1,8 +1,9 @@
-import React from 'react';
+/* eslint-disable max-len */
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { next } from '../../ducks/onboarding.duck';
+import * as actionCreators from '../../ducks/onboarding.duck';
 
 import Logo from '../Logo';
 import Subheading from '../Subheading';
@@ -23,7 +24,8 @@ const Introduction = ({ next, fadeUp }) => (
         <Subheading className="title">Welcome!</Subheading>
         <p>
           <Logo size="small" />
-          &nbsp;is a Web Audio experiment, combining a keyboard-controlled synthesizer with a mouse-controlled X/Y Pad (eg. Kaoss Pad).</p>
+          &nbsp;is a Web Audio experiment, combining a keyboard-controlled synthesizer with a mouse-controlled X/Y Pad (eg. Kaoss Pad).
+        </p>
         <p>There are a few things you'll need:</p>
       </header>
 
@@ -44,12 +46,12 @@ const Introduction = ({ next, fadeUp }) => (
               {},
               { transform: 'translateX(-6px)' },
               { transform: 'translateX(-12px)' },
-              { transform: 'translateX(-6px)' }
+              { transform: 'translateX(-6px)' },
             ]}
             speed={250}
             size={72}
           />
-        <Subheading underline="navy">
+          <Subheading underline="navy">
             Sound
           </Subheading>
           <p>
@@ -78,5 +80,10 @@ const Introduction = ({ next, fadeUp }) => (
   </div>
 );
 
+Introduction.propTypes = {
+  next: PropTypes.func.isRequired,
+  fadeUp: PropTypes.bool,
+};
 
-export default connect(null, { next })(Introduction);
+
+export default connect(null, { next: actionCreators.next })(Introduction);

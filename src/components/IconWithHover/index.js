@@ -36,7 +36,7 @@ class IconWithHover extends PureComponent {
           size={size}
         />
       </span>
-    )
+    );
   }
 }
 

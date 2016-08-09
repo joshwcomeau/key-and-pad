@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 
 import './index.scss';
@@ -8,5 +8,10 @@ const Row = ({ children, className }) => (
     {children}
   </div>
 );
+
+Row.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+};
 
 export default Row;
