@@ -6,6 +6,7 @@ const initialState = {
   casetteStatus: 'idle', // One of 'idle', 'selecting', 'loaded'
   casettePageNumber: 0,
   casettePageLimit: 3,
+  numOfCasetteActionsPlayed: 0,
 };
 
 
@@ -23,6 +24,7 @@ export const GO_TO_NEXT_CASETTE_PAGE = 'VCR_PLAYER/GO_TO_NEXT_CASETTE_PAGE';
 export const GO_TO_PREVIOUS_CASETTE_PAGE = 'VCR_PLAYER/GO_TO_PREVIOUS_CASETTE_PAGE';
 export const CASETTE_ACTIONS_RECEIVE = 'VCR_PLAYER/CASETTE_ACTIONS_RECEIVE';
 export const TOGGLE_PLAY_PAUSE = 'VCR_PLAYER/TOGGLE_PLAY_PAUSE';
+export const INCREMENT_ACTIONS_PLAYED = 'VCR_PLAYER/INCREMENT_ACTIONS_PLAYED';
 
 // ////////////////////////
 // REDUCERS //////////////
@@ -107,6 +109,13 @@ export default function vcrPlayerReducer(state = initialState, action) {
       };
     }
 
+    case INCREMENT_ACTIONS_PLAYED: {
+      return {
+        ...state,
+        numOfCasetteActionsPlayed: state.numOfCasetteActionsPlayed + 1,
+      };
+    }
+
     default:
       return state;
   }
@@ -158,4 +167,8 @@ export const casetteActionsReceive = ({ id, casetteActions }) => ({
 
 export const togglePlayPause = () => ({
   type: TOGGLE_PLAY_PAUSE,
+});
+
+export const incrementActionsPlayed = () => ({
+  type: INCREMENT_ACTIONS_PLAYED,
 });

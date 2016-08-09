@@ -5,6 +5,7 @@ import {
   TOGGLE_PLAY_PAUSE,
   casetteActionsReceive,
   casettesListReceive,
+  incrementActionsPlayed,
 } from '../ducks/vcr-player.duck';
 
 
@@ -48,19 +49,10 @@ const vcrRetrieveMiddleware = store => next => action => {
       // This is how we know whether this is a 'PLAY' or 'PAUSE' action.
       next(action);
 
-      const state = store.getState().vcrPlayer;
-      const actions = state.actions[state.selectedCasette];
-      const { playStatus } = state;
-
-      if (playStatus === 'playing') {
-        return playActions({
-          store,
-          next,
-          actions,
-        });
-      }
-
-      return;
+      return playActions({
+        store,
+        next,
+      });
     }
 
     default: {
@@ -69,21 +61,32 @@ const vcrRetrieveMiddleware = store => next => action => {
   }
 };
 
-function playActions({ store, next, actions }) {
-  const [action, ...restOfActions] = actions;
+function playActions({ store, next }) {
+  const state = store.getState().vcrPlayer;
 
-  next(action);
+  const actions = state.actions[state.selectedCasette];
+  const casette = state.casettes[state.selectedCasette];
 
-  // TODO: Dispatch an action to increment casette_action_index.
+  const { playStatus, numOfCasetteActionsPlayed } = state;
 
-  const { playStatus } = store.getState().vcrPlayer;
+  console.log("Playing", numOfCasetteActionsPlayed)
 
-  if (playStatus === 'playing') {
-    window.setTimeout(
-      () => playActions({ store, next, actions: restOfActions }),
-      restOfActions[0].delay
-    );
+  if (playStatus !== 'playing') {
+    return false;
   }
+
+  // TODO: If we're at the end of the casette, set status to stopped.
+
+  // Dispatch the next action immediately, and increment the number played.
+  const [currentAction, nextAction] = actions.slice(numOfCasetteActionsPlayed);
+
+  next(currentAction);
+  next(incrementActionsPlayed());
+
+  window.setTimeout(
+    () => playActions({ store, next }),
+    nextAction.delay
+  );
 }
 
 export default vcrRetrieveMiddleware;
