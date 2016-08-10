@@ -7,6 +7,7 @@ const initialState = {
   casettePageNumber: 0,
   casettePageLimit: 3,
   numOfCasetteActionsPlayed: 0,
+  playbackSpeed: 1,
 };
 
 

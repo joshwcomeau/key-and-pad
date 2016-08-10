@@ -36,6 +36,14 @@ $primary-action-button-height: 30px;
       animation: vcrButtonGlow 3s linear infinite;
     }
 
+    &.vcr-button-toggled {
+      background: darken($darkgray, 5%);
+      border-top: 1px solid rgba(0,0,0,0.4);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      box-shadow: none;
+      transform: translateY(1px);
+    }
+
     &.eject-button {
       position: absolute;
       top: $standard-padding;

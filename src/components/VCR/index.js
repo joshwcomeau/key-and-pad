@@ -13,11 +13,12 @@ import './index.scss';
 
 // /////////////////////////// VCR BUTTON
 const VCRButton = ({
-  children, className, iconValue, iconSize, glowing, rounded, onClick,
+  children, className, iconValue, iconSize, glowing, rounded, onClick, toggled,
 }) => {
   const classes = classNames('vcr-button', className, {
     'vcr-button-glowing': glowing,
     'vcr-button-rounded': rounded,
+    'vcr-button-toggled': toggled,
   });
 
   // TODO: Switch from hardcoding the color to setting it in CSS with !important.
@@ -122,11 +123,10 @@ class VCR extends Component {
       stopCasette,
       viewCasettes,
       ejectCasette,
+      playbackSpeed,
     } = this.props;
 
     const doorOpen = casetteStatus === 'selecting';
-
-    console.log("PLAY STATUS", playStatus)
 
     let playPauseAction;
     if (casetteStatus !== 'loaded') {
@@ -182,18 +182,21 @@ class VCR extends Component {
           <VCRButton
             className="speed-half"
             onClick={playPauseAction}
+            toggled={playbackSpeed === 0.5}
           >
             .5x
           </VCRButton>
           <VCRButton
             className="speed-normal"
             onClick={playPauseAction}
+            toggled={playbackSpeed === 1}
           >
             1x
           </VCRButton>
           <VCRButton
             className="speed-double"
             onClick={playPauseAction}
+            toggled={playbackSpeed === 2}
           >
             2x
           </VCRButton>
@@ -224,6 +227,7 @@ VCR.propTypes = {
   stopCasette: PropTypes.func.isRequired,
   viewCasettes: PropTypes.func.isRequired,
   ejectCasette: PropTypes.func.isRequired,
+  playbackSpeed: PropTypes.number,
 };
 
 VCR.defaultProps = {
@@ -234,6 +238,7 @@ const mapStateToProps = state => ({
   playStatus: state.vcrPlayer.playStatus,
   casetteStatus: state.vcrPlayer.casetteStatus,
   selectedCasette: state.vcrPlayer.selectedCasette,
+  playbackSpeed: state.vcrPlayer.playbackSpeed,
 });
 
 
