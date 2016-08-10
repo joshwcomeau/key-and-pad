@@ -1,10 +1,15 @@
 @import '../../vcr-variables';
 
+$vcr-button-radius: 3px;
+$standard-padding: 10px;
+$primary-actions-width: 100px;
+$primary-action-button-height: 30px;
+
 .redux-vcr-component .vcr {
   position: relative;
   z-index: 2;
   background: $darkgray;
-  width: 500px;
+  width: $vcr-width;
   height: 100px;
   color: $white;
   border-radius: 8px 8px 5px 5px;
@@ -14,8 +19,10 @@
     border: 0;
     border-top: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0px 0px 1px rgba(0,0,0,0.8);
-    border-radius: 3px;
+    border-radius: $vcr-button-radius;
     background: $darkgray;
+    color: $white;
+    font-size: 10px;
     cursor: pointer;
 
     &.vcr-button-rounded {
@@ -31,42 +38,57 @@
 
     &.eject-button {
       position: absolute;
-      top: 20px;
-      left: 21px;
+      top: $standard-padding;
+      left: $standard-padding * 2;
     }
 
-    &.play-button {
-      position: relative;
-      z-index: 2;
+    &.play-pause-button {
     }
 
-    &.fast-rewind-button {
-      position: relative;
-      z-index: 1;
-      transform: translateX(5px);
-    }
+    &.stop-button {
 
-    &.fast-forward-button {
-      position: relative;
-      z-index: 1;
-      transform: translateX(-5px);
     }
   }
 
-  .primary-action-buttons {
+  .primary-action-buttons, .secondary-action-buttons {
     position: absolute;
+    width: 100px;
+    right: $standard-padding * 2;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 12px;
-    top: 10px;
+  }
+
+  .primary-action-buttons {
+    justify-content: space-between;
+    top: $standard-padding;
+
+    .vcr-button {
+      height: $primary-action-button-height;
+      width: ($primary-actions-width / 2) - ($standard-padding / 2);
+    }
+  }
+
+  .secondary-action-buttons {
+    top: $primary-action-button-height + $standard-padding * 2;
+
+    .vcr-button {
+      border-radius: 0;
+      flex: 1;
+    }
+
+    .vcr-button:first-of-type {
+      border-radius: $vcr-button-radius 0 0 $vcr-button-radius;
+    }
+
+    .vcr-button:last-of-type {
+      border-radius: 0 $vcr-button-radius $vcr-button-radius 0;
+    }
   }
 
   .casette-slot-door, .casette-slot {
     position: absolute;
-    top: 5px;
+    top: $standard-padding - 2px;
     left: 75px;
-    height: 50px;
+    height: 48px;
     line-height: 44px;
     width: 305px;
   }
@@ -147,7 +169,7 @@
 
   .vcr-screen {
     position: absolute;
-    bottom: 5px;
+    bottom: $standard-padding;
     left: 80px;
     height: 30px;
     width: 295px;
@@ -221,8 +243,8 @@
 
   .decorative-outputs {
     position: absolute;
-    left: 11px;
-    bottom: 5px;
+    left: $standard-padding + 3px;
+    bottom: $standard-padding;
     border-radius: 30px;
     background: rgba(0,0,0,0.3);
     padding: 4px;

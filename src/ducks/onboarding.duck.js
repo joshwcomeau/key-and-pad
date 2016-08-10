@@ -33,7 +33,7 @@ export default function onboardingReducer(state = initialState, action) {
       const currentIndex = onboardingStages.indexOf(state.stage);
       return {
         ...state,
-        stage: onboardingStages[currentIndex+1]
+        stage: onboardingStages[currentIndex + 1]
       };
     }
 

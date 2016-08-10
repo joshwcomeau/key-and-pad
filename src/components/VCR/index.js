@@ -6,11 +6,11 @@ import Icon from '../Icon';
 import './index.scss';
 
 
-// TODO: This should probably be broken into a few components (VCRButton,
-// RCAOutput, etc). Because I want to limit extraction costs from this repo,
-// this should come once ReduxVCR is its own thing.
+// TODO: Move each of these components into their own file
+
+// /////////////////////////// VCR BUTTON
 const VCRButton = ({
-  className, iconValue, iconSize, glowing, rounded, onClick,
+  children, className, iconValue, iconSize, glowing, rounded, onClick,
 }) => {
   const classes = classNames('vcr-button', className, {
     'vcr-button-glowing': glowing,
@@ -22,12 +22,13 @@ const VCRButton = ({
 
   return (
     <button className={classes} onClick={onClick}>
-      <Icon value={iconValue} size={iconSize} color="#f4f7f8" />
+      {children || <Icon value={iconValue} size={iconSize} color="#f4f7f8" />}
     </button>
   );
 };
 
 VCRButton.propTypes = {
+  children: PropTypes.node,
   className: PropTypes.string,
   iconValue: PropTypes.string.isRequired,
   iconSize: PropTypes.number,
@@ -42,6 +43,7 @@ VCRButton.defaultProps = {
 };
 
 
+// //////////////////// POWER LIGHT
 const VCRPowerLight = ({ mode }) => {
   const classes = classNames('vcr-power-light', {
     'light-off': mode === 'stopped',
@@ -55,6 +57,15 @@ const VCRPowerLight = ({ mode }) => {
     </div>
   );
 };
+
+VCRPowerLight.propTypes = {
+  mode: PropTypes.oneOf([
+    'stopped',
+    'playing',
+    'paused',
+  ]),
+};
+
 
 class VCR extends Component {
   renderScreen() {
@@ -105,6 +116,7 @@ class VCR extends Component {
       casetteStatus,
       handleClickPlay,
       handleClickPause,
+      handleClickStop,
       handleClickSlot,
       handleClickScreen,
       handleClickEject,
@@ -130,6 +142,7 @@ class VCR extends Component {
           className="eject-button"
           onClick={handleClickEject}
           iconValue="eject"
+          iconSize={16}
         />
         <div
           className={`casette-slot-door ${doorOpen ? 'is-open' : ''}`}
@@ -146,25 +159,40 @@ class VCR extends Component {
 
         <div className="primary-action-buttons">
           <VCRButton
-            className="fast-rewind-button"
-            onClick={() => {}}
-            iconValue="fast_rewind"
-          />
-
-          <VCRButton
-            className="play-button"
+            className="play-pause-button"
             onClick={playPauseAction}
             iconValue={playStatus === 'playing' ? 'pause' : 'play'}
-            iconSize={24}
+            iconSize={20}
             glowing={casetteStatus === 'loaded' && playStatus === 'stopped'}
-            rounded
           />
-
           <VCRButton
-            className="fast-forward-button"
-            onClick={() => {}}
-            iconValue="fast_forward"
+            className="stop-button"
+            onClick={handleClickStop}
+            iconValue={'stop'}
+            iconSize={20}
+            glowing={playStatus === 'playing' || playStatus === 'paused'}
           />
+        </div>
+
+        <div className="secondary-action-buttons">
+          <VCRButton
+            className="speed-half"
+            onClick={playPauseAction}
+          >
+            .5x
+          </VCRButton>
+          <VCRButton
+            className="speed-normal"
+            onClick={playPauseAction}
+          >
+            1x
+          </VCRButton>
+          <VCRButton
+            className="speed-double"
+            onClick={playPauseAction}
+          >
+            2x
+          </VCRButton>
         </div>
 
         <div className="decorative-outputs">
@@ -190,6 +218,7 @@ VCR.propTypes = {
   selectedCasette: PropTypes.string,
   handleClickPlay: PropTypes.func.isRequired,
   handleClickPause: PropTypes.func.isRequired,
+  handleClickStop: PropTypes.func.isRequired,
   handleClickSlot: PropTypes.func,
   handleClickScreen: PropTypes.func,
   handleClickEject: PropTypes.func.isRequired,
