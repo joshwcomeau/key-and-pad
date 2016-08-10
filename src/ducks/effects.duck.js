@@ -5,12 +5,14 @@ const initialState = {
     name: 'filter',
     active: false,
     amount: 0,
-    options: effectDefaultOptions.filter
+    cursorPosition: 0,
+    options: effectDefaultOptions.filter,
   },
   y: {
     name: 'distortion',
     active: false,
     amount: 0,
+    cursorPosition: 0,
     options: effectDefaultOptions.distortion,
   },
 };
@@ -49,11 +51,13 @@ export default function soundsReducer(state = initialState, action) {
           ...state.x,
           active: true,
           amount: action.xAmount,
+          cursorPosition: action.xCursor,
         },
         y: {
           ...state.y,
           active: true,
           amount: action.yAmount,
+          cursorPosition: action.yCursor,
         },
       };
     }
@@ -95,10 +99,17 @@ export const deactivateEffects = () => ({
   type: DEACTIVATE_EFFECTS,
 });
 
-export const updateEffectsAmount = ({ yAmount, xAmount }) => ({
-  type: UPDATE_EFFECTS_AMOUNT,
-  yAmount,
+export const updateEffectsAmount = ({
   xAmount,
+  yAmount,
+  xCursor,
+  yCursor,
+}) => ({
+  type: UPDATE_EFFECTS_AMOUNT,
+  xAmount,
+  yAmount,
+  xCursor,
+  yCursor,
 });
 
 export const changeAxisEffect = ({ axis, effect }) => ({

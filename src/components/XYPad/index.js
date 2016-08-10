@@ -14,8 +14,6 @@ class XYPad extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handlePress = this.handlePress.bind(this);
     this.handleRelease = this.handleRelease.bind(this);
-
-    this.state = {};
   }
 
   componentDidMount() {
@@ -40,14 +38,11 @@ class XYPad extends Component {
     const y = offsetY / boundingBox.height;
 
     this.props.updateEffectsAmount({
+      xCursor: offsetX,
+      yCursor: offsetY,
       xAmount: x,
       yAmount: y,
     });
-
-    // Also, we need a visual cue!
-    // move the red circle to the cursor's position
-    // I'm doing this imperatively for perf reasons :(
-    this.setState({ offsetX, offsetY, isPressed: true });
   }
 
   handleClick(ev) {
@@ -67,16 +62,15 @@ class XYPad extends Component {
   }
 
   handleRelease() {
-    if (this.state.isPressed) {
+    if (this.props.isPressed) {
       this.props.deactivateEffects();
-      this.setState({ isPressed: false });
     }
   }
 
   render() {
     const svgClasses = classNames(
       'pointer-indicator',
-      { 'is-pressed': this.state.isPressed }
+      { 'is-pressed': this.props.isPressed }
     );
 
     const { xAxisLabel, yAxisLabel } = this.props;
@@ -95,8 +89,8 @@ class XYPad extends Component {
             height="100%"
             className={svgClasses}
           >
-            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
-            <circle cx={this.state.offsetX} cy={this.state.offsetY} r="10" />
+            <circle cx={this.props.offsetX} cy={this.props.offsetY} r="10" />
+            <circle cx={this.props.offsetX} cy={this.props.offsetY} r="10" />
           </svg>
         </div>
         <XYPadAxisLabel
@@ -115,15 +109,21 @@ class XYPad extends Component {
 }
 
 XYPad.propTypes = {
-  updateEffectsAmount: PropTypes.func.isRequired,
-  deactivateEffects: PropTypes.func.isRequired,
+  offsetX: PropTypes.number,
+  offsetY: PropTypes.number,
   xAxisLabel: PropTypes.string.isRequired,
   yAxisLabel: PropTypes.string.isRequired,
+  isPressed: PropTypes.bool,
+  updateEffectsAmount: PropTypes.func.isRequired,
+  deactivateEffects: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
+  offsetX: state.effects.x.cursorPosition,
+  offsetY: state.effects.y.cursorPosition,
   xAxisLabel: state.effects.x.name,
   yAxisLabel: state.effects.y.name,
+  isPressed: state.effects.x.active && state.effects.y.active,
 });
 
 export const XYPadPresentational = XYPad;
