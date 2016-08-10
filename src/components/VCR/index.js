@@ -1,6 +1,9 @@
 /* eslint-disable jsx-a11y/no-marquee */
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
+
+import * as actionCreators from '../../ducks/vcr-player.duck';
 import Icon from '../Icon';
 
 import './index.scss';
@@ -114,23 +117,24 @@ class VCR extends Component {
       doorLabel,
       playStatus,
       casetteStatus,
-      handleClickPlay,
-      handleClickPause,
-      handleClickStop,
-      handleClickSlot,
-      handleClickScreen,
-      handleClickEject,
+      playCasette,
+      pauseCasette,
+      stopCasette,
+      viewCasettes,
+      ejectCasette,
     } = this.props;
 
     const doorOpen = casetteStatus === 'selecting';
+
+    console.log("PLAY STATUS", playStatus)
 
     let playPauseAction;
     if (casetteStatus !== 'loaded') {
       playPauseAction = () => {};
     } else if (playStatus === 'playing') {
-      playPauseAction = handleClickPause;
+      playPauseAction = pauseCasette;
     } else {
-      playPauseAction = handleClickPlay;
+      playPauseAction = playCasette;
     }
 
     return (
@@ -140,7 +144,7 @@ class VCR extends Component {
         <div className="vcr-bg" />
         <VCRButton
           className="eject-button"
-          onClick={handleClickEject}
+          onClick={ejectCasette}
           iconValue="eject"
           iconSize={16}
         />
@@ -151,9 +155,9 @@ class VCR extends Component {
             {doorLabel}
           </span>
         </div>
-        <div className="casette-slot" onClick={handleClickSlot} />
+        <div className="casette-slot" onClick={viewCasettes} />
 
-        <div className="vcr-screen" onClick={handleClickScreen}>
+        <div className="vcr-screen" onClick={viewCasettes}>
           {this.renderScreen()}
         </div>
 
@@ -167,7 +171,7 @@ class VCR extends Component {
           />
           <VCRButton
             className="stop-button"
-            onClick={handleClickStop}
+            onClick={stopCasette}
             iconValue={'stop'}
             iconSize={20}
             glowing={playStatus === 'playing' || playStatus === 'paused'}
@@ -211,21 +215,32 @@ class VCR extends Component {
 }
 
 VCR.propTypes = {
-  mode: PropTypes.oneOf(['stopped', 'playing', 'paused']),
   doorLabel: PropTypes.string,
   playStatus: PropTypes.string,
   casetteStatus: PropTypes.string,
   selectedCasette: PropTypes.string,
-  handleClickPlay: PropTypes.func.isRequired,
-  handleClickPause: PropTypes.func.isRequired,
-  handleClickStop: PropTypes.func.isRequired,
-  handleClickSlot: PropTypes.func,
-  handleClickScreen: PropTypes.func,
-  handleClickEject: PropTypes.func.isRequired,
+  playCasette: PropTypes.func.isRequired,
+  pauseCasette: PropTypes.func.isRequired,
+  stopCasette: PropTypes.func.isRequired,
+  viewCasettes: PropTypes.func.isRequired,
+  ejectCasette: PropTypes.func.isRequired,
 };
 
 VCR.defaultProps = {
   doorLabel: 'HI-FI STEREO SYSTEM',
 };
 
-export default VCR;
+const mapStateToProps = state => ({
+  playStatus: state.vcrPlayer.playStatus,
+  casetteStatus: state.vcrPlayer.casetteStatus,
+  selectedCasette: state.vcrPlayer.selectedCasette,
+});
+
+
+export default connect(mapStateToProps, {
+  playCasette: actionCreators.playCasette,
+  pauseCasette: actionCreators.pauseCasette,
+  stopCasette: actionCreators.stopCasette,
+  ejectCasette: actionCreators.ejectCasette,
+  viewCasettes: actionCreators.viewCasettes,
+})(VCR);

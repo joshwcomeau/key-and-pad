@@ -16,30 +16,13 @@ class ReduxVCR extends Component {
 
   render() {
     const {
-      playStatus,
       casetteStatus,
-      selectedCasette,
-      playCasette,
-      pauseCasette,
-      stopCasette,
-      viewCasettes,
       hideCasettes,
-      ejectCasette,
     } = this.props;
 
     return (
       <div className="redux-vcr-component">
-        <VCR
-          playStatus={playStatus}
-          casetteStatus={casetteStatus}
-          selectedCasette={selectedCasette}
-          handleClickPlay={playCasette}
-          handleClickPause={pauseCasette}
-          handleClickStop={stopCasette}
-          handleClickSlot={viewCasettes}
-          handleClickScreen={viewCasettes}
-          handleClickEject={ejectCasette}
-        />
+        <VCR />
         { casetteStatus === 'selecting' ? <CasetteList /> : null }
         <Backdrop
           isShown={casetteStatus === 'selecting'}
@@ -53,18 +36,9 @@ class ReduxVCR extends Component {
 }
 
 ReduxVCR.propTypes = {
-  playStatus: PropTypes.string,
   casetteStatus: PropTypes.string,
-  casettes: PropTypes.object,
-  selectedCasette: PropTypes.string,
-  casettesListRequest: PropTypes.func,
-  viewCasettes: PropTypes.func,
   hideCasettes: PropTypes.func,
-  selectCasette: PropTypes.func,
-  ejectCasette: PropTypes.func,
-  playCasette: PropTypes.func,
-  pauseCasette: PropTypes.func,
-  stopCasette: PropTypes.func,
+  casettesListRequest: PropTypes.func,
 };
 
 ReduxVCR.defaultProps = {
@@ -72,23 +46,14 @@ ReduxVCR.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  playStatus: state.vcrPlayer.playStatus,
   casetteStatus: state.vcrPlayer.casetteStatus,
-  casettes: state.vcrPlayer.casettes,
-  selectedCasette: state.vcrPlayer.selectedCasette,
 });
 
 
 export default connect(
   mapStateToProps,
   {
-    casettesListRequest: actionCreators.casettesListRequest,
-    viewCasettes: actionCreators.viewCasettes,
     hideCasettes: actionCreators.hideCasettes,
-    selectCasette: actionCreators.selectCasette,
-    ejectCasette: actionCreators.ejectCasette,
-    playCasette: actionCreators.playCasette,
-    pauseCasette: actionCreators.pauseCasette,
-    stopCasette: actionCreators.stopCasette,
+    casettesListRequest: actionCreators.casettesListRequest,
   }
 )(ReduxVCR);
