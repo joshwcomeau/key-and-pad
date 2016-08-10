@@ -3,11 +3,11 @@ import {
   CASETTES_LIST_REQUEST,
   SELECT_CASETTE,
   PLAY_CASETTE,
-  PAUSE_CASETTE,
   casetteActionsReceive,
   casettesListReceive,
   incrementActionsPlayed,
   stopCasette,
+  rewindCasetteAndRestoreApp,
 } from '../ducks/vcr-player.duck';
 
 
@@ -43,12 +43,18 @@ const vcrRetrieveMiddleware = store => next => action => {
           next(action);
         });
 
-      return;
+      return null;
     }
 
     case PLAY_CASETTE: {
-      // Dispatch the action right away, so that it updates our state.
-      // This is how we know whether this is a 'PLAY' or 'PAUSE' action.
+      // If the casette is currently `paused`, we can just start playing it.
+      // However, if the casette is `stopped`, we need to reset the state,
+      // so that we can be sure it plays in the right context.
+      const { playStatus } = store.getState().vcrPlayer;
+      if (playStatus === 'stopped') {
+        next(rewindCasetteAndRestoreApp());
+      }
+
       next(action);
 
       return playActions({

@@ -23,6 +23,7 @@ export const EJECT_CASETTE = 'VCR_PLAYER/EJECT_CASETTE';
 export const PLAY_CASETTE = 'VCR_PLAYER/PLAY_CASETTE';
 export const PAUSE_CASETTE = 'VCR_PLAYER/PAUSE_CASETTE';
 export const STOP_CASETTE = 'VCR_PLAYER/STOP_CASETTE';
+export const REWIND_CASETTE_AND_RESTORE_APP = 'VCR_PLAYER/REWIND_CASETTE_AND_RESTORE_APP';
 export const GO_TO_NEXT_CASETTE_PAGE = 'VCR_PLAYER/GO_TO_NEXT_CASETTE_PAGE';
 export const GO_TO_PREVIOUS_CASETTE_PAGE = 'VCR_PLAYER/GO_TO_PREVIOUS_CASETTE_PAGE';
 export const CASETTE_ACTIONS_RECEIVE = 'VCR_PLAYER/CASETTE_ACTIONS_RECEIVE';
@@ -179,6 +180,12 @@ export const pauseCasette = () => ({
 
 export const stopCasette = () => ({
   type: STOP_CASETTE,
+});
+
+// This is a special action, used by our higher-order reducer to wipe the state.
+// It ensures that when a tape is played, it plays in the right context.
+export const rewindCasetteAndRestoreApp = () => ({
+  type: REWIND_CASETTE_AND_RESTORE_APP,
 });
 
 export const goToNextCasettePage = () => ({
