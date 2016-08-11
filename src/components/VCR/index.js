@@ -13,20 +13,35 @@ import './index.scss';
 
 // /////////////////////////// VCR BUTTON
 const VCRButton = ({
-  children, className, iconValue, iconSize, glowing, rounded, onClick, toggled,
+  children,
+  className,
+  iconValue,
+  iconSize,
+  glowing,
+  rounded,
+  onClick,
+  toggled,
+  toggleable,
 }) => {
   const classes = classNames('vcr-button', className, {
     'vcr-button-glowing': glowing,
     'vcr-button-rounded': rounded,
-    'vcr-button-toggled': toggled,
+    'vcr-button-toggleable': toggleable,
   });
 
   // TODO: Switch from hardcoding the color to setting it in CSS with !important.
   // The icon's color needs to be set dynamically, via JS.
+  let toggleIndicator;
+  if (toggleable) {
+    const toggleIndicatorClasses = classNames('toggle-indicator', { toggled });
+
+    toggleIndicator = <div className={toggleIndicatorClasses} />;
+  }
 
   return (
     <button className={classes} onClick={onClick}>
       {children || <Icon value={iconValue} size={iconSize} color="#f4f7f8" />}
+      {toggleIndicator}
     </button>
   );
 };
@@ -38,6 +53,8 @@ VCRButton.propTypes = {
   iconSize: PropTypes.number,
   glowing: PropTypes.bool,
   rounded: PropTypes.bool,
+  toggled: PropTypes.bool,
+  toggleable: PropTypes.bool,
   onClick: PropTypes.func.isRequired,
 };
 
@@ -118,12 +135,13 @@ class VCR extends Component {
       doorLabel,
       playStatus,
       casetteStatus,
+      playbackSpeed,
       playCasette,
       pauseCasette,
       stopCasette,
       viewCasettes,
       ejectCasette,
-      playbackSpeed,
+      changePlaybackSpeed,
     } = this.props;
 
     const doorOpen = casetteStatus === 'selecting';
@@ -181,21 +199,24 @@ class VCR extends Component {
         <div className="secondary-action-buttons">
           <VCRButton
             className="speed-half"
-            onClick={playPauseAction}
+            onClick={() => changePlaybackSpeed(0.5)}
+            toggleable
             toggled={playbackSpeed === 0.5}
           >
             .5x
           </VCRButton>
           <VCRButton
             className="speed-normal"
-            onClick={playPauseAction}
+            onClick={() => changePlaybackSpeed(1)}
+            toggleable
             toggled={playbackSpeed === 1}
           >
             1x
           </VCRButton>
           <VCRButton
             className="speed-double"
-            onClick={playPauseAction}
+            onClick={() => changePlaybackSpeed(2)}
+            toggleable
             toggled={playbackSpeed === 2}
           >
             2x
@@ -222,12 +243,13 @@ VCR.propTypes = {
   playStatus: PropTypes.string,
   casetteStatus: PropTypes.string,
   selectedCasette: PropTypes.string,
+  playbackSpeed: PropTypes.number,
   playCasette: PropTypes.func.isRequired,
   pauseCasette: PropTypes.func.isRequired,
   stopCasette: PropTypes.func.isRequired,
   viewCasettes: PropTypes.func.isRequired,
   ejectCasette: PropTypes.func.isRequired,
-  playbackSpeed: PropTypes.number,
+  changePlaybackSpeed: PropTypes.func.isRequired,
 };
 
 VCR.defaultProps = {
@@ -248,4 +270,5 @@ export default connect(mapStateToProps, {
   stopCasette: actionCreators.stopCasette,
   ejectCasette: actionCreators.ejectCasette,
   viewCasettes: actionCreators.viewCasettes,
+  changePlaybackSpeed: actionCreators.changePlaybackSpeed,
 })(VCR);

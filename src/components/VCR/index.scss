@@ -15,6 +15,7 @@ $primary-action-button-height: 30px;
   border-radius: 8px 8px 5px 5px;
 
   .vcr-button {
+    position: relative;
     padding: 2px 10px;
     border: 0;
     border-top: 1px solid rgba(255,255,255,0.2);
@@ -24,6 +25,7 @@ $primary-action-button-height: 30px;
     color: $white;
     font-size: 10px;
     cursor: pointer;
+    outline: none;
 
     &.vcr-button-rounded {
       border-radius: 100%;
@@ -36,11 +38,14 @@ $primary-action-button-height: 30px;
       animation: vcrButtonGlow 3s linear infinite;
     }
 
-    &.vcr-button-toggled {
-      background: darken($darkgray, 5%);
-      border-top: 1px solid rgba(0,0,0,0.4);
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-      box-shadow: none;
+    &.vcr-button-toggleable {
+      padding-bottom: 10px;
+    }
+
+    &:active {
+      background: darken($darkgray, 2%);
+      border-top: none;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
       transform: translateY(1px);
     }
 
@@ -55,6 +60,20 @@ $primary-action-button-height: 30px;
 
     &.stop-button {
 
+    }
+
+    .toggle-indicator {
+      position: absolute;
+      height: 3px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 1px;
+
+      &.toggled {
+        background: $neon-green;
+      }
     }
   }
 
