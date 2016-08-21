@@ -92,9 +92,9 @@ export const createDistortionWithContext = context => ({
   compressorNode.threshold.value = -20;
   compressorNode.knee.value = 0;
   compressorNode.ratio.value = 3;
-  compressorNode.reduction.value = 15;
   compressorNode.attack.value = 0;
   compressorNode.release.value = 0.25;
+
   compressorNode.connect(output);
 
   distortionNode.connect(compressorNode);

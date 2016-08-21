@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Replay } from 'redux-vcr.replay';
 
 import Header from '../Header';
 import Introduction from '../Introduction';
@@ -8,7 +9,6 @@ import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
 import FeatureHighlight from '../FeatureHighlight';
 import DevTools from '../DevTools';
-import ReduxVCR from '../ReduxVCR';
 
 
 import {
@@ -133,7 +133,7 @@ const App = ({
     </FeatureHighlight>
 
     <DevTools />
-    <ReduxVCR />
+    <Replay />
   </div>
 );
 

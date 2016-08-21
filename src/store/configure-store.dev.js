@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { captureMiddleware } from 'redux-vcr.capture';
+import { PersistHandler } from 'redux-vcr.persist';
+import { RetrieveHandler, retrieveMiddleware } from 'redux-vcr.retrieve';
+import { replayMiddleware, wrapReducer } from 'redux-vcr.replay';
 
 import rootReducer from '../reducers';
 import onboardingSaga from '../sagas/onboarding.saga';
-import vcrPersistMiddleware from '../middlewares/vcr-persist.middleware';
-import vcrRetrieveMiddleware from '../middlewares/vcr-retrieve.middleware';
-import wrapReducer from '../utils/wrap-reducer';
+import { firebaseAuth } from '../data/firebase';
 
 import DevTools from '../components/DevTools';
 
@@ -13,10 +15,14 @@ import DevTools from '../components/DevTools';
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
 
+  const persister = new PersistHandler({ firebaseAuth });
+  const retriever = new RetrieveHandler({ firebaseAuth });
+
   const middlewares = [
     sagaMiddleware,
-    vcrPersistMiddleware,
-    vcrRetrieveMiddleware,
+    captureMiddleware({ dataHandler: persister }),
+    retrieveMiddleware({ dataHandler: retriever }),
+    replayMiddleware(),
   ];
 
   const store = createStore(
