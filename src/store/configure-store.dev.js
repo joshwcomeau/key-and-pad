@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { captureMiddleware } from 'redux-vcr.capture';
+import { createCaptureMiddleware } from 'redux-vcr.capture';
 import { PersistHandler } from 'redux-vcr.persist';
-import { RetrieveHandler, retrieveMiddleware } from 'redux-vcr.retrieve';
-import { replayMiddleware, wrapReducer } from 'redux-vcr.replay';
+import { RetrieveHandler, createRetrieveMiddleware } from 'redux-vcr.retrieve';
+import { createReplayMiddleware, wrapReducer } from 'redux-vcr.replay';
 
 import rootReducer from '../reducers';
 import onboardingSaga from '../sagas/onboarding.saga';
@@ -20,9 +20,9 @@ export default function configureStore() {
 
   const middlewares = [
     sagaMiddleware,
-    captureMiddleware({ dataHandler: persister }),
-    retrieveMiddleware({ dataHandler: retriever }),
-    replayMiddleware(),
+    createCaptureMiddleware({ dataHandler: persister }),
+    createRetrieveMiddleware({ dataHandler: retriever }),
+    createReplayMiddleware(),
   ];
 
   const store = createStore(
