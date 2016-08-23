@@ -21,7 +21,7 @@ export default function configureStore() {
   const middlewares = [
     sagaMiddleware,
     createCaptureMiddleware({ dataHandler: persister }),
-    createRetrieveMiddleware({ dataHandler: retriever }),
+    createRetrieveMiddleware({ dataHandler: retriever, requiresAuth: false }),
     createReplayMiddleware(),
   ];
 
