@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { createCaptureMiddleware } from 'redux-vcr.capture';
-import { PersistHandler } from 'redux-vcr.persist';
-import { RetrieveHandler, createRetrieveMiddleware } from 'redux-vcr.retrieve';
+import { createPersistHandler } from 'redux-vcr.persist';
+import { createRetrieveHandler, createRetrieveMiddleware } from 'redux-vcr.retrieve';
 import { createReplayMiddleware, wrapReducer } from 'redux-vcr.replay';
 
 import rootReducer from '../reducers';
@@ -15,14 +15,14 @@ import DevTools from '../components/DevTools';
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
 
-  const persister = new PersistHandler({ firebaseAuth });
-  const retriever = new RetrieveHandler({ firebaseAuth });
+  const persistHandler = createPersistHandler({ firebaseAuth });
+  const retrieveHandler = createRetrieveHandler({ firebaseAuth });
 
   const middlewares = [
     sagaMiddleware,
-    createCaptureMiddleware({ dataHandler: persister }),
-    createRetrieveMiddleware({ dataHandler: retriever, requiresAuth: false }),
-    createReplayMiddleware(),
+    createCaptureMiddleware({ persistHandler }),
+    createRetrieveMiddleware({ retrieveHandler, requiresAuth: false }),
+    createReplayMiddleware({ maximumDelay: 100 }),
   ];
 
   const store = createStore(
