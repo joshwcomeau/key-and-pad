@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { addNote, removeNote } from '../../ducks/notes.duck';
@@ -12,7 +12,7 @@ import Tooltip from '../Tooltip';
 import './index.scss';
 
 
-class Keyboard extends Component {
+class Keyboard extends PureComponent {
   constructor(props) {
     super(props);
     this.handlePress = this.handlePress.bind(this);
@@ -68,7 +68,7 @@ class Keyboard extends Component {
       ev,
       noteValue,
       currentNotes: this.props.notes,
-      mode: 'release'
+      mode: 'release',
     });
 
     if (isValid) {
@@ -84,9 +84,9 @@ class Keyboard extends Component {
         key={letter}
         letter={letter}
         keyStyle={keyStyle}
-        active={this.props.notes.includes(note => note.letter === letter)}
+        active={!!this.props.notes.find(note => note.letter === letter)}
       />
-    )
+    );
   }
 
   renderRow(row, index) {

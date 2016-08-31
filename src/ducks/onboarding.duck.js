@@ -1,11 +1,10 @@
 import onboardingStages from '../data/onboarding-stages';
 
 const initialState = {
-  stage: onboardingStages[7],
+  stage: onboardingStages[0],
   keysPressed: 0,
   padUpdates: 0,
 };
-
 
 
 // ////////////////////////
@@ -25,7 +24,7 @@ export default function onboardingReducer(state = initialState, action) {
     case UPDATE_STAGE: {
       return {
         ...state,
-        stage: action.stage
+        stage: action.stage,
       };
     }
 
@@ -33,7 +32,7 @@ export default function onboardingReducer(state = initialState, action) {
       const currentIndex = onboardingStages.indexOf(state.stage);
       return {
         ...state,
-        stage: onboardingStages[currentIndex + 1]
+        stage: onboardingStages[currentIndex + 1],
       };
     }
 
@@ -41,14 +40,14 @@ export default function onboardingReducer(state = initialState, action) {
       return {
         ...state,
         keysPressed: state.keysPressed + 1,
-      }
+      };
     }
 
     case EXPERIMENT_WITH_PAD: {
       return {
         ...state,
         padUpdates: state.padUpdates + 1,
-      }
+      };
     }
 
     default:
@@ -75,4 +74,4 @@ export const experimentWithNotes = () => ({
 
 export const experimentWithPad = () => ({
   type: EXPERIMENT_WITH_PAD,
-})
+});

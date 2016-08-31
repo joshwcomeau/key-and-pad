@@ -8,7 +8,6 @@
   padding: 5px;
   border-radius: $border-radius-large;
   cursor: default;
-  transition: transform 200ms;
   cursor: not-allowed;
 
   &.white {
@@ -36,6 +35,5 @@
 
   &.active {
     transform: translateY(2px);
-    transition: transform 70ms;
   }
 }
