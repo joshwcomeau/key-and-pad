@@ -74,23 +74,18 @@ function axisReducer(state, action) {
   }
 }
 
-// We have an 'axis' reducer that handles all mutations for a given axis,
-// but it's generic. These two specialized reducers simply format the
-// data, and delegate to the generic one.
-const xAxisReducer = (state = initialState.x, action) => (
-  axisReducer(state, {
-    type: action.type,
-    ...action.x,
-  })
-);
-const yAxisReducer = (state = initialState.y, action) => (
-  axisReducer(state, {
-    type: action.type,
-    ...action.y,
-  })
-);
-
-export default combineReducers({
-  x: xAxisReducer,
-  y: yAxisReducer,
+const flattenAction = (action, axis) => ({
+  type: action.type,
+  ...action[axis],
 });
+
+export default function effectsReducer(state = initialState, action) {
+  return {
+    x: action.x
+      ? axisReducer(state.x, flattenAction(action, 'x'))
+      : state.x,
+    y: action.y
+      ? axisReducer(state.y, flattenAction(action, 'y'))
+      : state.y,
+  };
+}

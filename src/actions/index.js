@@ -22,6 +22,8 @@ export const EXPERIMENT_WITH_PAD = 'ONBOARDING/EXPERIMENT_WITH_PAD';
 
 export const deactivateEffects = () => ({
   type: DEACTIVATE_EFFECTS,
+  x: true,
+  y: true,
 });
 
 export const updateEffectsAmount = ({
