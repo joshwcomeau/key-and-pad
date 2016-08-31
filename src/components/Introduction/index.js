@@ -17,7 +17,7 @@ import Column from '../Column';
 import './index.scss';
 
 
-const Introduction = ({ next, fadeUp }) => (
+const Introduction = ({ goToNextStage, fadeUp }) => (
   <div className="introduction">
     <section className={classNames('main-contents', { 'fade-up': fadeUp })}>
       <header>
@@ -72,7 +72,7 @@ const Introduction = ({ next, fadeUp }) => (
     </section>
 
     <div className="button-wrapper">
-      <Button className="primary" onClick={next}>
+      <Button className="primary" onClick={goToNextStage}>
         Let's Go!
         <Icon value="arrow_right" color="#FFF" />
       </Button>
@@ -81,9 +81,12 @@ const Introduction = ({ next, fadeUp }) => (
 );
 
 Introduction.propTypes = {
-  next: PropTypes.func.isRequired,
+  goToNextStage: PropTypes.func.isRequired,
   fadeUp: PropTypes.bool,
 };
 
 
-export default connect(null, { next: actionCreators.next })(Introduction);
+export default connect(
+  null,
+  { goToNextStage: actionCreators.goToNextStage }
+)(Introduction);

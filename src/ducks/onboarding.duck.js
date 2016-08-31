@@ -11,7 +11,7 @@ const initialState = {
 // ACTION TYPES //////////
 // //////////////////////
 export const UPDATE_STAGE = 'ONBOARDING/UPDATE_STAGE';
-export const NEXT = 'ONBOARDING/NEXT';
+export const GO_TO_NEXT_STAGE = 'ONBOARDING/GO_TO_NEXT_STAGE';
 export const EXPERIMENT_WITH_NOTES = 'ONBOARDING/EXPERIMENT_WITH_NOTES';
 export const EXPERIMENT_WITH_PAD = 'ONBOARDING/EXPERIMENT_WITH_PAD';
 
@@ -28,7 +28,7 @@ export default function onboardingReducer(state = initialState, action) {
       };
     }
 
-    case NEXT: {
+    case GO_TO_NEXT_STAGE: {
       const currentIndex = onboardingStages.indexOf(state.stage);
       return {
         ...state,
@@ -64,8 +64,8 @@ export const updateStage = ({ stage }) => ({
   stage,
 });
 
-export const next = () => ({
-  type: NEXT,
+export const goToNextStage = () => ({
+  type: GO_TO_NEXT_STAGE,
 });
 
 export const experimentWithNotes = () => ({

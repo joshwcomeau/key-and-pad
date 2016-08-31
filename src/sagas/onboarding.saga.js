@@ -4,8 +4,8 @@ import { take, call, put, select } from 'redux-saga/effects';
 import {
   experimentWithNotes,
   experimentWithPad,
-  next,
-  NEXT,
+  goToNextStage,
+  GO_TO_NEXT_STAGE,
 } from '../ducks/onboarding.duck';
 import { ADD_NOTE } from '../ducks/notes.duck';
 import { UPDATE_EFFECTS_AMOUNT } from '../ducks/effects.duck';
@@ -43,8 +43,9 @@ function* handlePadExperiments() {
 }
 
 export default function* onboarding() {
+  // eslint-disable-next-line no-constant-condition
   while (true) {
-    yield take(NEXT);
+    yield take(GO_TO_NEXT_STAGE);
 
     const {
       stage,
@@ -52,36 +53,24 @@ export default function* onboarding() {
       padUsed,
     } = yield select(state => state.onboarding);
 
-    switch (stage) {
-      case 'initial-confirmed': {
-        yield delay(1000);
-        yield put(next());
-      }
+    // stage: initial-confirmed
+    yield delay(1000);
+    yield put(goToNextStage());
 
-      case 'keys-introduced': {
-        yield handleKeyExperiments();
+    // stage: keys-introduced
+    yield handleKeyExperiments();
+    yield put(goToNextStage());
+    yield delay(2000);
+    yield put(goToNextStage());
 
-        yield put(next());
-        yield delay(2000);
-        yield put(next());
-      }
+    // stage: pad-introduced
+    yield handlePadExperiments();
+    yield put(goToNextStage());
+    yield delay(2000);
+    yield put(goToNextStage());
 
-      case 'pad-introduced': {
-        yield handlePadExperiments();
-
-        yield put(next());
-        yield delay(2000);
-        yield put(next());
-      }
-
-      case 'control-panel-introduced': {
-        yield delay(6000);
-        yield put(next());
-      }
-
-      default: {
-        // Do nothing
-      }
-    }
+    // stage: control-panel-introduced
+    yield delay(6000);
+    yield put(goToNextStage());
   }
 }
