@@ -1,5 +1,13 @@
 import effectDefaultOptions from '../data/effect-default-options.js';
 
+import {
+  DEACTIVATE_EFFECTS,
+  UPDATE_EFFECTS_AMOUNT,
+  CHANGE_AXIS_EFFECT,
+  TWEAK_AXIS_PARAMETER,
+} from '../actions';
+
+
 const initialState = {
   x: {
     name: 'filter',
@@ -17,19 +25,6 @@ const initialState = {
   },
 };
 
-
-// ////////////////////////
-// ACTION TYPES //////////
-// //////////////////////
-export const DEACTIVATE_EFFECTS = 'EFFECTS/DEACTIVATE_EFFECTS';
-export const UPDATE_EFFECTS_AMOUNT = 'EFFECTS/UPDATE_EFFECTS_AMOUNT';
-export const CHANGE_AXIS_EFFECT = 'SOUNDS/CHANGE_AXIS_EFFECT';
-export const TWEAK_AXIS_PARAMETER = 'SOUNDS/TWEAK_AXIS_PARAMETER';
-
-
-// ////////////////////////
-// REDUCERS //////////////
-// //////////////////////
 export default function soundsReducer(state = initialState, action) {
   switch (action.type) {
     case DEACTIVATE_EFFECTS: {
@@ -80,46 +75,13 @@ export default function soundsReducer(state = initialState, action) {
           ...state[action.axis],
           options: {
             ...state[action.axis].options,
-            ...action.options
-          }
-        }
-      }
+            ...action.options,
+          },
+        },
+      };
     }
 
     default:
       return state;
   }
 }
-
-
-// ////////////////////////
-// ACTION CREATORS ///////
-// //////////////////////
-export const deactivateEffects = () => ({
-  type: DEACTIVATE_EFFECTS,
-});
-
-export const updateEffectsAmount = ({
-  xAmount,
-  yAmount,
-  xCursor,
-  yCursor,
-}) => ({
-  type: UPDATE_EFFECTS_AMOUNT,
-  xAmount,
-  yAmount,
-  xCursor,
-  yCursor,
-});
-
-export const changeAxisEffect = ({ axis, effect }) => ({
-  type: CHANGE_AXIS_EFFECT,
-  axis,
-  effect,
-});
-
-export const tweakAxisParameter = ({ axis, options }) => ({
-  type: TWEAK_AXIS_PARAMETER,
-  axis,
-  options,
-});

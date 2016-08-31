@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { deactivateEffects, updateEffectsAmount } from '../../ducks/effects.duck';
+import { deactivateEffects, updateEffectsAmount } from '../../actions';
 
 import XYPadAxisLabel from '../XYPadAxisLabel';
 import './index.scss';

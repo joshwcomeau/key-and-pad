@@ -2,12 +2,13 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import debounce from 'lodash.debounce';
 
-// eslint-disable-next-line no-unused-vars
-import { changeAxisEffect, tweakAxisParameter } from '../../ducks/effects.duck';
-import { updateOscillator } from '../../ducks/oscillators.duck';
+import {
+  changeAxisEffect,
+  tweakAxisParameter,
+  updateOscillator,
+} from '../../actions';
 import { toRoman } from '../../utils/misc-helpers';
 
-// eslint-disable-next-line no-unused-vars
 import Slider from '../Slider';
 import Subheading from '../Subheading';
 import ButtonToggleGroup from '../ButtonToggleGroup';
@@ -17,6 +18,7 @@ import Row from '../Row';
 import Column from '../Column';
 import Select from '../Select';
 import './index.scss';
+
 
 class ControlPanel extends Component {
   constructor(props) {

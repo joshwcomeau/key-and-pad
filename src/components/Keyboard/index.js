@@ -1,7 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
-import { addNote, removeNote } from '../../ducks/notes.duck';
+import { addNote, removeNote } from '../../actions';
 import {
   shouldEventTriggerAction,
   getNoteAndLetter,

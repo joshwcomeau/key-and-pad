@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import * as actionCreators from '../../ducks/onboarding.duck';
+import { goToNextStage } from '../../actions';
 
 import Logo from '../Logo';
 import Subheading from '../Subheading';
@@ -17,6 +17,7 @@ import Column from '../Column';
 import './index.scss';
 
 
+// eslint-disable-next-line no-shadow
 const Introduction = ({ goToNextStage, fadeUp }) => (
   <div className="introduction">
     <section className={classNames('main-contents', { 'fade-up': fadeUp })}>
@@ -88,5 +89,5 @@ Introduction.propTypes = {
 
 export default connect(
   null,
-  { goToNextStage: actionCreators.goToNextStage }
+  { goToNextStage }
 )(Introduction);

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import notes from '../ducks/notes.duck';
-import oscillators from '../ducks/oscillators.duck';
-import effects from '../ducks/effects.duck';
-import onboarding from '../ducks/onboarding.duck';
+import notes from './notes.reducer';
+import oscillators from './oscillators.reducer';
+import effects from './effects.reducer';
+import onboarding from './onboarding.reducer';
 
 
 export default combineReducers({ notes, oscillators, effects, onboarding });

@@ -6,9 +6,9 @@ import {
   experimentWithPad,
   goToNextStage,
   GO_TO_NEXT_STAGE,
-} from '../ducks/onboarding.duck';
-import { ADD_NOTE } from '../ducks/notes.duck';
-import { UPDATE_EFFECTS_AMOUNT } from '../ducks/effects.duck';
+  ADD_NOTE,
+  UPDATE_EFFECTS_AMOUNT,
+} from '../actions';
 import { delay } from '../utils/misc-helpers';
 import onboardingStages from '../data/onboarding-stages';
 import {
