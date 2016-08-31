@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import effectDefaultOptions from '../data/effect-default-options.js';
 
 import {
@@ -25,63 +26,71 @@ const initialState = {
   },
 };
 
-export default function soundsReducer(state = initialState, action) {
+function axisReducer(state, action) {
   switch (action.type) {
     case DEACTIVATE_EFFECTS: {
       return {
-        x: {
-          ...state.x,
-          active: false,
-        },
-        y: {
-          ...state.y,
-          active: false,
-        },
+        ...state,
+        active: false,
       };
     }
 
     case UPDATE_EFFECTS_AMOUNT: {
       return {
-        x: {
-          ...state.x,
-          active: true,
-          amount: action.xAmount,
-          cursorPosition: action.xCursor,
-        },
-        y: {
-          ...state.y,
-          active: true,
-          amount: action.yAmount,
-          cursorPosition: action.yCursor,
-        },
+        ...state,
+        active: true,
+        amount: action.amount,
+        cursorPosition: action.cursor,
       };
     }
 
     case CHANGE_AXIS_EFFECT: {
+      // It's possible that this change affects a _different_ axis.
+      // In that case, we want to "ignore" it, and just return the state.
+      if (!action.effect) { return state; }
+
       return {
         ...state,
-        [action.axis]: {
-          ...state[action.axis],
-          name: action.effect,
-          options: effectDefaultOptions[action.effect],
-        },
+        name: action.effect,
+        options: effectDefaultOptions[action.effect],
       };
     }
 
     case TWEAK_AXIS_PARAMETER: {
+      // It's possible that this change affects a _different_ axis.
+      // In that case, we want to "ignore" it, and just return the state.
+      if (!action.options) { return state; }
+
       return {
         ...state,
-        [action.axis]: {
-          ...state[action.axis],
-          options: {
-            ...state[action.axis].options,
-            ...action.options,
-          },
+        options: {
+          ...state.options,
+          ...action.options,
         },
       };
     }
 
-    default:
-      return state;
+    default: return state;
   }
 }
+
+// We have an 'axis' reducer that handles all mutations for a given axis,
+// but it's generic. These two specialized reducers simply format the
+// data, and delegate to the generic one.
+const xAxisReducer = (state = initialState.x, action) => (
+  axisReducer(state, {
+    type: action.type,
+    ...action.x,
+  })
+);
+const yAxisReducer = (state = initialState.y, action) => (
+  axisReducer(state, {
+    type: action.type,
+    ...action.y,
+  })
+);
+
+export default combineReducers({
+  x: xAxisReducer,
+  y: yAxisReducer,
+});

@@ -31,22 +31,28 @@ export const updateEffectsAmount = ({
   yCursor,
 }) => ({
   type: UPDATE_EFFECTS_AMOUNT,
-  xAmount,
-  yAmount,
-  xCursor,
-  yCursor,
+  x: {
+    amount: xAmount,
+    cursor: xCursor,
+  },
+  y: {
+    amount: yAmount,
+    cursor: yCursor,
+  },
 });
 
 export const changeAxisEffect = ({ axis, effect }) => ({
   type: CHANGE_AXIS_EFFECT,
-  axis,
-  effect,
+  [axis]: {
+    effect,
+  },
 });
 
 export const tweakAxisParameter = ({ axis, options }) => ({
   type: TWEAK_AXIS_PARAMETER,
-  axis,
-  options,
+  [axis]: {
+    options,
+  },
 });
 
 export const addNote = ({ value, letter }) => ({
