@@ -116,12 +116,14 @@ const App = ({
     </div>
 
     <FeatureHighlight
+      className="control-panel-feature"
       showFeature={isAtLeastStage('control-panel-introduced')}
+      gradient={isSameStage('control-panel-introduced')}
       pointerOptions={[
         {
           render: isSameStage('control-panel-introduced'),
           title: 'Finally, this is your control panel.',
-          text: 'For best results, experiment with all the different settings and effects.',
+          text: 'Tweak things, and see what happens!',
           position: 'top',
           tipPosition: 'center',
           centered: true,

@@ -72,7 +72,7 @@ export default function* onboarding() {
     yield put(goToNextStage());
 
     // stage: control-panel-introduced
-    yield delay(6000);
+    yield delay(6500);
     // Persist a flag in localStorage, so that this user does not
     // have to go through the onboarding flow again.
     localStorage.setItem(ONBOARDING_COMPLETED_FLAG, true);

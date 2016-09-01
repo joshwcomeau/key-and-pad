@@ -65,7 +65,11 @@ class FeatureHighlight extends Component {
         offsetTop = 0;
       }
 
-      this.elem.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
+      if (offsetLeft || offsetTop) {
+        this.elem.style.transform = `translate(${offsetLeft}px, ${offsetTop}px)`;
+      } else {
+        this.elem.style.transform = '';
+      }
     });
   }
 
@@ -96,6 +100,15 @@ class FeatureHighlight extends Component {
           pointerEvents: this.props.showFeature ? '' : 'none',
         }}
       >
+        <ReactCSSTransitionGroup
+          transitionName="gradient"
+          transitionAppear
+          transitionEnterTimeout={3000}
+          transitionAppearTimeout={3000}
+          transitionLeaveTimeout={4000}
+        >
+          {this.props.gradient && <div className="feature-highlight-gradient" />}
+        </ReactCSSTransitionGroup>
 
         {this.props.children}
 
@@ -117,6 +130,7 @@ FeatureHighlight.propTypes = {
   className: PropTypes.string,
   centerHorizontally: PropTypes.bool,
   centerVertically: PropTypes.bool,
+  gradient: PropTypes.bool,
   animateInitialPosition: PropTypes.bool,
   transposeLength: PropTypes.number,
   fadeLength: PropTypes.number,

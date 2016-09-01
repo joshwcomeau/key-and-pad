@@ -71,7 +71,7 @@
   }
 
   &.top {
-    top: -32px;
+    top: -60px;
     transform: translateY(-100%);
   }
 
@@ -134,6 +134,21 @@
   }
 }
 
+.feature-highlight-gradient {
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(47,50,51,0.65) 0%,
+    rgba(0,0,0,0) 100%
+  );
+  pointer-events: none;
+}
+
 .pointer-enter .feature-pointer {
   opacity: 0.01;
   transform: translateY(20px);
@@ -141,7 +156,7 @@
 .pointer-enter.pointer-enter-active .feature-pointer {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 1500ms, transform 1500ms;
+  transition: opacity 1000ms, transform 1500ms;
   transition-delay: 1s;
 }
 .pointer-leave .feature-pointer {
@@ -150,6 +165,24 @@
 .pointer-leave.pointer-leave-active .feature-pointer {
   opacity: 0.01;
   transition: opacity 500ms, transform 500ms;
+}
+
+.gradient-enter .feature-gradient, .gradient-appear {
+  opacity: 0.01;
+  transform: translateY(-100%);
+}
+.gradient-enter.gradient-enter-active, .gradient-appear.gradient-appear-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 3000ms, transform 3000ms;
+}
+.gradient-leave {
+  opacity: 1;
+}
+.gradient-leave.gradient-leave-active {
+  opacity: 0.01;
+  transform: translateY(-20%);
+  transition: opacity 4000ms, transform 4000ms;
 }
 
 @keyframes float {

@@ -18,12 +18,12 @@ export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
 
 
-  const persistHandler = createPersistHandler({ firebaseAuth, debounceLength: 500 });
+  const persistHandler = createPersistHandler({ firebaseAuth, debounceLength: 2000 });
   const retrieveHandler = createRetrieveHandler({ firebaseAuth });
 
   const middlewares = [
     sagaMiddleware,
-    createCaptureMiddleware({ persistHandler }),
+    // createCaptureMiddleware({ persistHandler }),
     createRetrieveMiddleware({ retrieveHandler, requiresAuth: false }),
     createReplayMiddleware({ maximumDelay: 100 }),
   ];

@@ -43,6 +43,7 @@ strong {
 
   .keys-and-pad {
     position: relative;
+    z-index: 1;
     margin: 3rem;
     padding-top: 2rem;
     display: flex;
@@ -51,6 +52,14 @@ strong {
 
     .keyboard-wrapper {
       margin-right: 5rem;
+    }
+  }
+
+  .control-panel-feature {
+    z-index: 3;
+
+    .feature-highlight-gradient {
+      bottom: 40%;
     }
   }
 }
