@@ -3,6 +3,7 @@ import onboardingStages from '../data/onboarding-stages';
 import {
   UPDATE_STAGE,
   GO_TO_NEXT_STAGE,
+  COMPLETE_ONBOARDING,
   EXPERIMENT_WITH_NOTES,
   EXPERIMENT_WITH_PAD,
 } from '../actions';
@@ -28,6 +29,13 @@ export default function onboardingReducer(state = initialState, action) {
       return {
         ...state,
         stage: onboardingStages[currentIndex + 1],
+      };
+    }
+
+    case COMPLETE_ONBOARDING: {
+      return {
+        ...state,
+        stage: onboardingStages[onboardingStages.length - 1],
       };
     }
 

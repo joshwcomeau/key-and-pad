@@ -13,6 +13,7 @@ export const UPDATE_OSCILLATOR = 'OSCILLATORS/UPDATE_OSCILLATOR';
 
 export const UPDATE_STAGE = 'ONBOARDING/UPDATE_STAGE';
 export const GO_TO_NEXT_STAGE = 'ONBOARDING/GO_TO_NEXT_STAGE';
+export const COMPLETE_ONBOARDING = 'ONBOARDING/COMPLETE_ONBOARDING';
 export const EXPERIMENT_WITH_NOTES = 'ONBOARDING/EXPERIMENT_WITH_NOTES';
 export const EXPERIMENT_WITH_PAD = 'ONBOARDING/EXPERIMENT_WITH_PAD';
 
@@ -75,6 +76,10 @@ export const updateStage = ({ stage }) => ({
 
 export const goToNextStage = () => ({
   type: GO_TO_NEXT_STAGE,
+});
+
+export const completeOnboarding = () => ({
+  type: COMPLETE_ONBOARDING,
 });
 
 export const experimentWithNotes = () => ({

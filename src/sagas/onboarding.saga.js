@@ -5,12 +5,14 @@ import {
   experimentWithNotes,
   experimentWithPad,
   goToNextStage,
+  completeOnboarding,
   GO_TO_NEXT_STAGE,
   ADD_NOTE,
   UPDATE_EFFECTS_AMOUNT,
 } from '../actions';
 import { delay } from '../utils/misc-helpers';
 import onboardingStages from '../data/onboarding-stages';
+import { ONBOARDING_COMPLETED_FLAG } from '../data/app-constants';
 import {
   numOfKeypressesNeeded,
   numOfPadUpdatesNeeded,
@@ -71,6 +73,9 @@ export default function* onboarding() {
 
     // stage: control-panel-introduced
     yield delay(6000);
-    yield put(goToNextStage());
+    // Persist a flag in localStorage, so that this user does not
+    // have to go through the onboarding flow again.
+    localStorage.setItem(ONBOARDING_COMPLETED_FLAG, true);
+    yield put(completeOnboarding());
   }
 }

@@ -6,7 +6,7 @@ const warnIfStageNotFound = stage => {
     You tried to look up the onboarding stage ${stage}, but no stage was found.
     The valid stages are: ${onboardingStages.join(', ')}.
   `);
-}
+};
 
 const evaluate = (currentStage, condition, stage) => {
   const stageIndex = onboardingStages.indexOf(stage);
@@ -21,20 +21,20 @@ const evaluate = (currentStage, condition, stage) => {
     case 'is-same': return currentStageIndex === stageIndex;
     default: return;
   }
-}
+};
 
 export const isBefore = currentStage => stage => {
   return evaluate(currentStage, 'is-before', stage);
-}
+};
 
 export const isAfter = currentStage => stage => {
   return evaluate(currentStage, 'is-after', stage);
-}
+};
 
 export const isAtLeast = currentStage => stage => {
   return evaluate(currentStage, 'is-at-least', stage);
-}
+};
 
 export const isSame = currentStage => stage => {
   return evaluate(currentStage, 'is-same', stage);
-}
+};
