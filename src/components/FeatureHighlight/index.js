@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import FeaturePointer from '../FeaturePointer';
@@ -9,7 +9,7 @@ import { getElementTranslate } from '../../utils/dom-helpers';
 // - positions an item to the center, so a feature can be highlighted
 // - controls whether or not to render an element
 
-class FeatureHighlight extends Component {
+class FeatureHighlight extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -46,8 +46,13 @@ class FeatureHighlight extends Component {
 
       const { top, left, width, height } = this.elem.getBoundingClientRect();
 
+      // We want to ignore vertical scroll position.
+      // Otherwise, the feature will move when the props change if the user
+      // has scrolled, and it's weird/disorientating.
+      const verticalScrollPos = window.scrollY;
+
       const horizontalCenterPos = (window.innerWidth / 2) - (width / 2);
-      const verticalCenterPos = (window.innerHeight / 2) - (height / 2);
+      const verticalCenterPos = (window.innerHeight / 2) - (height / 2) - verticalScrollPos;
 
       const [translateX, translateY] = getElementTranslate(this.elem);
 
