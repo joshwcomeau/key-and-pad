@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Replay } from 'redux-vcr.replay';
 
 import Header from '../Header';
+import Footer from '../Footer';
 import Introduction from '../Introduction';
 import XYPad from '../XYPad';
 import Keyboard from '../Keyboard';
@@ -134,8 +135,20 @@ const App = ({
       <ControlPanel />
     </FeatureHighlight>
 
+    <FeatureHighlight
+      showFeature={isAtLeastStage('keys-introduced')}
+    >
+      {/*
+        The footer is also shown in the Introduction component.
+        This is to ensure it's visible above the fold initially.
+        Because we're recording user sessions, we want to be very transparent
+        about our privacy policy.
+      */}
+      <Footer />
+    </FeatureHighlight>
+
     <DevTools />
-    <Replay />
+    { /* <Replay /> */ }
   </div>
 );
 

@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { goToNextStage } from '../../actions';
 
 import Logo from '../Logo';
+import Footer from '../Footer';
 import Subheading from '../Subheading';
 import Icon from '../Icon';
 import IconCycle from '../IconCycle';
@@ -78,6 +79,8 @@ const Introduction = ({ goToNextStage, fadeUp }) => (
         <Icon value="arrow_right" color="#FFF" />
       </Button>
     </div>
+
+    <Footer />
   </div>
 );
 
