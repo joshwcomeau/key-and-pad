@@ -5,7 +5,12 @@
   @include centered;
   width: 100%;
   max-width: 900px;
-  height: 525px;
+  padding: 50px 0;
+
+  @media screen and ( min-height: 625px ) {
+    height: 525px;
+    padding: 0;
+  }
 }
 
 .introduction {
