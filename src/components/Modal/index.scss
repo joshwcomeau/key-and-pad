@@ -21,13 +21,12 @@
     bottom: 0;
     background: $darkgray;
     opacity: 0;
-    transition: opacity 1000ms;
+    transition: opacity 1000ms 300ms;
   }
 
   .modal {
     position: relative;
     border-radius: 8px;
-    min-height: 400px;
     width: 50%;
     transform: translateY(100px);
     transition: transform 750ms;
@@ -37,6 +36,22 @@
       opacity: 0;
       z-index: 2;
       transition: opacity 500ms;
+      padding: 32px;
+      font-weight: 100;
+      max-height: 100%;
+      overflow: auto;
+
+      .modal-title {
+        font-size: 28px;
+        letter-spacing: -0.4px;
+        font-weight: bold;
+        margin-bottom: 32px;
+      }
+
+      p {
+        margin-bottom: 16px;
+        line-height: 1.25em;
+      }
     }
 
     .modal-background {
