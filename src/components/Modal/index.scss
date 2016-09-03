@@ -21,6 +21,7 @@
     bottom: 0;
     background: $darkgray;
     opacity: 0;
+    transition: opacity 1000ms;
   }
 
   .modal {
@@ -29,11 +30,13 @@
     min-height: 400px;
     width: 50%;
     transform: translateY(100px);
+    transition: transform 750ms;
 
     .modal-contents {
       position: relative;
       opacity: 0;
       z-index: 2;
+      transition: opacity 500ms;
     }
 
     .modal-background {
@@ -48,6 +51,7 @@
       border-radius: 8px;
       border-bottom: 5px solid rgba(0,0,0,0.3);
       opacity: 0;
+      transition: opacity 750ms;
     }
 
     .modal-close {
@@ -65,17 +69,21 @@
 
     .modal-overlay {
       opacity: 0.6;
+      transition: opacity 500ms;
     }
 
     .modal {
       transform: translateY(0);
+      transition: transform 300ms;
 
       .modal-background {
         opacity: 1;
+        transition: opacity 300ms;
       }
 
       .modal-contents {
         opacity: 1;
+        transition: opacity 500ms 300ms;
       }
     }
   }
