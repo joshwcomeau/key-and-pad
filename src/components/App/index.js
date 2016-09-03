@@ -106,7 +106,7 @@ const App = ({
           }, {
             render: isSameStage('pad-confirmed'),
             title: 'Phenomenal!',
-            text: 'Pack your suitcases, you\'ll be headlining in Ibiza soon.',
+            text: 'Such magnificent noises.',
             position: 'bottom',
             progress: padIntroProgress,
             centered: true,

@@ -34,6 +34,17 @@ body, button, input, select, textarea {
   -webkit-font-smoothing: antialiased;
 }
 
+pre {
+  font-family: 'Lucida Console', monospace;
+  font-size: 14px;
+  line-height: 1.25em;
+  margin: 1rem 0;
+}
+
+em {
+  font-style: italic;
+}
+
 a {
   position: relative;
   display: inline-block;
