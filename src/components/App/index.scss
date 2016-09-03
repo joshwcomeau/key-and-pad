@@ -34,6 +34,49 @@ body, button, input, select, textarea {
   -webkit-font-smoothing: antialiased;
 }
 
+a {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+  font-weight: normal;
+  color: $orange;
+
+  &:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    border-radius: 2px;
+    background-color: $orange;
+    transition: transform 400ms;
+    transform: scaleX(0);
+    transform-origin: right center;
+  }
+
+  &:hover {
+    &:after {
+      transform: scaleX(1);
+      transform-origin: left center;
+      transition: transform 200ms;
+    }
+  }
+
+  &.medium-gray {
+    color: $mediumgray;
+    &:after {
+      background-color: $mediumgray;
+    }
+  }
+  &.dark-gray {
+    color: $darkgray;
+    &:after {
+      background-color: $darkgray;
+    }
+  }
+}
+
 strong {
   font-weight: 900;
 }

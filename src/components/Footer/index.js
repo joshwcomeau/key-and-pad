@@ -8,12 +8,12 @@ const Footer = () => (
     <div className="attribution">
       Made with
       <Icon value="music_note" size={20} />
-      in Montréal by&nbsp;
+      by&nbsp;
       <a href="https://twitter.com/JoshWComeau">Joshua Comeau</a>
     </div>
     <div className="privacy-notification">
       The sounds you make are being persisted, so that the author can enjoy them.&nbsp;
-      <a href="/privacy-policy">Read more.</a>
+      <a href="/privacy-policy" className="dark-gray">Read more</a>.
     </div>
   </footer>
 );

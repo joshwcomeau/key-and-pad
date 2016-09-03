@@ -13,7 +13,12 @@
 
   .attribution {
     font-size: 16px;
+    font-weight: 100;
     color: $darkgray;
+
+    a {
+      // color: $peach;
+    }
   }
 
   .privacy-notification {
