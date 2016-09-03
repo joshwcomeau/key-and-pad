@@ -5,6 +5,7 @@ import { Replay } from 'redux-vcr.replay';
 import Header from '../Header';
 import Footer from '../Footer';
 import Introduction from '../Introduction';
+import PrivacyPolicy from '../PrivacyPolicy';
 import XYPad from '../XYPad';
 import Keyboard from '../Keyboard';
 import ControlPanel from '../ControlPanel';
@@ -146,6 +147,8 @@ const App = ({
       */}
       <Footer />
     </FeatureHighlight>
+
+    <PrivacyPolicy />
 
     <DevTools />
     { /* <Replay /> */ }

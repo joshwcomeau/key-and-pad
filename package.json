@@ -69,6 +69,7 @@
     "react-dom": "^15.3.0",
     "react-dropdown": "^1.0.4",
     "react-flip-move": "^2.4.2",
+    "react-modal": "^1.4.0",
     "react-redux": "^4.4.5",
     "react-select": "^1.0.0-beta14",
     "react-slider": "^0.7.0",

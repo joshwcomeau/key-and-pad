@@ -17,6 +17,10 @@ export const COMPLETE_ONBOARDING = 'ONBOARDING/COMPLETE_ONBOARDING';
 export const EXPERIMENT_WITH_NOTES = 'ONBOARDING/EXPERIMENT_WITH_NOTES';
 export const EXPERIMENT_WITH_PAD = 'ONBOARDING/EXPERIMENT_WITH_PAD';
 
+export const OPEN_MODAL = 'MODALS/OPEN_MODAL';
+export const CLOSE_MODAL = 'MODALS/CLOSE_MODAL';
+
+
 // ////////////////////////
 // ACTION CREATORS ///////
 // //////////////////////
@@ -94,4 +98,13 @@ export const updateOscillator = ({ index, options }) => ({
   type: UPDATE_OSCILLATOR,
   index,
   options,
+});
+
+export const openModal = ({ name }) => ({
+  type: OPEN_MODAL,
+  name,
+});
+
+export const closeModal = () => ({
+  type: CLOSE_MODAL,
 });
