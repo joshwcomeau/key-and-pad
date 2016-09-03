@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
 
+import { openModal } from '../../actions';
 import Icon from '../Icon';
 import './index.scss';
 
-const Footer = () => (
+const Footer = ({ openModal }) => (
   <footer className="footer">
     <div className="attribution">
       Made with
@@ -13,9 +15,20 @@ const Footer = () => (
     </div>
     <div className="privacy-notification">
       The sounds you make are being persisted, so that the author can enjoy them.&nbsp;
-      <a href="/privacy-policy" className="dark-gray">Read more</a>.
+      <a
+        href="/privacy-policy"
+        className="dark-gray"
+        onClick={e => {
+          e.preventDefault();
+          openModal({ name: 'privacy-policy' });
+        }}
+      >
+        Read more
+      </a>
+      .
     </div>
   </footer>
 );
 
-export default Footer;
+
+export default connect(null, { openModal })(Footer);

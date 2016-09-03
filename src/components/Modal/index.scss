@@ -3,6 +3,15 @@
 
 .modal-container {
   z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
 
   .modal-overlay {
     position: fixed;
@@ -10,19 +19,64 @@
     left: 0;
     right: 0;
     bottom: 0;
+    background: $darkgray;
+    opacity: 0;
   }
 
   .modal {
-    @include centered;
+    position: relative;
+    border-radius: 8px;
+    min-height: 400px;
+    width: 50%;
+    transform: translateY(100px);
+
+    .modal-contents {
+      position: relative;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    .modal-background {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: $white;
+      box-shadow: 0px 5px 30px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      border-bottom: 5px solid rgba(0,0,0,0.3);
+      opacity: 0;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: transparent;
+      border: none;
+      outline: none;
+    }
   }
 
-  .modal-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: $white;
-    box-shadow: 0px 5px 30px rgba(0,0,0,0.3);
+  &.open {
+    pointer-events: all;
+
+    .modal-overlay {
+      opacity: 0.6;
+    }
+
+    .modal {
+      transform: translateY(0);
+
+      .modal-background {
+        opacity: 1;
+      }
+
+      .modal-contents {
+        opacity: 1;
+      }
+    }
   }
 }

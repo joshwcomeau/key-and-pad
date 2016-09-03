@@ -7,15 +7,16 @@ import './index.scss';
 
 const Modal = ({ children, className = '', isOpen, onRequestClose } = {}) => (
   <div className={classNames('modal-container', isOpen ? 'open' : 'close')}>
-    <div className="modal-overlay" />
+    <div className="modal-overlay" onClick={onRequestClose} />
     <div className={classNames('modal', className)}>
-      <div className="modal-background" />
       <div className="modal-contents">
         <button className="modal-close" onClick={onRequestClose}>
-          <Icon value="close" />
-          {children}
+          <Icon value="close" size="36" color="#F35638" />
         </button>
+
+        {children}
       </div>
+      <div className="modal-background" />
     </div>
   </div>
 );
