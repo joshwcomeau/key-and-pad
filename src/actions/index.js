@@ -20,6 +20,7 @@ export const EXPERIMENT_WITH_PAD = 'ONBOARDING/EXPERIMENT_WITH_PAD';
 export const OPEN_MODAL = 'MODALS/OPEN_MODAL';
 export const CLOSE_MODAL = 'MODALS/CLOSE_MODAL';
 
+export const SET_ADMIN_MODE = 'IS_ADMIN/SET_ADMIN_MODE';
 
 // ////////////////////////
 // ACTION CREATORS ///////
@@ -107,4 +108,9 @@ export const openModal = ({ name }) => ({
 
 export const closeModal = () => ({
   type: CLOSE_MODAL,
+});
+
+export const setAdminMode = ({ adminMode }) => ({
+  type: SET_ADMIN_MODE,
+  adminMode,
 });
