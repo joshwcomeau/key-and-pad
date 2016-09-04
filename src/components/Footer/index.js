@@ -14,7 +14,7 @@ const Footer = ({ openModal }) => (
       <a href="https://twitter.com/JoshWComeau">Joshua Comeau</a>
     </div>
     <div className="privacy-notification">
-      The sounds you make are being persisted, so that the author can enjoy them.&nbsp;
+      The sounds you make are being persisted and published, for others to enjoy.&nbsp;
       <a
         href="/privacy-policy"
         className="dark-gray"

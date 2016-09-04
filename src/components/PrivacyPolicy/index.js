@@ -1,31 +1,13 @@
 /* eslint-disable max-len, no-shadow */
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { docco } from 'react-syntax-highlighter/dist/styles';
 
 import Modal from '../Modal';
+import Logo from '../Logo';
+import HorizontalRule from '../HorizontalRule';
 import { closeModal } from '../../actions';
 import './index.scss';
 
-const sampleData = `
-  [
-    {
-      type: 'UPDATE_EFFECTS_AMOUNT',
-      x: { amount: 0.1 },
-      y: { amount: 0.45},
-      delay: 400
-    }, {
-      type: 'ADD_NOTE',
-      value: 'G4',
-      delay: 100
-    }, {
-      type: 'REMOVE_NOTE',
-      value: 'G4',
-      delay: 1000
-    }
-  ]
-`;
 
 const PrivacyPolicy = ({ isOpen, closeModal }) => (
   <Modal
@@ -34,14 +16,35 @@ const PrivacyPolicy = ({ isOpen, closeModal }) => (
     onRequestClose={closeModal}
   >
     <h2 className="modal-title">Data Collection</h2>
-    <p>When building this web app, I thought it would be really neat if I could hear the stuff that users create.</p>
-    <p>Rather than try to record audio or mouse/keyboard events, I'm persisting the "actions" themselves; the instructions passed through the application to trigger the sounds.</p>
-    <p>Here's a sample of the data being collected:</p>
-    <SyntaxHighlighter language="javascript" style={docco}>
-      {sampleData}
-    </SyntaxHighlighter>
-    <p>By simply rerunning the stream of actions on my local machine, I'm able to recreate the sounds.</p>
-    <p><strong>Note:</strong> It is important to clarify that <em>absolutely no personally-identifying information</em> is sent along with this data. A random ID is generated to differentiate between sessions, but no additional data is persisted.</p>
+    <p>
+      While building <Logo size="small" />, I anticipated that people would make really great music with it. I didn't want to miss all the creative things users would do with my web app!
+    </p>
+    <p>
+      I decided to build an accompanying tool that would capture user sessions, in an anonymized and secure way, so that I could hear what gets made.
+    </p>
+    <p>
+      No audio is recorded. Instead, I record the sequence of actions. To replay the session, I can just run the sequence of actions through the application, and re-create it on-the-fly.
+    </p>
+    <p>
+      <strong>
+        This data is totally anonymous, and no device/IP info is collected.&nbsp;
+      </strong>
+      You can
+      <a
+        href="/src/data/sample-cassette-actions.json"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        view the data from a sample session
+      </a>.
+    </p>
+
+    <HorizontalRule background="white" />
+
+    <h4 className="listen-header">Listen to other sessions</h4>
+    <p>
+      I am not the only one who can listen to recorded works. <a href="/?adminMode=true">Follow this link</a>, and use the VCR at the bottom; hopefully it's fairly intuitive!
+    </p>
   </Modal>
 );
 
