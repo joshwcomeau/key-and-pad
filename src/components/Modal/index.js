@@ -11,7 +11,7 @@ const Modal = ({ children, className = '', isOpen, onRequestClose } = {}) => (
     <div className={classNames('modal', className)}>
       <div className="modal-contents">
         <button className="modal-close" onClick={onRequestClose}>
-          <Icon value="close" size="36" color="#F35638" />
+          <Icon value="close" size={30} />
         </button>
 
         {children}

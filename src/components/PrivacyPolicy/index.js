@@ -28,22 +28,21 @@ const PrivacyPolicy = ({ isOpen, closeModal }) => (
     <p>
       <strong>
         This data is totally anonymous, and no device/IP info is collected.&nbsp;
+        <a
+          href="/src/data/sample-cassette-actions.json"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View the data from a sample session
+        </a>.
       </strong>
-      You can
-      <a
-        href="/src/data/sample-cassette-actions.json"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        view the data from a sample session
-      </a>.
     </p>
 
     <HorizontalRule background="white" />
 
     <h4 className="listen-header">Listen to other sessions</h4>
     <p>
-      I am not the only one who can listen to recorded works. <a href="/?adminMode=true">Follow this link</a>, and use the VCR at the bottom; hopefully it's fairly intuitive!
+      Curious what others have created? <a href="/?adminMode=true">Follow this link</a>, and use the VCR at the bottom; hopefully it's fairly intuitive!
     </p>
   </Modal>
 );

@@ -71,11 +71,23 @@
 
     .modal-close {
       position: absolute;
-      top: 1rem;
-      right: 1rem;
+      top: 32px;
+      right: 32px;
       background: transparent;
       border: none;
       outline: none;
+
+      &:hover {
+        svg {
+          fill: $orange !important;
+          transition: fill 250ms;
+        }
+      }
+
+      svg {
+        fill: $lightgray !important;
+        transition: fill 500ms;
+      }
     }
   }
 
