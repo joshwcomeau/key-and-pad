@@ -14,6 +14,8 @@
 }
 
 .introduction {
+  animation: fadeIn 2000ms 500ms both;
+
   .main-contents {
     transition: transform 1600ms;
 
@@ -57,4 +59,9 @@
     position: relative;
     width: 45%;
   }
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
