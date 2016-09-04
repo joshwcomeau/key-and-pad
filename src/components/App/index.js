@@ -12,7 +12,6 @@ import ControlPanel from '../ControlPanel';
 import FeatureHighlight from '../FeatureHighlight';
 import DevTools from '../DevTools';
 
-
 import {
   isBefore,
   isAfter,
@@ -35,6 +34,7 @@ const App = ({
   isSameStage,
   keysIntroProgress,
   padIntroProgress,
+  isAdmin,
 }) => (
   <div className="app">
     <FeatureHighlight
@@ -150,7 +150,7 @@ const App = ({
     <PrivacyPolicy />
 
     <DevTools />
-    { /* <Replay /> */ }
+    {isAdmin && <Replay />}
   </div>
 );
 
@@ -161,6 +161,7 @@ App.propTypes = {
   isSameStage: PropTypes.func,
   keysIntroProgress: PropTypes.number,
   padIntroProgress: PropTypes.number,
+  isAdmin: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
@@ -176,6 +177,7 @@ const mapStateToProps = state => ({
   padIntroProgress: (
     state.onboarding.padUpdates / (numOfPadUpdatesNeeded) * 100
   ),
+  isAdmin: state.isAdmin,
 });
 
 export default connect(mapStateToProps)(App);

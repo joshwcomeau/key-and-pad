@@ -1,9 +1,11 @@
 import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import './index.scss';
 
-const Logo = ({ size }) => (
-  <span className={`logo ${size}`}>
+const Logo = ({ size, isAdmin }) => (
+  <span className={classNames('logo', size, { 'is-admin': isAdmin })}>
     <span className="word">Key</span>
     <span className="join-character">&</span>
     <span className="word">Pad</span>
@@ -12,6 +14,11 @@ const Logo = ({ size }) => (
 
 Logo.propTypes = {
   size: PropTypes.string,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
-export default Logo;
+const mapStateToProps = state => ({
+  isAdmin: state.isAdmin,
+});
+
+export default connect(mapStateToProps)(Logo);
