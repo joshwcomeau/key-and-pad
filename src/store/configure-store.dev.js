@@ -1,35 +1,32 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { createCaptureMiddleware } from 'redux-vcr.capture';
-import { createPersistHandler } from 'redux-vcr.persist';
-import { createRetrieveHandler, createRetrieveMiddleware } from 'redux-vcr.retrieve';
-import { createReplayMiddleware, wrapReducer } from 'redux-vcr.replay';
+import { wrapReducer } from 'redux-vcr.replay';
 
 import rootReducer from '../reducers';
-import { completeOnboarding } from '../actions';
 import onboardingSaga from '../sagas/onboarding.saga';
-import { firebaseAuth } from '../data/firebase';
+import buildMiddlewareArray from '../utils/build-middleware-array';
+import { getQueryParams } from '../utils/misc-helpers';
+import { completeOnboarding, setAdminMode } from '../actions';
 import { ONBOARDING_COMPLETED_FLAG } from '../data/app-constants';
 
 import DevTools from '../components/DevTools';
 
 
 export default function configureStore() {
+  // If we're in admin mode, we don't want to persist, we only want to record.
+  let { adminMode } = getQueryParams();
+  // convert string/undefined to boolean
+  adminMode = adminMode === 'true';
+
+  const reducer = adminMode ? wrapReducer(rootReducer) : rootReducer;
+
+  const middlewares = buildMiddlewareArray({ adminMode });
+
   const sagaMiddleware = createSagaMiddleware();
-
-
-  const persistHandler = createPersistHandler({ firebaseAuth, debounceLength: 2000 });
-  const retrieveHandler = createRetrieveHandler({ firebaseAuth });
-
-  const middlewares = [
-    sagaMiddleware,
-    // createCaptureMiddleware({ persistHandler }),
-    createRetrieveMiddleware({ retrieveHandler, requiresAuth: false }),
-    createReplayMiddleware({ maximumDelay: 100 }),
-  ];
+  middlewares.push(sagaMiddleware);
 
   const store = createStore(
-    wrapReducer(rootReducer),
+    reducer,
     compose(
       applyMiddleware.apply(this, middlewares),
       DevTools.instrument()
@@ -38,10 +35,14 @@ export default function configureStore() {
 
   sagaMiddleware.run(onboardingSaga);
 
-  // If the user has already seen the onboarding, skip it.
-  if (localStorage.getItem(ONBOARDING_COMPLETED_FLAG)) {
+  if (adminMode) {
+    store.dispatch(setAdminMode({ adminMode }));
+  }
+
+  if (adminMode || localStorage.getItem(ONBOARDING_COMPLETED_FLAG)) {
     store.dispatch(completeOnboarding());
   }
+
   // Allow direct access to the store, for debugging/testing
   window.store = store;
 
