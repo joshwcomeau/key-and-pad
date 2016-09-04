@@ -25,7 +25,6 @@ import {
   numOfPadUpdatesNeeded,
 } from '../../data/onboarding-config';
 
-import './reset.scss';
 import './index.scss';
 
 
