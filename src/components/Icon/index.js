@@ -6,8 +6,8 @@ import iconMap from '../../utils/icon-map';
 const Icon = ({ color, size, value, ...delegated }) => {
   const divStyles = {
     display: 'inline-block',
-    width: size,
-    height: size,
+    width: `${size}px`,
+    height: `${size}px`,
   };
 
   return (
