@@ -1,0 +1,25 @@
+@import '../../variables';
+@import '../../mixins';
+
+.horizontal-rule {
+  position: relative;
+  height: 1px;
+  margin: 32px 0;
+  background: $lightgray;
+
+  .blocker-circle {
+    @include centered;
+    z-index: 1;
+    border-radius: 100%;
+
+    &.offwhite { background: $offwhite; }
+    &.white { background: $white; }
+  }
+
+  .circle {
+    @include centered;
+    z-index: 2;
+    border-radius: 100%;
+    background-color: $lightgray;
+  }
+}
