@@ -4,6 +4,9 @@
 .logo {
   position: relative;
   font-size: 28px;
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
 
   &.small {
     font-size: inherit;

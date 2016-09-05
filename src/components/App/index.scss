@@ -11,7 +11,7 @@ em {
   font-style: italic;
 }
 
-a {
+a:not(.no-underline) {
   position: relative;
   display: inline-block;
   text-decoration: none;
@@ -65,7 +65,7 @@ strong {
     position: relative;
     z-index: 1;
     margin: 3rem;
-    padding-top: 3rem;
+    padding-top: 6rem;
     display: flex;
     justify-content: center;
     align-items: center;

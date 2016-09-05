@@ -9,4 +9,27 @@
     letter-spacing: -2px;
     user-select: none;
   }
+
+  .octocat {
+    position: absolute;
+    top: 8px;
+    right: 0;
+
+    .github-banner {
+      position: absolute;
+      right: -170px;
+      z-index: 1;
+      width: 400px;
+      height: 60px;
+      background: $tan;
+      opacity: 0;
+      transform: rotate(45deg)
+    }
+
+    img {
+      position: relative;
+      z-index: 2;
+      width: 75px;
+    }
+  }
 }
