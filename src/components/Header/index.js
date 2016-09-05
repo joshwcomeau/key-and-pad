@@ -12,7 +12,6 @@ const Header = () => (
       rel="noopener noreferrer"
       href="https://github.com/joshwcomeau/Key-Pad"
     >
-      <div className="github-banner" />
       <img
         src="src/images/daftpunktocat_bangalter_150.gif"
         alt="View on GitHub"
