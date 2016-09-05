@@ -7,7 +7,10 @@ import {
   tweakAxisParameter,
   changeAxisEffect,
 } from '../../actions';
-import { disabledEffectSelector } from '../../reducers/effects.reducer';
+import {
+  otherAxisNameSelector,
+  axisControlSelector,
+} from '../../reducers/effects.reducer';
 import effectDefaultOptions from '../../data/effect-default-options';
 
 import Column from '../Column';
@@ -20,6 +23,15 @@ class AxisControls extends Component {
     super(props);
     this.tweakAxisParameter = debounce(props.tweakAxisParameter, 500);
     this.handleChangeAxisEffect = this.handleChangeAxisEffect.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const { effect } = this.props;
+
+    const sameOptions = effect.options === nextProps.effect.options;
+    const sameEffectName = effect.name === nextProps.effect.name;
+
+    return !sameOptions || !sameEffectName;
   }
 
   handleChangeAxisEffect({ value }) {
@@ -189,10 +201,12 @@ AxisControls.propTypes = {
   changeAxisEffect: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state, { axis }) => ({
-  effect: state.effects[axis],
-  disabledEffect: disabledEffectSelector(state, axis),
-});
+const mapStateToProps = (state, { axis }) => {
+  return {
+    effect: axisControlSelector(state, axis),
+    disabledEffect: otherAxisNameSelector(state, axis),
+  };
+};
 
 export default connect(mapStateToProps, {
   tweakAxisParameter,

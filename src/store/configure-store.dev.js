@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { wrapReducer } from 'redux-vcr.replay';
+import Perf from 'react-addons-perf';
 
 import rootReducer from '../reducers';
 import onboardingSaga from '../sagas/onboarding.saga';
@@ -11,6 +12,8 @@ import { ONBOARDING_COMPLETED_FLAG } from '../data/app-constants';
 
 import DevTools from '../components/DevTools';
 
+
+window.Perf = Perf;
 
 export default function configureStore() {
   // If we're in admin mode, we don't want to persist, we only want to record.

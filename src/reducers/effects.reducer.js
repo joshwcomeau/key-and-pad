@@ -92,12 +92,20 @@ export default function effectsReducer(state = initialState, action) {
 
 
 // Selectors
-const otherAxisSelector = (state, axis) => {
+const axisName = (state, axis) => state.effects[axis].name;
+const axisOptions = (state, axis) => state.effects[axis].options;
+
+const otherAxisName = (state, axis) => {
   const otherAxis = axis === 'x' ? 'y' : 'x';
-  return state.effects[otherAxis];
+  return state.effects[otherAxis].name;
 };
 
-export const disabledEffectSelector = createSelector(
-  otherAxisSelector,
-  (otherAxis) => otherAxis.name
+export const axisControlSelector = createSelector(
+  [axisName, axisOptions],
+  (name, options) => ({ name, options })
+);
+
+export const otherAxisNameSelector = createSelector(
+  otherAxisName,
+  (name) => name
 );

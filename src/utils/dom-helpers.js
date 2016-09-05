@@ -7,8 +7,6 @@ export const getElementTranslate = elem => {
 
   // TODO: support items with 3D transforms applied.
 
-  console.log('Transform', transform);
-
   return transform
     .match(/[\d\.]+/g)  // extract numbers
     .map(i => +i)       // convert "1" to an actual number 1

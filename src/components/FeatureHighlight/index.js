@@ -1,4 +1,4 @@
-import React, { PureComponent, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import FeaturePointer from '../FeaturePointer';
@@ -9,7 +9,7 @@ import { getElementTranslate } from '../../utils/dom-helpers';
 // - positions an item to the center, so a feature can be highlighted
 // - controls whether or not to render an element
 
-class FeatureHighlight extends PureComponent {
+class FeatureHighlight extends Component {
   constructor(props) {
     super(props);
     this.state = {};

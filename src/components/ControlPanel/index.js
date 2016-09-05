@@ -113,18 +113,11 @@ class ControlPanel extends Component {
 }
 
 ControlPanel.propTypes = {
-  effects: PropTypes.shape({
-    x: PropTypes.object,
-    y: PropTypes.object,
-  }),
   oscillators: PropTypes.array,
   updateOscillator: PropTypes.func,
-  // changeAxisEffect: PropTypes.func,
-  // tweakAxisParameter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  effects: state.effects,
   oscillators: state.oscillators,
 });
 
