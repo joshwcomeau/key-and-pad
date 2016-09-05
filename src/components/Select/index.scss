@@ -51,6 +51,10 @@
         background-color: $white;
         color: $orange;
       }
+
+      &.is-disabled {
+        color: $lightgray !important;
+      }
     }
   }
 }

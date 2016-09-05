@@ -1,13 +1,10 @@
 export default {
   filter: {
     filterType: 'lowpass',
-    resonance: 10
+    resonance: 10,
   },
   distortion: {
     oversample: 2,
-  },
-  delay: {
-    length: 2,
   },
   reverb: {
     dry: 1,

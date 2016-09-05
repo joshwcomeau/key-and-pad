@@ -1,14 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import debounce from 'lodash.debounce';
 
-import {
-  changeAxisEffect,
-  tweakAxisParameter,
-  updateOscillator,
-} from '../../actions';
+import { updateOscillator } from '../../actions';
 import { toRoman } from '../../utils/misc-helpers';
 
+import AxisControl from '../AxisControl';
 import Slider from '../Slider';
 import Subheading from '../Subheading';
 import ButtonToggleGroup from '../ButtonToggleGroup';
@@ -16,16 +12,10 @@ import Button from '../Button';
 import Waveform from '../Waveform';
 import Row from '../Row';
 import Column from '../Column';
-import Select from '../Select';
 import './index.scss';
 
 
 class ControlPanel extends Component {
-  constructor(props) {
-    super(props);
-    this.tweakAxisParameter = debounce(props.tweakAxisParameter, 500);
-  }
-
   renderWaveformToggles(oscillatorIndex) {
     const waveforms = ['sine', 'triangle', 'square', 'sawtooth'];
     const selectedWaveform = this.props.oscillators[oscillatorIndex].waveform;
@@ -42,146 +32,6 @@ class ControlPanel extends Component {
         <Waveform value={waveform} />
       </Button>
     ));
-  }
-
-  renderAxisControls(axis) {
-    const effect = this.props.effects[axis];
-    let controls;
-
-    switch (effect.name) {
-      case 'filter': {
-        controls = (
-          <div className="effect-controls">
-            <h5>type</h5>
-            <Select
-              clearable={false}
-              searchable={false}
-              value={this.props.effects[axis].options.filterType}
-              className="axis-param-select"
-              onChange={({ value }) => {
-                this.props.tweakAxisParameter({
-                  axis,
-                  options: { filterType: value },
-                });
-              }}
-              options={[
-                { value: 'lowpass', label: 'low pass' },
-                { value: 'highpass', label: 'high pass' },
-                { value: 'bandpass', label: 'band pass' },
-                { value: 'allpass', label: 'all pass' },
-                { value: 'notch', label: 'notch' },
-              ]}
-            />
-
-            <h5>resonance (Q)</h5>
-            <Slider
-              min={0}
-              max={50}
-              step={0.1}
-              value={effect.options.resonance}
-              onChange={val => {
-                // Debounce the actual action-dispatch since it's kinda
-                // slow, and doesn't need to be low-latency.
-                this.tweakAxisParameter({
-                  axis,
-                  options: { resonance: val },
-                });
-              }}
-            />
-          </div>
-        );
-        break;
-      }
-      case 'distortion': {
-        controls = (
-          <div className="effect-controls">
-            <h5>oversampling</h5>
-            <Slider
-              min={0}
-              max={4}
-              step={2}
-              value={effect.options.oversample}
-              onChange={val => {
-                // Debounce the actual action-dispatch since it's kinda
-                // slow, and doesn't need to be low-latency.
-                this.tweakAxisParameter({
-                  axis,
-                  options: { oversample: val },
-                });
-              }}
-            />
-          </div>
-        );
-        break;
-      }
-      case 'reverb': {
-        controls = (
-          <div className="effect-controls">
-            <h5>length</h5>
-            <Slider
-              min={0}
-              max={8}
-              step={0.1}
-              value={effect.options.time}
-              onChange={val => {
-                // Debounce the actual action-dispatch since it's kinda
-                // slow, and doesn't need to be low-latency.
-                this.tweakAxisParameter({
-                  axis,
-                  options: { time: val },
-                });
-              }}
-            />
-
-            <h5>filter cutoff</h5>
-            <Slider
-              min={0}
-              max={20000}
-              step={1}
-              value={effect.options.cutoff}
-              onChange={val => {
-                // Debounce the actual action-dispatch since it's kinda
-                // slow, and doesn't need to be low-latency.
-                this.tweakAxisParameter({
-                  axis,
-                  options: { cutoff: val },
-                });
-              }}
-            />
-          </div>
-        );
-        break;
-      }
-
-      default: {
-        controls = <div />;
-        break;
-      }
-    }
-    return (
-      <Column className={`pad-${axis}`}>
-        <h4>{`${axis} axis`}</h4>
-        <Select
-          clearable={false}
-          searchable={false}
-          className="axis-control-select"
-          value={this.props.effects[axis].name}
-          onChange={({ value }) => {
-            this.props.changeAxisEffect({
-              axis,
-              effect: value,
-            });
-          }}
-          options={[
-            { value: 'filter', label: 'filter' },
-            { value: 'distortion', label: 'distortion' },
-            { value: 'reverb', label: 'reverb' },
-          ]}
-        />
-
-        {controls}
-      </Column>
-    );
   }
 
   renderOscillatorControls(index) {
@@ -253,8 +103,8 @@ class ControlPanel extends Component {
         <div className="panel pad">
           <Subheading underline="medium-gray">pad controls</Subheading>
           <Row>
-            {this.renderAxisControls('x')}
-            {this.renderAxisControls('y')}
+            <AxisControl axis="x" />
+            <AxisControl axis="y" />
           </Row>
         </div>
       </div>
@@ -269,8 +119,8 @@ ControlPanel.propTypes = {
   }),
   oscillators: PropTypes.array,
   updateOscillator: PropTypes.func,
-  changeAxisEffect: PropTypes.func,
-  tweakAxisParameter: PropTypes.func.isRequired,
+  // changeAxisEffect: PropTypes.func,
+  // tweakAxisParameter: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -280,8 +130,6 @@ const mapStateToProps = state => ({
 
 const actions = {
   updateOscillator,
-  changeAxisEffect,
-  tweakAxisParameter,
 };
 
 export default connect(mapStateToProps, actions)(ControlPanel);

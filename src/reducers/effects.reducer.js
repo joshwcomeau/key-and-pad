@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { createSelector } from 'reselect';
 import effectDefaultOptions from '../data/effect-default-options.js';
 
 import {
@@ -89,3 +89,15 @@ export default function effectsReducer(state = initialState, action) {
       : state.y,
   };
 }
+
+
+// Selectors
+const otherAxisSelector = (state, axis) => {
+  const otherAxis = axis === 'x' ? 'y' : 'x';
+  return state.effects[otherAxis];
+};
+
+export const disabledEffectSelector = createSelector(
+  otherAxisSelector,
+  (otherAxis) => otherAxis.name
+);
