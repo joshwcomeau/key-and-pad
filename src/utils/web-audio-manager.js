@@ -1,6 +1,7 @@
-import { toFreq } from 'tonal-freq'
+import { toFreq } from 'tonal-freq';
+import Tuna from 'tunajs';
 import invokeMap from 'lodash.invokemap';
-import pick from 'lodash.pick'
+import pick from 'lodash.pick';
 
 import {
   fadeWithContext,
@@ -10,6 +11,7 @@ import {
   createDistortionWithContext,
   createDelayWithContext,
   createReverbWithContext,
+  createPhaserWithContext,
   getLogarithmicFrequencyValueWithContext,
   getDistortionOversample,
   getOctaveMultiplier,
@@ -19,6 +21,7 @@ import effectDefaultOptions from '../data/effect-default-options.js';
 
 // eslint-disable-next-line no-undef
 const audioContext = new (AudioContext || webkitAudioContext)();
+
 
 /* ROUTING
 
@@ -46,18 +49,20 @@ avoiding the other effects (distortion and reverb).
 
 export const webAudioManagerFactory = context => {
   /*
-  // Store all currently-playing oscillators here.
-  // Shape is:
+  Store all currently-playing oscillators here.
+  Shape is:
   [
     // All oscillators corresponding to redux Oscillator I
     [
       // Each oscillator has the oscillator itself, and its own gain
       // Oscillators are monophonic, so there will be 1 oscillator per note.
       {
+        // eg. this one is playing G4
         oscillator: oscillatorNode,
         output: gainNode
       },
       {
+        // eg. this one is playing A4
         oscillator: oscillatorNode,
         output: gainNode
       }
@@ -71,6 +76,11 @@ export const webAudioManagerFactory = context => {
     [],
   ];
 
+  // Tuna is a library for web audio effects.
+  // Trying it out for phasers and delays, effects that are a pain to
+  // create natively.
+  const tuna = new Tuna(context);
+
   // All of our creation helpers can have the global audio context applied
   // early, to save us some typing.
   const createOscillator = createOscillatorWithContext(context);
@@ -79,6 +89,7 @@ export const webAudioManagerFactory = context => {
   const createDelay = createDelayWithContext(context);
   const createReverb = createReverbWithContext(context);
   const createDistortion = createDistortionWithContext(context);
+  const createPhaser = createPhaserWithContext(context, tuna);
 
   const fade = fadeWithContext(context);
   const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
@@ -102,6 +113,10 @@ export const webAudioManagerFactory = context => {
       ...effectDefaultOptions.reverb,
       output: context.destination,
     }),
+    phaser: createPhaser({
+      ...effectDefaultOptions.phaser,
+      output: context.destination,
+    }),
   };
 
   // Create our master oscillator output. All oscillators are routed through
@@ -114,12 +129,6 @@ export const webAudioManagerFactory = context => {
 
   // return the WebAudioManager itself.
   return {
-    initialize({ oscillators, effects }) {
-      // When the app is initialized, we pass it the default state of the redux
-      // store. Use that to build our initial oscillators and effects.
-
-    },
-
     stopAllOscillators() {
       // TODO: Look into whether I need to kill the gains created for each osc.
       activeOscillators.forEach(oscillatorArray => {
@@ -129,7 +138,7 @@ export const webAudioManagerFactory = context => {
             direction: 'out',
             output,
             oscillator,
-          })
+          });
         });
 
         activeOscillators = [
@@ -169,7 +178,7 @@ export const webAudioManagerFactory = context => {
           activeOscillators[index].push({
             oscillator: newOscillator,
             noteValue: value,
-            output: output
+            output,
           });
         });
       });
@@ -177,7 +186,7 @@ export const webAudioManagerFactory = context => {
       return this;
     },
 
-    updateOscillators({ notes, oscillators, effects }) {
+    updateOscillators({ notes, oscillators }) {
       notes.forEach(({ value }) => {
         oscillators.forEach(({ gain, detune, octaveAdjustment }, index) => {
           const activeOscillator = activeOscillators[index].find(osc => (
@@ -247,7 +256,7 @@ export const webAudioManagerFactory = context => {
       return this;
     },
 
-    updateEffectAmount({ axis, effect }) {
+    updateEffectAmount({ effect }) {
       const { name, amount } = effect;
 
       // `amount` will be a number from 0 to 1.
@@ -269,6 +278,10 @@ export const webAudioManagerFactory = context => {
         case 'reverb': {
           effects.reverb.node.wet.value = amount;
           effects.reverb.node.dry.value = 1 - amount * 0.25;
+          break;
+        }
+        case 'phaser': {
+          effects.phaser.node.depth = amount * 0.65;
           break;
         }
         default: {
@@ -294,6 +307,12 @@ export const webAudioManagerFactory = context => {
           effects.reverb.node.cutoff.value = options.cutoff;
           break;
 
+        case 'phaser':
+          effects.phaser.node.rate = options.rate;
+          effects.phaser.node.feedback = options.feedback;
+          effects.phaser.node.stereoPhase = options.stereoPhase;
+          break;
+
         default: {
           // Do nothing
         }
@@ -304,107 +323,3 @@ export const webAudioManagerFactory = context => {
 
 // Export a singleton by default, loaded up with our singleton audio context.
 export default webAudioManagerFactory(audioContext);
-
-
-// EFFECTS
-// const filter = createFilter({
-//   type: 'lowpass',
-//   resonance: 10,
-//   output: audioContext.destination,
-// });
-//
-// const distortion = createDistortion({
-//   oversample: '4x',
-//   amount: 100,
-//   output: audioContext.destination,
-// });
-//
-// const delay = createDelay({
-//   length: 2,
-//   output: audioContext.destination,
-// })
-//
-//
-// let xEffect = null;
-// let yEffect = null;
-
-
-// const masterOutput = createGain({ value: 1, output: audioContext.destination });
-
-
-// export const playNote = ({ note, frequency, waveforms }) => {
-//   const [waveform1, waveform2] = waveforms;
-//
-//   // Layer a couple of oscillators
-//   const oscillator1 = createOscillator({
-//     waveform: waveform1,
-//     frequency: frequency / 2,
-//     output: createGain({
-//       value: 0.15,
-//       output: masterOutput,
-//     }),
-//   });
-//
-//   const oscillator2 = createOscillator({
-//     waveform: waveform2,
-//     frequency,
-//     output: createGain({
-//       value: 0.5,
-//       output: masterOutput,
-//     }),
-//   });
-//
-//   oscillatorsMap[note] = [oscillator1, oscillator2];
-// };
-//
-// export const stopNote = ({ note }) => {
-//   if (typeof oscillatorsMap[note] !== 'undefined') {
-//     oscillatorsMap[note].forEach(osc => osc.stop());
-//   }
-// };
-//
-// export const updatePadCoordinates = ({ x, y }) => {
-//   // The routing goes like this:
-//   // masterOutput -> xEffect -> yEffect -> audioContext.destination.
-//
-//   // Start by ensuring it's routed to the filter
-//   connectNodes({
-//     source: masterOutput,
-//     destination: xEffect,
-//   });
-//   connectNodes({
-//     source: xEffect,
-//     destination: yEffect,
-//   });
-//
-//   connectNodes({
-//     source: yEffect,
-//     destination: audioContext.destination,
-//   });
-//
-//   // Next, get the frequency and set it.
-//   const frequency = getLogarithmicFrequencyValue(x);
-//
-//   filter.frequency.value = frequency;
-//   distortion.updateCurve(y * 250)
-// };
-//
-// export const removeEffects = () => {
-//   connectNodes({
-//     source: masterOutput,
-//     destination: audioContext.destination,
-//   });
-// };
-//
-// export const updateOscillators = ({ oscillatorIndex, waveform }) => {
-//   const notesPlayed = Object.keys(oscillatorsMap);
-//
-//   notesPlayed.forEach(note => {
-//     const oscillatorsAtNote = oscillatorsMap[note];
-//     oscillatorsAtNote[oscillatorIndex].type = waveform;
-//   })
-// };
-//
-// export const changeEffect = ({ axis, effect }) => {
-//   // We want to update our routing to route through whatever option we've selected.
-// }

@@ -13,15 +13,15 @@ const calculateDistortionCurve = (context, amount) => {
   }
 
   return curve;
-}
+};
 
 
 export const createGainWithContext = context => ({ value, output }) => {
   const gainNode = context.createGain();
-  gainNode.gain.value = value
+  gainNode.gain.value = value;
   gainNode.connect(output);
 
-  return gainNode
+  return gainNode;
 };
 
 export const createOscillatorWithContext = context => ({
@@ -41,7 +41,7 @@ export const createOscillatorWithContext = context => ({
 };
 
 export const fadeWithContext = context => ({
-  direction, output, oscillator, maxAmplitude = 1, duration = 0.02
+  direction, output, oscillator, maxAmplitude = 1, duration = 0.02,
 }) => {
   const now = context.currentTime;
   const end = now + duration;
@@ -56,7 +56,7 @@ export const fadeWithContext = context => ({
     output.gain.linearRampToValueAtTime(0, end);
     oscillator.stop(end);
   }
-}
+};
 
 export const createFilterWithContext = context => ({
   filterType,
@@ -78,7 +78,6 @@ export const createFilterWithContext = context => ({
 };
 
 export const createDistortionWithContext = context => ({
-  amount = 0,
   oversample = '4x',
   output,
 }) => {
@@ -114,7 +113,7 @@ export const createDistortionWithContext = context => ({
       distortionNode.curve = calculateDistortionCurve(context, amount);
     },
   };
-}
+};
 
 export const createDelayWithContext = context => ({ length, output }) => {
   const delayNode = context.createDelay(length);
@@ -127,12 +126,12 @@ export const createDelayWithContext = context => ({ length, output }) => {
     connect(destination) { delayNode.connect(destination); },
     disconnect() { delayNode.disconnect(); },
   };
-}
+};
 
 export const createReverbWithContext = context => ({ time, dry, wet, output }) => {
   const reverb = soundbankReverb(context);
 
-  reverb.connect(output)
+  reverb.connect(output);
 
   reverb.time = time;
   reverb.dry.value = dry;
@@ -144,7 +143,32 @@ export const createReverbWithContext = context => ({ time, dry, wet, output }) =
     connect(destination) { reverb.connect(destination); },
     disconnect() { reverb.disconnect(); },
   };
-}
+};
+
+export const createPhaserWithContext = (context, tuna) => ({
+  rate,
+  feedback,
+  stereoPhase,
+  baseModulationFrequency,
+  output,
+}) => {
+  const phaser = new tuna.Phaser({
+    depth: 0, // this is the param we control with the XYPad
+    rate,
+    feedback,
+    stereoPhase,
+    baseModulationFrequency,
+  });
+
+  phaser.connect(output);
+
+  return {
+    node: phaser,
+    sustain: false,
+    connect(destination) { phaser.connect(destination); },
+    disconnect() { phaser.disconnect(); },
+  };
+};
 
 export const getLogarithmicFrequencyValueWithContext = context => n => {
   // Where `n` is a value from 0 to 1, compute what the current frequency
@@ -155,7 +179,7 @@ export const getLogarithmicFrequencyValueWithContext = context => n => {
   const multiplier = Math.pow(2, numOfOctaves * (n - 1.0));
 
   return max * multiplier;
-}
+};
 
 export const getDistortionOversample = ({ oversample }) => {
   switch (oversample) {
@@ -170,7 +194,7 @@ export const getDistortionOversample = ({ oversample }) => {
       `);
     }
   }
-}
+};
 
 /** getOctaveMultiplier
   Converts a +/- octave value (eg. +1, 0, -2) to a value that can be used

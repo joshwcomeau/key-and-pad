@@ -126,7 +126,7 @@ class AxisControls extends Component {
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
-                tweakAxisParameter({
+                this.tweakAxisParameter({
                   axis,
                   options: { time: val },
                 });
@@ -142,7 +142,7 @@ class AxisControls extends Component {
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
-                tweakAxisParameter({
+                this.tweakAxisParameter({
                   axis,
                   options: { cutoff: val },
                 });
@@ -151,6 +151,55 @@ class AxisControls extends Component {
           </div>
         );
       }
+
+      case 'phaser': {
+        return (
+          <div className="effect-controls">
+            <h5>feedback</h5>
+            <Slider
+              min={0}
+              max={1}
+              step={0.1}
+              value={effect.options.feedback}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { feedback: val },
+                });
+              }}
+            />
+
+            <h5>rate</h5>
+            <Slider
+              min={0}
+              max={100}
+              step={0.1}
+              value={effect.options.rate}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { rate: val },
+                });
+              }}
+            />
+
+            <h5>stereo phase</h5>
+            <Slider
+              min={0}
+              max={180}
+              step={10}
+              value={effect.options.stereoPhase}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { stereoPhase: val },
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
       default: return <div />;
     }
   }

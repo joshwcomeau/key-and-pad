@@ -12,4 +12,10 @@ export default {
     time: 3,
     cutoff: 20000,
   },
+  phaser: {
+    rate: 1.2,
+    feedback: 0.4,
+    stereoPhase: 30,
+    baseModulationFrequency: 700,
+  },
 };

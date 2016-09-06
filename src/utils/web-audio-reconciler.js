@@ -1,17 +1,9 @@
 import { updatedWithinPath } from './misc-helpers';
 import WebAudioManager from './web-audio-manager';
 
-let currentState,
-  store,
-  unsubscribe;
-
-export function initializeWebAudio(reduxStore) {
-  store = reduxStore;
-  unsubscribe = store.subscribe(reconcile);
-  currentState = store.getState();
-
-  WebAudioManager.initialize(currentState);
-}
+let currentState;
+let store;
+let unsubscribe;
 
 // Currently unused
 export function destroy() {
@@ -120,4 +112,10 @@ export function reconcile() {
       }
     });
   }
+}
+
+export function initializeWebAudio(reduxStore) {
+  store = reduxStore;
+  unsubscribe = store.subscribe(reconcile);
+  currentState = store.getState();
 }
