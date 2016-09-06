@@ -1,5 +1,9 @@
 @import '../../variables';
 
+body {
+  background: $offwhite !important;
+}
+
 pre {
   font-family: 'Lucida Console', monospace;
   font-size: 14px;

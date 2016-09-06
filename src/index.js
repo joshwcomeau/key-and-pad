@@ -7,6 +7,7 @@ import App from './components/App';
 import MobileNotification from './components/MobileNotification';
 import { initializeWebAudio } from './utils/web-audio-reconciler';
 import { isMobile } from './utils/misc-helpers';
+import { fadeElementAway } from './utils/dom-helpers';
 import configureStore from './store';
 
 // Needed for onTouchTap
@@ -20,6 +21,10 @@ const store = configureStore();
 // `subscribe` function is passed which compares the old state to the new,
 // and makes any changes required.
 initializeWebAudio(store);
+
+// We have a plain-DOM loading screen, which we need to fade out and remove
+// once React has loaded.
+fadeElementAway({ selector: '.loading-screen', duration: 1000 });
 
 ReactDOM.render(
   <Provider store={store}>

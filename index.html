@@ -79,7 +79,8 @@
       body {
         margin: 0;
         padding: 0;
-        background: #f4f7f8;
+        background: #2f3233;
+        transition: background 1000ms;
       }
 
       body, button, input, select, textarea {
@@ -87,9 +88,112 @@
         -webkit-font-smoothing: antialiased;
       }
 
+      .loading-screen {
+        background: #2f3233;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+      }
+
+      .loader {
+        animation: loader 5s cubic-bezier(.8,0,.2,1) infinite, fadeIn 2s both;
+        height: 40px;
+        width: 41px;
+        position: absolute;
+        top:calc(50% - 20px);
+        left:calc(50% - 20px);
+      }
+      @keyframes loader {
+        90% { transform: rotate(0deg); }
+        100% { transform: rotate(180deg); }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      .top {
+        animation: top 5s linear infinite;
+        border-top: 20px solid #F3CA4F;
+        border-right: 20px solid transparent;
+        border-left: 20px solid transparent;
+        height: 0px;
+        width: 1px;
+        transform-origin: 50% 100%;
+      }
+      @keyframes top {
+        90% { transform: scale(0); }
+        100% { transform: scale(0);}
+      }
+      .bottom {
+        animation: bottom 5s linear infinite;
+        border-right: 20px solid transparent;
+        border-bottom: 20px solid #F3CA4F;
+        border-left: 20px solid transparent;
+        height: 0px;
+        width: 1px;
+        transform: scale(0);
+        transform-origin: 50% 100%;
+      }
+      @keyframes bottom {
+        10% { transform: scale(0); }
+        90% { transform: scale(1); }
+        100% { transform: scale(1); }
+      }
+      .line {
+        animation: line 5s linear infinite, sandMotion 100ms linear infinite;
+        border-left: 1px dotted #F3CA4F;
+        height: 0px;
+        width: 0px;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+      }
+      @keyframes line {
+        10% { height: 10px; }
+        100% { height: 10px; }
+      }
+      @keyframes sandMotion {
+        from { transform: translateY(0); }
+        to { transform: translateY(10px); }
+      }
+
+      .loading-heading {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 0;
+        margin: auto;
+        transform: translateY(36px);
+        text-align: center;
+        color: #606667;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: -0.5px;
+        animation: loadingHeadingFade 5s infinite;
+      }
+
+      @keyframes loadingHeadingFade {
+        0% { opacity: 1; }
+        50% { opacity: 0.4; }
+        100% { opacity: 1; }
+      }
     </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <div class="loading-screen">
+      <div class="loader">
+        <div class="top"></div>
+        <div class="bottom"></div>
+        <div class="line"></div>
+      </div>
+
+      <h6 class="loading-heading">Loading</h6>
+    </div>
   </body>
 </html>
