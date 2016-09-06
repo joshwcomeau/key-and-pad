@@ -1,3 +1,4 @@
+import { combineReducers } from 'redux';
 import onboardingStages from '../data/onboarding-stages';
 
 import {
@@ -15,45 +16,38 @@ const initialState = {
   padUpdates: 0,
 };
 
-export default function onboardingReducer(state = initialState, action) {
+const stage = (state = initialState.stage, action) => {
   switch (action.type) {
-    case UPDATE_STAGE: {
-      return {
-        ...state,
-        stage: action.stage,
-      };
-    }
+    case UPDATE_STAGE: return action.stage;
 
     case GO_TO_NEXT_STAGE: {
-      const currentIndex = onboardingStages.indexOf(state.stage);
-      return {
-        ...state,
-        stage: onboardingStages[currentIndex + 1],
-      };
+      const currentIndex = onboardingStages.indexOf(state);
+
+      const isFinalStage = currentIndex === onboardingStages.length - 1;
+
+      return isFinalStage ? state : onboardingStages[currentIndex + 1];
     }
 
     case COMPLETE_ONBOARDING: {
-      return {
-        ...state,
-        stage: onboardingStages[onboardingStages.length - 1],
-      };
+      return onboardingStages[onboardingStages.length - 1];
     }
 
-    case EXPERIMENT_WITH_NOTES: {
-      return {
-        ...state,
-        keysPressed: state.keysPressed + 1,
-      };
-    }
-
-    case EXPERIMENT_WITH_PAD: {
-      return {
-        ...state,
-        padUpdates: state.padUpdates + 1,
-      };
-    }
-
-    default:
-      return state;
+    default: return state;
   }
-}
+};
+
+const keysPressed = (state = initialState.keysPressed, action) => {
+  switch (action.type) {
+    case EXPERIMENT_WITH_NOTES: return state + 1;
+    default: return state;
+  }
+};
+
+const padUpdates = (state = initialState.padUpdates, action) => {
+  switch (action.type) {
+    case EXPERIMENT_WITH_PAD: return state + 1;
+    default: return state;
+  }
+};
+
+export default combineReducers({ stage, keysPressed, padUpdates });

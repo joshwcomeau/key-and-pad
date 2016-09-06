@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars, no-undef */
 import { expect } from 'chai';
 
-import reducer, {
+import {
   DEACTIVATE_EFFECTS,
   UPDATE_EFFECTS_AMOUNT,
   CHANGE_AXIS_EFFECT,
@@ -10,7 +10,8 @@ import reducer, {
   updateEffectsAmount,
   changeAxisEffect,
   tweakAxisParameter,
-} from '../../src/ducks/effects.duck';
+} from '../../src/actions';
+import reducer from '../../src/reducers/effects.reducer';
 
 
 describe('Effects reducer', () => {
@@ -19,12 +20,12 @@ describe('Effects reducer', () => {
       const initialState = {
         x: { name: 'filter', active: true },
         y: { name: 'reverb', active: true },
-      }
+      };
 
       const expectedState = {
         x: { name: 'filter', active: false },
         y: { name: 'reverb', active: false },
-      }
+      };
 
       const actualState = reducer(initialState, deactivateEffects());
 
@@ -35,12 +36,12 @@ describe('Effects reducer', () => {
       const initialState = {
         x: { name: 'filter', active: false },
         y: { name: 'reverb', active: false },
-      }
+      };
 
       const expectedState = {
         x: { name: 'filter', active: false },
         y: { name: 'reverb', active: false },
-      }
+      };
 
       const actualState = reducer(initialState, deactivateEffects());
 
