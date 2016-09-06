@@ -93,3 +93,12 @@ export const getQueryParams = () => {
       };
     }, {});
 };
+
+/** isMobile
+  Returns whether the current device is mobile or not.
+*/
+export const isMobile = () => {
+  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+  return mobileRegex.test(navigator.userAgent) || window.innerWidth < 450;
+};

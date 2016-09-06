@@ -1,0 +1,32 @@
+@import '../../variables';
+
+.mobile-notification {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $offwhite;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  h3 {
+    margin: 3rem 2rem;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 20px;
+    padding: 0 2rem;
+  }
+
+  .alternative {
+    font-size: 16px;
+    font-weight: 100;
+    margin-top: 3rem;
+  }
+}

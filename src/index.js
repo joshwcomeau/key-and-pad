@@ -4,7 +4,9 @@ import { Provider } from 'react-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from './components/App';
+import MobileNotification from './components/MobileNotification';
 import { initializeWebAudio } from './utils/web-audio-reconciler';
+import { isMobile } from './utils/misc-helpers';
 import configureStore from './store';
 
 // Needed for onTouchTap
@@ -21,7 +23,7 @@ initializeWebAudio(store);
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    {isMobile() ? <MobileNotification /> : <App />}
   </Provider>,
   document.getElementById('root')
 );
