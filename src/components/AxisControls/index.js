@@ -26,12 +26,13 @@ class AxisControls extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    const { effect } = this.props;
+    const { effect, disabledEffect } = this.props;
 
     const sameOptions = effect.options === nextProps.effect.options;
     const sameEffectName = effect.name === nextProps.effect.name;
+    const otherAxisChanged = disabledEffect === nextProps.disabledEffect;
 
-    return !sameOptions || !sameEffectName;
+    return !sameOptions || !sameEffectName || !otherAxisChanged;
   }
 
   handleChangeAxisEffect({ value }) {
@@ -45,7 +46,6 @@ class AxisControls extends Component {
     const {
       effect,
       axis,
-      tweakAxisParameter,
     } = this.props;
 
     switch (effect.name) {
@@ -59,7 +59,9 @@ class AxisControls extends Component {
               value={effect.options.filterType}
               className="axis-param-select"
               onChange={({ value }) => {
-                tweakAxisParameter({
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
                   axis,
                   options: { filterType: value },
                 });
@@ -82,7 +84,7 @@ class AxisControls extends Component {
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
-                tweakAxisParameter({
+                this.tweakAxisParameter({
                   axis,
                   options: { resonance: val },
                 });
@@ -103,7 +105,7 @@ class AxisControls extends Component {
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
-                tweakAxisParameter({
+                this.tweakAxisParameter({
                   axis,
                   options: { oversample: val },
                 });
@@ -171,7 +173,7 @@ class AxisControls extends Component {
     } = this.props;
 
     return (
-      <Column className={`pad-${axis}`}>
+      <Column className={`axis-controls pad-${axis}`}>
         <h4>{`${axis} axis`}</h4>
         <Select
           clearable={false}

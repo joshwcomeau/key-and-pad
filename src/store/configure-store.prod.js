@@ -1,11 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { wrapReducer } from 'redux-vcr.replay';
 
 import rootReducer from '../reducers';
 import onboardingSaga from '../sagas/onboarding.saga';
 import buildMiddlewareArray from '../utils/build-middleware-array';
 import { getQueryParams } from '../utils/misc-helpers';
-import { firebaseAuth } from '../data/firebase';
+import { completeOnboarding, setAdminMode } from '../actions';
+import { ONBOARDING_COMPLETED_FLAG } from '../data/app-constants';
 
 
 export default function configureStore() {

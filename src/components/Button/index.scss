@@ -33,8 +33,10 @@
     color: $white;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0px 5px 0px darken(#f0411f, 18%);
+      .icon {
+        transform: translateX(10px);
+        transition: transform 200ms;
+      }
     }
 
     &:active {
@@ -45,6 +47,7 @@
     .icon {
       position: absolute;
       right: 24px;
+      transition: transform 500ms;
     }
   }
 }

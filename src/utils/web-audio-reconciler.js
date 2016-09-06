@@ -2,8 +2,8 @@ import { updatedWithinPath } from './misc-helpers';
 import WebAudioManager from './web-audio-manager';
 
 let currentState,
-    store,
-    unsubscribe;
+  store,
+  unsubscribe;
 
 export function initializeWebAudio(reduxStore) {
   store = reduxStore;
@@ -118,41 +118,6 @@ export function reconcile() {
       if (effectParamTweaked) {
         WebAudioManager.updateEffectParameters(currentState.effects[axis]);
       }
-    })
+    });
   }
 }
-
-//
-// STATE EXAMPLE
-//
-// {
-//   keys: ['c4', 'e4', 'g4'],
-//   oscillators: [
-//     {
-//       waveform: 'sawtooth',
-//       gain: 0.15,
-//       octaveAdjustment: 0,
-//     }, {
-//       waveform: 'square',
-//       gain: 0.5,
-//       octaveAdjustment: -1,
-//     }
-//   ],
-//   effects: {
-//     x: {
-//       name: 'filter',
-//       amount: 0.4,
-//       options: {
-//         type: 'lowpass',
-//         resonance: '5'
-//       }
-//     }
-//   },
-//   y: {
-//     name: 'distortion',
-//     amount: 0.75,
-//     options: {
-//       oversampling: '4x'
-//     }
-//   }
-// }

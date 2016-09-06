@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Logo from '../Logo';
+import daftPunkImage from '../../images/daftpunktocat_bangalter_150.gif';
 import './index.scss';
 
 const Header = () => (
@@ -13,7 +14,7 @@ const Header = () => (
       href="https://github.com/joshwcomeau/Key-Pad"
     >
       <img
-        src="src/images/daftpunktocat_bangalter_150.gif"
+        src={daftPunkImage}
         alt="View on GitHub"
       />
     </a>
