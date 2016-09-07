@@ -188,12 +188,14 @@ export const webAudioManagerFactory = context => {
 
     updateOscillators({ notes, oscillators }) {
       notes.forEach(({ value }) => {
-        oscillators.forEach(({ gain, detune, octaveAdjustment }, index) => {
+        oscillators.forEach(({ waveform, gain, detune, octaveAdjustment }, index) => {
           const activeOscillator = activeOscillators[index].find(osc => (
             osc.noteValue === value
           ));
 
           const { oscillator, output } = activeOscillator;
+
+          oscillator.type = waveform;
 
           oscillator.detune.value = detune;
           oscillator.frequency.value = toFreq(value) * getOctaveMultiplier(octaveAdjustment);
