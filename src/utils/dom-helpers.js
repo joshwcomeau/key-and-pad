@@ -21,26 +21,37 @@ export const getElementTranslate = elem => {
 
 
 /** fadeElementAway
-  Return the current transform: translate applied to the element.
+  Removes an element from the DOM by first fading it out.
 
   @param {string} selector
   @param {number} duration
-  @returns null
+  @returns a Promise that resolves once the fade is completed
 */
 export const fadeElementAway = ({ selector, duration }) => {
-  const elem = document.querySelector(selector);
+  return new Promise((resolve, reject) => {
+    const elem = document.querySelector(selector);
 
-  elem.style.transition = `opacity ${duration}`;
-  elem.style.opacity = 0;
-
-  // Remove it from the DOM so that it's not in the way.
-  window.setTimeout(() => {
-    // It isn't super important that we do this ASAP, generally.
-    // If the browser allows us to queue it until it's idle, take advantage
-    if (window.requestIdleCallback) {
-      window.requestIdleCallback(() => elem.parentNode.removeChild(elem));
-    } else {
-      elem.parentNode.removeChild(elem);
+    if (!elem) {
+      reject(`Element not found with selector '${selector}'`);
     }
-  }, duration);
+
+    elem.style.transition = `opacity ${duration}ms`;
+    elem.style.opacity = 0;
+
+    function removeAndResolve() {
+      elem.parentNode.removeChild(elem);
+      resolve();
+    }
+
+    // Remove it from the DOM so that it's not in the way.
+    window.setTimeout(() => {
+      // It isn't super important that we do this ASAP, generally.
+      // If the browser allows us to queue it until it's idle, take advantage
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(removeAndResolve);
+      } else {
+        removeAndResolve();
+      }
+    }, duration);
+  });
 };

@@ -24,11 +24,12 @@ initializeWebAudio(store);
 
 // We have a plain-DOM loading screen, which we need to fade out and remove
 // once React has loaded.
-fadeElementAway({ selector: '.loading-screen', duration: 1000 });
-
-ReactDOM.render(
-  <Provider store={store}>
-    {isMobile() ? <MobileNotification /> : <App />}
-  </Provider>,
-  document.getElementById('root')
-);
+fadeElementAway({ selector: '.loading-screen', duration: 500 })
+  .then(() => {
+    ReactDOM.render(
+      <Provider store={store}>
+        {isMobile() ? <MobileNotification /> : <App />}
+      </Provider>,
+      document.getElementById('root')
+    );
+  });
