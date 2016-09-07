@@ -124,7 +124,7 @@ const App = ({
         {
           render: isSameStage('control-panel-introduced'),
           title: 'Finally, this is your control panel.',
-          text: 'Tweak things, and see what happens!',
+          text: 'Experimentation is the key to success.',
           position: 'top',
           tipPosition: 'center',
           centered: true,

@@ -1,7 +1,23 @@
 @import '../../variables';
 
-body {
-  background: $offwhite !important;
+@font-face {
+  font-family: Brown;
+  src: url(../../fonts/lineto-brown-regular.woff);
+}
+@font-face {
+  font-family: Brown;
+  src: url(../../fonts/lineto-brown-bold.woff);
+  font-weight: bold;
+}
+@font-face {
+  font-family: Brown;
+  src: url(../../fonts/lineto-brown-light.woff);
+  font-weight: 100;
+}
+
+body, button, input, select, textarea {
+  font-family: Brown;
+  -webkit-font-smoothing: antialiased;
 }
 
 pre {

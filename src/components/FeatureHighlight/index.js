@@ -55,7 +55,6 @@ class FeatureHighlight extends Component {
       const verticalCenterPos = (window.innerHeight / 2) - (height / 2) - verticalScrollPos;
 
       const [translateX, translateY] = getElementTranslate(this.elem);
-      console.log(this.elem, translateX, translateY, typeof translateX, typeof translateY);
 
       let offsetLeft;
       if (centerHorizontally) {

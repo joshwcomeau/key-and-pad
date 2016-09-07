@@ -54,21 +54,6 @@
       	border-spacing: 0;
       }
 
-      @font-face {
-        font-family: Brown;
-        src: url(src/fonts/lineto-brown-regular.woff);
-      }
-      @font-face {
-        font-family: Brown;
-        src: url(src/fonts/lineto-brown-bold.woff);
-        font-weight: bold;
-      }
-      @font-face {
-        font-family: Brown;
-        src: url(src/fonts/lineto-brown-light.woff);
-        font-weight: 100;
-      }
-
       *, *::before, *::after {
         box-sizing: border-box;
       }
@@ -78,15 +63,9 @@
       }
 
       body {
+        background: #f4f7f8;
         margin: 0;
         padding: 0;
-        background: #2f3233;
-        transition: background 1000ms;
-      }
-
-      body, button, input, select, textarea {
-        font-family: Brown;
-        -webkit-font-smoothing: antialiased;
       }
 
       .loading-screen {
@@ -96,6 +75,7 @@
         left: 0;
         right: 0;
         bottom: 0;
+        font-family: 'Lucida Console', monospace;
         pointer-events: none;
       }
 
