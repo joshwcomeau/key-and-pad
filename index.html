@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>React App</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <title>Key&Pad</title>
     <style>
       /* http://meyerweb.com/eric/tools/css/reset/
          v2.0 | 20110126
@@ -114,8 +115,8 @@
         from { opacity: 0; }
         to { opacity: 1; }
       }
-      .top {
-        animation: top 5s linear infinite;
+      .sand-top {
+        animation: sandTop 5s linear infinite;
         border-top: 20px solid #F3CA4F;
         border-right: 20px solid transparent;
         border-left: 20px solid transparent;
@@ -123,12 +124,12 @@
         width: 1px;
         transform-origin: 50% 100%;
       }
-      @keyframes top {
+      @keyframes sandTop {
         90% { transform: scale(0); }
         100% { transform: scale(0);}
       }
-      .bottom {
-        animation: bottom 5s linear infinite;
+      .sand-bottom {
+        animation: sandBottom 5s linear infinite;
         border-right: 20px solid transparent;
         border-bottom: 20px solid #F3CA4F;
         border-left: 20px solid transparent;
@@ -137,13 +138,13 @@
         transform: scale(0);
         transform-origin: 50% 100%;
       }
-      @keyframes bottom {
+      @keyframes sandBottom {
         10% { transform: scale(0); }
         90% { transform: scale(1); }
         100% { transform: scale(1); }
       }
-      .line {
-        animation: line 5s linear infinite, sandMotion 100ms linear infinite;
+      .sand-line {
+        animation: sandLine 5s linear infinite, sandMotion 100ms linear infinite;
         border-left: 1px dotted #F3CA4F;
         height: 0px;
         width: 0px;
@@ -151,7 +152,7 @@
         top: 20px;
         left: 20px;
       }
-      @keyframes line {
+      @keyframes sandLine {
         10% { height: 10px; }
         100% { height: 10px; }
       }
@@ -188,9 +189,9 @@
 
     <div class="loading-screen">
       <div class="loader">
-        <div class="top"></div>
-        <div class="bottom"></div>
-        <div class="line"></div>
+        <div class="sand-top"></div>
+        <div class="sand-bottom"></div>
+        <div class="sand-line"></div>
       </div>
 
       <h6 class="loading-heading">Loading</h6>
