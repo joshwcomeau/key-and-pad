@@ -1,24 +1,24 @@
-var path = require('path');
-var autoprefixer = require('autoprefixer');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // TODO: hide this behind a flag and eliminate dead code on eject.
 // This shouldn't be exposed to the user.
-var isInNodeModules = 'node_modules' ===
+const isInNodeModules = 'node_modules' ===
   path.basename(path.resolve(path.join(__dirname, '..', '..')));
-var relativePath = isInNodeModules ? '../../..' : '..';
-var isInDebugMode = process.argv.some(arg =>
+let relativePath = isInNodeModules ? '../../..' : '..';
+const isInDebugMode = process.argv.some(arg =>
   arg.indexOf('--debug-template') > -1
 );
 if (isInDebugMode) {
   relativePath = '../template';
 }
-var srcPath = path.resolve(__dirname, relativePath, 'src');
-var nodeModulesPath = path.join(__dirname, '..', 'node_modules');
-var indexHtmlPath = path.resolve(__dirname, relativePath, 'index.html');
-var faviconPath = path.resolve(__dirname, relativePath, 'favicon.ico');
-var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build');
+const srcPath = path.resolve(__dirname, relativePath, 'src');
+const nodeModulesPath = path.join(__dirname, '..', 'node_modules');
+const indexHtmlPath = path.resolve(__dirname, relativePath, 'index.html');
+const faviconPath = path.resolve(__dirname, relativePath, 'favicon.png');
+const buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build');
 
 module.exports = {
   devtool: 'eval',
@@ -26,24 +26,24 @@ module.exports = {
     'babel-polyfill',
     require.resolve('webpack-dev-server/client') + '?http://localhost:3000',
     require.resolve('webpack/hot/dev-server'),
-    path.join(srcPath, 'index')
+    path.join(srcPath, 'index'),
   ],
   output: {
     // Next line is not used in dev but WebpackDevServer crashes without it:
     path: buildPath,
     pathinfo: true,
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   resolve: {
     extensions: ['', '.js'],
     alias: {
-      '_icons': path.join(__dirname, '..', 'src/icons')
-    }
+      '_icons': path.join(__dirname, '..', 'src/icons'),
+    },
   },
   resolveLoader: {
     root: nodeModulesPath,
-    moduleTemplates: ['*-loader']
+    moduleTemplates: ['*-loader'],
   },
   module: {
     preLoaders: [
@@ -51,23 +51,23 @@ module.exports = {
         test: /\.js$/,
         loader: 'eslint',
         include: srcPath,
-      }
+      },
     ],
     loaders: [
       {
         test: /\.js$/,
         include: srcPath,
         loader: 'babel',
-        query: require('./babel.dev')
+        query: require('./babel.dev'),
       },
       {
         test: /\.s?css$/,
         include: [srcPath, nodeModulesPath],
-        loader: 'style!css!postcss!sass'
+        loader: 'style!css!postcss!sass',
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json',
       },
       {
         test: /\.(jpg|png|gif|eot|ttf|woff|woff2)$/,
@@ -79,15 +79,15 @@ module.exports = {
       },
       {
         test: /\.(mp4|webm)$/,
-        loader: 'url?limit=10000'
-      }
-    ]
+        loader: 'url?limit=10000',
+      },
+    ],
   },
   eslint: {
     configFile: path.join(__dirname, 'eslint.js'),
-    useEslintrc: false
+    useEslintrc: false,
   },
-  postcss: function() {
+  postcss() {
     return [autoprefixer];
   },
   plugins: [
@@ -98,6 +98,6 @@ module.exports = {
     }),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"development"' }),
     // Note: only CSS is currently hot reloaded
-    new webpack.HotModuleReplacementPlugin()
-  ]
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 };
