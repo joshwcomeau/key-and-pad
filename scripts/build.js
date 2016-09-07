@@ -18,13 +18,13 @@ webpack(config).run(function (err, stats) {
   }
 
   const openCommand = process.platform === 'win32' ? 'start' : 'open';
-  console.log('Successfully generated a bundle in the build folder!');
-  console.log();
-  console.log('You can now serve it with any static server, for example:');
-  console.log('  cd build');
-  console.log('  npm install -g http-server');
-  console.log('  hs');
-  console.log('  ' + openCommand + ' http://localhost:8080');
-  console.log();
-  console.log('The bundle is optimized and ready to be deployed to production.');
+  console.info('Successfully generated a bundle in the build folder!');
+  console.info();
+  console.info('You can now serve it with any static server, for example:');
+  console.info('  cd build');
+  console.info('  npm install -g http-server');
+  console.info('  hs');
+  console.info('  ' + openCommand + ' http://localhost:8080');
+  console.info();
+  console.info('The bundle is optimized and ready to be deployed to production.');
 });

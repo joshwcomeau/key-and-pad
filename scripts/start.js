@@ -1,17 +1,17 @@
 process.env.NODE_ENV = 'development';
 
-var path = require('path');
-var chalk = require('chalk');
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
-var config = require('../config/webpack.config.dev');
-var execSync = require('child_process').execSync;
-var opn = require('opn');
+const path = require('path');
+const chalk = require('chalk');
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const config = require('../config/webpack.config.dev');
+const execSync = require('child_process').execSync;
+const opn = require('opn');
 
 // TODO: hide this behind a flag and eliminate dead code on eject.
 // This shouldn't be exposed to the user.
-var handleCompile;
-var isSmokeTest = process.argv.some(arg =>
+let handleCompile;
+const isSmokeTest = process.argv.some(arg =>
   arg.indexOf('--smoke-test') > -1
 );
 if (isSmokeTest) {
@@ -24,7 +24,7 @@ if (isSmokeTest) {
   };
 }
 
-var friendlySyntaxErrorLabel = 'Syntax error:';
+const friendlySyntaxErrorLabel = 'Syntax error:';
 
 function isLikelyASyntaxError(message) {
   return message.indexOf(friendlySyntaxErrorLabel) !== -1;
@@ -56,34 +56,34 @@ function clearConsole() {
   process.stdout.write('\x1B[2J\x1B[0f');
 }
 
-var compiler = webpack(config, handleCompile);
+const compiler = webpack(config, handleCompile);
 compiler.plugin('invalid', function () {
   clearConsole();
-  console.log('Compiling...');
+  console.info('Compiling...');
 });
 compiler.plugin('done', function (stats) {
   clearConsole();
-  var hasErrors = stats.hasErrors();
-  var hasWarnings = stats.hasWarnings();
+  const hasErrors = stats.hasErrors();
+  const hasWarnings = stats.hasWarnings();
   if (!hasErrors && !hasWarnings) {
-    console.log(chalk.green('Compiled successfully!'));
-    console.log();
-    console.log('The app is running at http://localhost:3000/');
-    console.log();
+    console.info(chalk.green('Compiled successfully!'));
+    console.info();
+    console.info('The app is running at http://localhost:3000/');
+    console.info();
     return;
   }
 
-  var json = stats.toJson();
-  var formattedErrors = json.errors.map(message =>
+  const json = stats.toJson();
+  let formattedErrors = json.errors.map(message =>
     'Error in ' + formatMessage(message)
   );
-  var formattedWarnings = json.warnings.map(message =>
+  const formattedWarnings = json.warnings.map(message =>
     'Warning in ' + formatMessage(message)
   );
 
   if (hasErrors) {
-    console.log(chalk.red('Failed to compile.'));
-    console.log();
+    console.info(chalk.red('Failed to compile.'));
+    console.info();
     if (formattedErrors.some(isLikelyASyntaxError)) {
       // If there are any syntax errors, show just them.
       // This prevents a confusing ESLint parsing error
@@ -91,24 +91,24 @@ compiler.plugin('done', function (stats) {
       formattedErrors = formattedErrors.filter(isLikelyASyntaxError);
     }
     formattedErrors.forEach(message => {
-      console.log(message);
-      console.log();
+      console.info(message);
+      console.info();
     });
     // If errors exist, ignore warnings.
     return;
   }
 
   if (hasWarnings) {
-    console.log(chalk.yellow('Compiled with warnings.'));
-    console.log();
+    console.info(chalk.yellow('Compiled with warnings.'));
+    console.info();
     formattedWarnings.forEach(message => {
-      console.log(message);
-      console.log();
+      console.info(message);
+      console.info();
     });
 
-    console.log('You may use special comments to disable some warnings.');
-    console.log('Use ' + chalk.yellow('// eslint-disable-next-line') + ' to ignore the next line.');
-    console.log('Use ' + chalk.yellow('/* eslint-disable */') + ' to ignore all warnings in a file.');
+    console.info('You may use special comments to disable some warnings.');
+    console.info('Use ' + chalk.yellow('// eslint-disable-next-line') + ' to ignore the next line.');
+    console.info('Use ' + chalk.yellow('/* eslint-disable */') + ' to ignore all warnings in a file.');
   }
 });
 
@@ -137,14 +137,14 @@ new WebpackDevServer(compiler, {
   historyApiFallback: true,
   hot: true, // Note: only CSS is currently hot reloaded
   publicPath: config.output.publicPath,
-  quiet: true
+  quiet: true,
 }).listen(3000, 'localhost', function (err, result) {
   if (err) {
-    return console.log(err);
+    return console.info(err);
   }
 
   clearConsole();
-  console.log(chalk.cyan('Starting the development server...'));
-  console.log();
+  console.info(chalk.cyan('Starting the development server...'));
+  console.info();
   openBrowser();
 });

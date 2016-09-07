@@ -1,29 +1,29 @@
-var path = require('path');
-var autoprefixer = require('autoprefixer');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // TODO: hide this behind a flag and eliminate dead code on eject.
 // This shouldn't be exposed to the user.
-var isInNodeModules = 'node_modules' ===
+const isInNodeModules = 'node_modules' ===
   path.basename(path.resolve(path.join(__dirname, '..', '..')));
-var relativePath = isInNodeModules ? '../../..' : '..';
+let relativePath = isInNodeModules ? '../../..' : '..';
 if (process.argv[2] === '--debug-template') {
   relativePath = '../template';
 }
-var srcPath = path.resolve(__dirname, relativePath, 'src');
-var nodeModulesPath = path.join(__dirname, '..', 'node_modules');
-var indexHtmlPath = path.resolve(__dirname, relativePath, 'index.html');
-var faviconPath = path.resolve(__dirname, relativePath, 'favicon.ico');
-var buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build');
+const srcPath = path.resolve(__dirname, relativePath, 'src');
+const nodeModulesPath = path.join(__dirname, '..', 'node_modules');
+const indexHtmlPath = path.resolve(__dirname, relativePath, 'index.html');
+const faviconPath = path.resolve(__dirname, relativePath, 'favicon.png');
+const buildPath = path.join(__dirname, isInNodeModules ? '../../..' : '..', 'build');
 
 module.exports = {
   bail: true,
   devtool: 'source-map',
   entry: [
     'babel-polyfill',
-    path.join(srcPath, 'index')
+    path.join(srcPath, 'index'),
   ],
   output: {
     path: buildPath,
@@ -31,32 +31,32 @@ module.exports = {
     chunkFilename: '[name].[chunkhash].chunk.js',
     // TODO: this wouldn't work for e.g. GH Pages.
     // Good news: we can infer it from package.json :-)
-    publicPath: '/'
+    publicPath: '/',
   },
   resolve: {
     extensions: ['', '.js'],
     alias: {
-      '_icons': path.join(__dirname, '..', 'src/icons')
-    }
+      '_icons': path.join(__dirname, '..', 'src/icons'),
+    },
   },
   resolveLoader: {
     root: nodeModulesPath,
-    moduleTemplates: ['*-loader']
+    moduleTemplates: ['*-loader'],
   },
   module: {
     preLoaders: [
       {
         test: /\.js$/,
         loader: 'eslint',
-        include: srcPath
-      }
+        include: srcPath,
+      },
     ],
     loaders: [
       {
         test: /\.js$/,
         include: srcPath,
         loader: 'babel',
-        query: require('./babel.prod')
+        query: require('./babel.prod'),
       },
       {
         test: /\.s?css$/,
@@ -64,11 +64,11 @@ module.exports = {
         // Disable autoprefixer in css-loader itself:
         // https://github.com/webpack/css-loader/issues/281
         // We already have it thanks to postcss.
-        loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss!sass')
+        loader: ExtractTextPlugin.extract('style', 'css?-autoprefixer!postcss!sass'),
       },
       {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json',
       },
       {
         test: /\.(jpg|png|gif|eot|ttf|woff|woff2)$/,
@@ -80,17 +80,17 @@ module.exports = {
       },
       {
         test: /\.(mp4|webm)$/,
-        loader: 'url?limit=10000'
-      }
-    ]
+        loader: 'url?limit=10000',
+      },
+    ],
   },
   eslint: {
     // TODO: consider separate config for production,
     // e.g. to enable no-console and no-debugger only in prod.
     configFile: path.join(__dirname, 'eslint.js'),
-    useEslintrc: false
+    useEslintrc: false,
   },
-  postcss: function() {
+  postcss() {
     return [autoprefixer];
   },
   plugins: [
@@ -108,8 +108,8 @@ module.exports = {
         keepClosingSlash: true,
         minifyJS: true,
         minifyCSS: true,
-        minifyURLs: true
-      }
+        minifyURLs: true,
+      },
     }),
     new webpack.DefinePlugin({ 'process.env.NODE_ENV': '"production"' }),
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -117,16 +117,16 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         screw_ie8: true,
-        warnings: false
+        warnings: false,
       },
       mangle: {
-        screw_ie8: true
+        screw_ie8: true,
       },
       output: {
         comments: false,
-        screw_ie8: true
-      }
+        screw_ie8: true,
+      },
     }),
-    new ExtractTextPlugin('[name].[contenthash].css')
-  ]
+    new ExtractTextPlugin('[name].[contenthash].css'),
+  ],
 };

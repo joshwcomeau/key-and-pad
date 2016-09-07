@@ -22,6 +22,7 @@
     "no-global-assign": 0,
     "no-unsafe-negation": 0,
     "no-shadow": 0,
+    "brace-style": 0,
   },
   env: {
     browser: true,
