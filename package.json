@@ -6,7 +6,8 @@
     "start": "node ./scripts/start.js",
     "build": "node ./scripts/build.js",
     "analyze": "webpack --config config/webpack.config.prod.js --json > stats.json",
-    "test": "NODE_ENV=test mocha --require ./test/test_helper.js --require ignore-styles --recursive"
+    "test": "NODE_ENV=test mocha --require ./test/test_helper.js --require ignore-styles --recursive",
+    "deploy": "npm run build && node ./scripts/deploy.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.9.1",
