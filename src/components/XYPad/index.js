@@ -31,17 +31,21 @@ class XYPad extends Component {
     // onto our supplied touch handler.
     const boundingBox = this.elem.getBoundingClientRect();
 
-    const offsetX = clientX - boundingBox.left;
-    const offsetY = clientY - boundingBox.top;
+    const cursorX = clientX - boundingBox.left;
+    const cursorY = clientY - boundingBox.top;
 
-    const x = offsetX / boundingBox.width;
-    const y = offsetY / boundingBox.height;
+    const amountX = cursorX / boundingBox.width;
+    const amountY = cursorY / boundingBox.height;
 
     this.props.updateEffectsAmount({
-      xCursor: offsetX,
-      yCursor: offsetY,
-      xAmount: x,
-      yAmount: y,
+      x: {
+        amount: amountX,
+        cursor: cursorX,
+      },
+      y: {
+        amount: amountY,
+        cursor: cursorY,
+      },
     });
   }
 
@@ -89,8 +93,8 @@ class XYPad extends Component {
             height="100%"
             className={svgClasses}
           >
-            <circle cx={this.props.offsetX} cy={this.props.offsetY} r="10" />
-            <circle cx={this.props.offsetX} cy={this.props.offsetY} r="10" />
+            <circle cx={this.props.cursorX} cy={this.props.cursorY} r="10" />
+            <circle cx={this.props.cursorX} cy={this.props.cursorY} r="10" />
           </svg>
         </div>
         <XYPadAxisLabel
@@ -109,8 +113,8 @@ class XYPad extends Component {
 }
 
 XYPad.propTypes = {
-  offsetX: PropTypes.number,
-  offsetY: PropTypes.number,
+  cursorX: PropTypes.number,
+  cursorY: PropTypes.number,
   xAxisLabel: PropTypes.string.isRequired,
   yAxisLabel: PropTypes.string.isRequired,
   isPressed: PropTypes.bool,
@@ -119,8 +123,8 @@ XYPad.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  offsetX: state.effects.x.cursorPosition,
-  offsetY: state.effects.y.cursorPosition,
+  cursorX: state.effects.x.cursorPosition,
+  cursorY: state.effects.y.cursorPosition,
   xAxisLabel: state.effects.x.name,
   yAxisLabel: state.effects.y.name,
   isPressed: state.effects.x.active && state.effects.y.active,

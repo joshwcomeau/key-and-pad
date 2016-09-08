@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars, no-undef */
+/* eslint-disable no-undef */
 import { expect } from 'chai';
 
 import {
@@ -105,6 +105,44 @@ describe('Onboarding reducer', () => {
       const action = completeOnboarding();
 
       const expectedState = initialState;
+      const actualState = reducer(initialState, action);
+
+      expect(actualState).to.deep.equal(expectedState);
+    });
+  });
+
+  describe(EXPERIMENT_WITH_NOTES, () => {
+    it('increments the `keysPressed` state', () => {
+      const initialState = {
+        stage: onboardingStages[0],
+        keysPressed: 0,
+        padUpdates: 0,
+      };
+      const action = experimentWithNotes();
+
+      const expectedState = {
+        ...initialState,
+        keysPressed: initialState.keysPressed + 1,
+      };
+      const actualState = reducer(initialState, action);
+
+      expect(actualState).to.deep.equal(expectedState);
+    });
+  });
+
+  describe(EXPERIMENT_WITH_PAD, () => {
+    it('increments the `padUpdates` state', () => {
+      const initialState = {
+        stage: onboardingStages[0],
+        keysPressed: 0,
+        padUpdates: 4,
+      };
+      const action = experimentWithPad();
+
+      const expectedState = {
+        ...initialState,
+        padUpdates: initialState.padUpdates + 1,
+      };
       const actualState = reducer(initialState, action);
 
       expect(actualState).to.deep.equal(expectedState);

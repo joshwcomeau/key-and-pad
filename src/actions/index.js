@@ -32,21 +32,10 @@ export const deactivateEffects = () => ({
   y: true,
 });
 
-export const updateEffectsAmount = ({
-  xAmount,
-  yAmount,
-  xCursor,
-  yCursor,
-}) => ({
+export const updateEffectsAmount = ({ x, y }) => ({
   type: UPDATE_EFFECTS_AMOUNT,
-  x: {
-    amount: xAmount,
-    cursor: xCursor,
-  },
-  y: {
-    amount: yAmount,
-    cursor: yCursor,
-  },
+  x,
+  y,
 });
 
 export const changeAxisEffect = ({ axis, effect }) => ({
