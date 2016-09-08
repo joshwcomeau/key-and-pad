@@ -4,6 +4,7 @@ const path = require('path');
 const rimrafSync = require('rimraf').sync;
 const webpack = require('webpack');
 const config = require('../config/webpack.config.prod');
+const { exec } = require('child_process');
 
 const isInNodeModules = 'node_modules' ===
   path.basename(path.resolve(path.join(__dirname, '..', '..')));
@@ -16,6 +17,10 @@ webpack(config).run(function (err, stats) {
     console.error(err.message || err);
     process.exit(1);
   }
+
+  // Copy `sample-cassette-actions.json` to /build
+  exec('cp sample-cassette-actions.json build/sample-cassette-actions.json');
+
 
   const openCommand = process.platform === 'win32' ? 'start' : 'open';
   console.info('Successfully generated a bundle in the build folder!');

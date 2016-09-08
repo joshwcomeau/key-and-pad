@@ -29,7 +29,7 @@ const PrivacyPolicy = ({ isOpen, closeModal }) => (
       <strong>
         This data is totally anonymous, and no device/IP info is collected.&nbsp;
         <a
-          href="/src/data/sample-cassette-actions.json"
+          href="sample-cassette-actions.json"
           target="_blank"
           rel="noopener noreferrer"
         >
