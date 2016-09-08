@@ -1,5 +1,5 @@
 export const firebaseAuth = {
-  apiKey: 'AIzaSyDZUV6qop3EoFnvnxVbt6vO4sq-EhJ3TPg',
-  authDomain: 'key-pad-casettes.firebaseapp.com',
-  databaseURL: 'https://key-pad-casettes.firebaseio.com',
+  apiKey: 'AIzaSyAuwu0luxgivu5a9dkNMOI4Ww-KC73aha0',
+  authDomain: 'key-n-pad.firebaseapp.com',
+  databaseURL: 'https://key-n-pad.firebaseio.com',
 };
