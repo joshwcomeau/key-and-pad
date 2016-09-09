@@ -50,7 +50,7 @@ export const updatedWithinPath = curry((obj1, obj2, path) => (
   A simple promise that waits for n milliseconds.
 */
 export const delay = ms => new Promise(resolve => (
-  window.setTimeout(resolve, ms)
+  setTimeout(resolve, ms)
 ));
 
 /** toRoman

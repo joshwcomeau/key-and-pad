@@ -19,7 +19,7 @@ import {
 } from '../data/onboarding-config';
 
 
-function* handleKeyExperiments() {
+export function* handleKeyExperiments() {
   let keysPressed = 0;
 
   while (keysPressed < numOfKeypressesNeeded) {
@@ -29,7 +29,7 @@ function* handleKeyExperiments() {
   }
 }
 
-function* handlePadExperiments() {
+export function* handlePadExperiments() {
   let padUpdates = 0;
 
   while (padUpdates < numOfPadUpdatesNeeded) {
@@ -45,37 +45,28 @@ function* handlePadExperiments() {
 }
 
 export default function* onboarding() {
-  // eslint-disable-next-line no-constant-condition
-  while (true) {
-    yield take(GO_TO_NEXT_STAGE);
+  yield take(GO_TO_NEXT_STAGE);
 
-    const {
-      stage,
-      keysPressed,
-      padUsed,
-    } = yield select(state => state.onboarding);
+  // stage: initial-confirmed
+  yield delay(1000);
+  yield put(goToNextStage());
 
-    // stage: initial-confirmed
-    yield delay(1000);
-    yield put(goToNextStage());
+  // stage: keys-introduced
+  yield handleKeyExperiments();
+  yield put(goToNextStage());
+  yield delay(2000);
+  yield put(goToNextStage());
 
-    // stage: keys-introduced
-    yield handleKeyExperiments();
-    yield put(goToNextStage());
-    yield delay(2000);
-    yield put(goToNextStage());
+  // stage: pad-introduced
+  yield handlePadExperiments();
+  yield put(goToNextStage());
+  yield delay(2000);
+  yield put(goToNextStage());
 
-    // stage: pad-introduced
-    yield handlePadExperiments();
-    yield put(goToNextStage());
-    yield delay(2000);
-    yield put(goToNextStage());
-
-    // stage: control-panel-introduced
-    yield delay(6500);
-    // Persist a flag in localStorage, so that this user does not
-    // have to go through the onboarding flow again.
-    localStorage.setItem(ONBOARDING_COMPLETED_FLAG, true);
-    yield put(completeOnboarding());
-  }
+  // stage: control-panel-introduced
+  yield delay(5000);
+  // Persist a flag in localStorage, so that this user does not
+  // have to go through the onboarding flow again.
+  localStorage.setItem(ONBOARDING_COMPLETED_FLAG, true);
+  yield put(completeOnboarding());
 }
