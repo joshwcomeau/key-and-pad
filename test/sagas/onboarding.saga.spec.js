@@ -15,6 +15,10 @@ import {
 } from '../../src/actions';
 import { delay } from '../../src/utils/misc-helpers';
 import { ONBOARDING_COMPLETED_FLAG } from '../../src/data/app-constants';
+import {
+  numOfKeypressesNeeded,
+  numOfPadUpdatesNeeded,
+} from '../../src/data/onboarding-config';
 import onboarding, {
   handleKeyExperiments,
   handlePadExperiments,
@@ -150,6 +154,68 @@ describe('Onboarding sagas', () => {
       const finalNext = generator.next();
       expect(finalNext.value).to.equal(undefined);
       expect(finalNext.done).to.equal(true);
+    });
+  });
+
+
+  describe('handleKeyExperiments', () => {
+    const generator = handleKeyExperiments();
+
+    for (let i = 0; i < numOfKeypressesNeeded; i++) {
+      it(`takes ADD_NOTE (iteration ${i + 1})`, () => {
+        expect(
+          generator.next().value
+        ).to.deep.equal(
+          take(ADD_NOTE)
+        );
+      });
+
+      it(`puts experimentWithNotes (iteration ${i + 1})`, () => {
+        expect(
+          generator.next().value
+        ).to.deep.equal(
+          put(experimentWithNotes())
+        );
+      });
+    }
+
+    it('completes after enough iterations', () => {
+      expect(generator.next().done).to.equal(true);
+    });
+  });
+
+
+  describe('handlePadExperiments', () => {
+    context('while notes are held down', () => {
+      const generator = handlePadExperiments();
+
+      for (let i = 0; i < numOfPadUpdatesNeeded; i++) {
+        it(`takes UPDATE_EFFECTS_AMOUNT (iteration ${i + 1})`, () => {
+          expect(
+            generator.next().value
+          ).to.deep.equal(
+            take(UPDATE_EFFECTS_AMOUNT)
+          );
+        });
+
+        it(`yields a select to get notes (iteration ${i + 1})`, () => {
+          expect(
+            generator.next().value.SELECT.selector
+          ).to.be.a('function');
+        });
+
+        it(`puts experimentWithPad (iteration ${i + 1})`, () => {
+          expect(
+            generator.next(['A', 'B', 'C']).value
+          ).to.deep.equal(
+            put(experimentWithPad())
+          );
+        });
+      }
+
+      it('completes after enough iterations', () => {
+        expect(generator.next().done).to.equal(true);
+      });
     });
   });
 });
