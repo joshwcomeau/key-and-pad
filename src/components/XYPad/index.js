@@ -40,11 +40,11 @@ class XYPad extends Component {
     this.props.updateEffectsAmount({
       x: {
         amount: amountX,
-        cursor: cursorX,
+        cursorPosition: cursorX,
       },
       y: {
         amount: amountY,
-        cursor: cursorY,
+        cursorPosition: cursorY,
       },
     });
   }

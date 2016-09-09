@@ -40,15 +40,11 @@ function axisReducer(state, action) {
         ...state,
         active: true,
         amount: action.amount,
-        cursorPosition: action.cursor,
+        cursorPosition: action.cursorPosition,
       };
     }
 
     case CHANGE_AXIS_EFFECT: {
-      // It's possible that this change affects a _different_ axis.
-      // In that case, we want to "ignore" it, and just return the state.
-      if (!action.effect) { return state; }
-
       return {
         ...state,
         name: action.effect,
@@ -57,9 +53,10 @@ function axisReducer(state, action) {
     }
 
     case TWEAK_AXIS_PARAMETER: {
-      // It's possible that this change affects a _different_ axis.
-      // In that case, we want to "ignore" it, and just return the state.
-      if (!action.options) { return state; }
+      // TODO: Validate if this block is actually necessary?
+      // // It's possible that this change affects a _different_ axis.
+      // // In that case, we want to "ignore" it, and just return the state.
+      // if (!action.options) { return state; }
 
       return {
         ...state,
