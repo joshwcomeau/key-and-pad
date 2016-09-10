@@ -9,32 +9,46 @@ import Canvas from '../Canvas';
 import './index.scss';
 
 
+const cursorRadius = 6;
+
 class XYPad extends Component {
   constructor(props) {
     super(props);
-    this.calculateAndUpdatePosition = this.calculateAndUpdatePosition.bind(this);
+    this.handleMouseDown = this.handleMouseDown.bind(this);
+    this.handleDrag = this.handleDrag.bind(this);
     this.handleRelease = this.handleRelease.bind(this);
   }
 
-  calculateAndUpdatePosition({ ctx, x, y }) {
+  drawCursor({ ctx, x, y }) {
+    ctx.beginPath();
+    ctx.arc(x, y, cursorRadius, false, Math.PI * 2, false);
+    ctx.closePath();
+    ctx.fillStyle = '#F3A84E';
+    ctx.fill();
+  }
+
+  updateCursor({ ctx, x, y, connectPrevious }) {
+    // If we don't want to connect previous, this is easy!
+    if (!connectPrevious) {
+      this.drawCursor({ ctx, x, y });
+    } else {
+      const lastPoint = { x: this.props.cursorX, y: this.props.cursorY };
+      const nextPoint = { x, y };
+      const dist = distanceBetween(lastPoint, nextPoint);
+      const angle = angleBetween(lastPoint, nextPoint);
+
+      for (let i = 0; i <= dist; i += 5) {
+        const currentX = lastPoint.x + (Math.sin(angle) * i);
+        const currentY = lastPoint.y + (Math.cos(angle) * i);
+
+        this.drawCursor({ ctx, x: currentX, y: currentY });
+      }
+    }
+  }
+
+  updateEffects({ x, y }) {
     const amountX = x / this.props.width;
     const amountY = y / this.props.height;
-
-    // Draw the indicator point
-    const lastPoint = { x: this.props.cursorX, y: this.props.cursorY };
-    const nextPoint = { x, y };
-    const dist = distanceBetween(lastPoint, nextPoint);
-    const angle = angleBetween(lastPoint, nextPoint);
-
-    for (let i = 0; i < dist; i += 5) {
-      const currentX = lastPoint.x + (Math.sin(angle) * i);
-      const currentY = lastPoint.y + (Math.cos(angle) * i);
-      ctx.beginPath();
-      ctx.arc(currentX, currentY, 20, false, Math.PI * 2, false);
-      ctx.closePath();
-      ctx.fillStyle = '#F3A84E';
-      ctx.fill();
-    }
 
     this.props.updateEffectsAmount({
       x: {
@@ -48,6 +62,16 @@ class XYPad extends Component {
     });
   }
 
+  handleMouseDown({ ctx, x, y }) {
+    this.updateCursor({ ctx, x, y, connectPrevious: false });
+    this.updateEffects({ x, y });
+  }
+
+  handleDrag({ ctx, x, y }) {
+    this.updateCursor({ ctx, x, y, connectPrevious: true });
+    this.updateEffects({ x, y });
+  }
+
   handleRelease() {
     if (this.props.isPressed) {
       this.props.deactivateEffects();
@@ -58,9 +82,6 @@ class XYPad extends Component {
     const {
       width,
       height,
-      isPressed,
-      cursorX,
-      cursorY,
       xAxisLabel,
       yAxisLabel,
     } = this.props;
@@ -75,14 +96,8 @@ class XYPad extends Component {
             width={width}
             height={height}
             onMouseUp={this.handleRelease}
-            onMouseDown={this.calculateAndUpdatePosition}
-            onMouseDrag={this.calculateAndUpdatePosition}
-            draw={({ ctx }) => {
-              ctx.globalAlpha = 0.2;
-              ctx.fillStyle = '#FFF';
-              ctx.fillRect(0, 0, width, height);
-              ctx.globalAlpha = 1;
-            }}
+            onMouseDown={this.handleMouseDown}
+            onMouseDrag={this.handleDrag}
           />
         </div>
         <XYPadAxisLabel

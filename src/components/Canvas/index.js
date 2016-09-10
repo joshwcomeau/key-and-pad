@@ -31,14 +31,6 @@ class Canvas extends PureComponent {
     window.addEventListener('mouseup', this.onMouseUp);
   }
 
-  componentDidUpdate() {
-    // Run the 'draw' function
-    this.props.draw({
-      canvas: this.canvas,
-      ctx: this.ctx,
-    });
-  }
-
   componentWillUnmount() {
     window.removeEventListener('mouseup', this.onMouseUp);
   }
@@ -95,7 +87,6 @@ class Canvas extends PureComponent {
 }
 
 Canvas.propTypes = {
-  draw: PropTypes.func.isRequired,
   style: PropTypes.object,
   className: PropTypes.oneOfType([
     PropTypes.string,
