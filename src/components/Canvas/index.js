@@ -21,12 +21,18 @@ class Canvas extends PureComponent {
 
     this.draw = this.draw.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.fadeTick = this.fadeTick.bind(this);
   }
 
   componentDidMount() {
     this.ctx = this.canvas.getContext('2d');
 
     scaleCanvas(this.canvas, this.ctx);
+
+    // Set up a refresh rate, if requested.
+    if (this.props.fadeContentsAway) {
+      this.fadeTick();
+    }
 
     // Binding this to window instead of the canvas itself so that we catch
     // events that happen slightly outside the rectangle.
@@ -39,6 +45,16 @@ class Canvas extends PureComponent {
 
   componentWillUnmount() {
     window.removeEventListener('mouseup', this.onMouseUp);
+    window.cancelAnimationFrame(this.fadeTickFrame);
+  }
+
+  fadeTick() {
+    this.ctx.globalAlpha = 0.1;
+    this.ctx.fillStyle = '#FFF';
+    this.ctx.fillRect(0, 0, this.props.width, this.props.height);
+    this.ctx.globalAlpha = 1;
+
+    this.fadeTickFrame = window.requestAnimationFrame(this.fadeTick);
   }
 
   draw(shape) {
@@ -121,6 +137,7 @@ Canvas.propTypes = {
   ]),
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
+  fadeContentsAway: PropTypes.bool,
   onMouseUp: PropTypes.func,
   onMouseDown: PropTypes.func,
   onMouseMove: PropTypes.func,

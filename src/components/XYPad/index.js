@@ -114,6 +114,7 @@ class XYPad extends Component {
           className="pad"
           width={width}
           height={height}
+          fadeContentsAway
           onMouseUp={this.handleRelease}
           onMouseDown={this.handlePress}
           onMouseDrag={this.handlePress}
