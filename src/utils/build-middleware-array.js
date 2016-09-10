@@ -1,7 +1,10 @@
-import { createCaptureMiddleware } from 'redux-vcr.capture';
-import { createPersistHandler } from 'redux-vcr.persist';
-import { createRetrieveHandler, createRetrieveMiddleware } from 'redux-vcr.retrieve';
-import { createReplayMiddleware } from 'redux-vcr.replay';
+import {
+  createCaptureMiddleware,
+  createPersistHandler,
+  createRetrieveHandler,
+  createRetrieveMiddleware,
+  createReplayMiddleware,
+} from 'redux-vcr';
 
 import { firebaseAuth } from '../data/firebase';
 

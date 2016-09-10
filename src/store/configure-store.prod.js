@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { wrapReducer } from 'redux-vcr.replay';
+import { wrapReducer } from 'redux-vcr';
 
 import rootReducer from '../reducers';
 import onboardingSaga from '../sagas/onboarding.saga';
