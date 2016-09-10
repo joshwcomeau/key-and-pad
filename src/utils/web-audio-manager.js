@@ -20,7 +20,7 @@ import effectDefaultOptions from '../data/effect-default-options.js';
 
 
 // eslint-disable-next-line no-undef
-const audioContext = new (AudioContext || webkitAudioContext)();
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 
 /* ROUTING
