@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import { scaleCanvas, getCursorPosition } from '../../utils/canvas-helpers';
 
+
 class Canvas extends PureComponent {
   constructor(props) {
     super(props);
@@ -18,6 +19,7 @@ class Canvas extends PureComponent {
     this.onMouseEnter = this.handleMouseEvent('onMouseEnter');
     this.onMouseLeave = this.handleMouseEvent('onMouseLeave');
 
+    this.draw = this.draw.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
   }
 
@@ -31,8 +33,32 @@ class Canvas extends PureComponent {
     window.addEventListener('mouseup', this.onMouseUp);
   }
 
+  componentDidUpdate() {
+    this.props.shapes.forEach(this.draw);
+  }
+
   componentWillUnmount() {
     window.removeEventListener('mouseup', this.onMouseUp);
+  }
+
+  draw(shape) {
+    switch (shape.type) {
+      case 'circle': {
+        const { x, y, radius } = shape;
+
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, radius, false, Math.PI * 2, false);
+        this.ctx.closePath();
+        this.ctx.fillStyle = '#F3A84E';
+        this.ctx.fill();
+
+        break;
+      }
+
+      default:
+        // TODO: support more shapes!
+        return;
+    }
   }
 
   handleMouseEvent(eventHandlerName) {
@@ -87,6 +113,7 @@ class Canvas extends PureComponent {
 }
 
 Canvas.propTypes = {
+  shapes: PropTypes.arrayOf(PropTypes.object),
   style: PropTypes.object,
   className: PropTypes.oneOfType([
     PropTypes.string,
