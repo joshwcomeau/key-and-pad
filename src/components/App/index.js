@@ -112,7 +112,7 @@ const App = ({
           },
         ]}
       >
-        <XYPad />
+        <XYPad width={284} height={284} />
       </FeatureHighlight>
     </div>
 
