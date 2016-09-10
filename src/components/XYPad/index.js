@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 
 import { deactivateEffects, updateEffectsAmount } from '../../actions';
 
@@ -11,8 +10,8 @@ import './index.scss';
 class XYPad extends Component {
   constructor(props) {
     super(props);
+    this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleClick = this.handleClick.bind(this);
-    this.handlePress = this.handlePress.bind(this);
     this.handleRelease = this.handleRelease.bind(this);
   }
 
@@ -49,15 +48,17 @@ class XYPad extends Component {
     });
   }
 
-  handleClick(ev) {
-    // If, and only if, the mouse button is held down, we want to delegate
-    // to the `touch` event.
-    if (ev.buttons === 1) {
-      this.handlePress(ev);
+  handleMouseMove(ev) {
+    // We want to update the effects IF the mouse button is held down.
+    // Because Safari sucks, we can't just use ev.buttons or ev.which.
+    // Instead, we'll use the redux state. If the effect is active,
+    // the mouse must be held down :)
+    if (this.props.isPressed) {
+      this.calculateAndUpdatePosition(ev.clientX, ev.clientY);
     }
   }
 
-  handlePress(ev) {
+  handleClick(ev) {
     // This annoying workaround is because we can't directly throttle React
     // event handlers. Their event pooling system makes it so that by the
     // time the throttle fires, the event has been nullified.
@@ -72,11 +73,6 @@ class XYPad extends Component {
   }
 
   render() {
-    const svgClasses = classNames(
-      'pointer-indicator',
-      { 'is-pressed': this.props.isPressed }
-    );
-
     const { xAxisLabel, yAxisLabel } = this.props;
 
     return (
@@ -84,19 +80,9 @@ class XYPad extends Component {
         <div
           className="pad"
           ref={elem => { this.elem = elem; }}
-          onTouchStart={this.handlePress}
-          onMouseDown={this.handlePress}
-          onMouseMove={this.handleClick}
-        >
-          <svg
-            width="100%"
-            height="100%"
-            className={svgClasses}
-          >
-            <circle cx={this.props.cursorX} cy={this.props.cursorY} r="10" />
-            <circle cx={this.props.cursorX} cy={this.props.cursorY} r="10" />
-          </svg>
-        </div>
+          onMouseDown={this.handleClick}
+          onMouseMove={this.handleMouseMove}
+        />
         <XYPadAxisLabel
           label={xAxisLabel}
           className="horizontal-axis"
