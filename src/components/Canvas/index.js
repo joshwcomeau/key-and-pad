@@ -69,8 +69,6 @@ class Canvas extends PureComponent {
     // need to dispatch a drag.
     this.handleMouseEvent('onMouseMove')(ev);
 
-    console.log('MOve, and state is', this.state.mouseDown);
-
     if (this.state.mouseDown) {
       this.handleMouseEvent('onMouseDrag')(ev);
     }

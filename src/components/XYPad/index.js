@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import { deactivateEffects, updateEffectsAmount } from '../../actions';
+import { distanceBetween, angleBetween } from '../../utils/misc-helpers';
 
 import XYPadAxisLabel from '../XYPadAxisLabel';
 import Canvas from '../Canvas';
@@ -15,9 +16,25 @@ class XYPad extends Component {
     this.handleRelease = this.handleRelease.bind(this);
   }
 
-  calculateAndUpdatePosition({ x, y }) {
+  calculateAndUpdatePosition({ ctx, x, y }) {
     const amountX = x / this.props.width;
     const amountY = y / this.props.height;
+
+    // Draw the indicator point
+    const lastPoint = { x: this.props.cursorX, y: this.props.cursorY };
+    const nextPoint = { x, y };
+    const dist = distanceBetween(lastPoint, nextPoint);
+    const angle = angleBetween(lastPoint, nextPoint);
+
+    for (let i = 0; i < dist; i += 5) {
+      const currentX = lastPoint.x + (Math.sin(angle) * i);
+      const currentY = lastPoint.y + (Math.cos(angle) * i);
+      ctx.beginPath();
+      ctx.arc(currentX, currentY, 20, false, Math.PI * 2, false);
+      ctx.closePath();
+      ctx.fillStyle = '#F3A84E';
+      ctx.fill();
+    }
 
     this.props.updateEffectsAmount({
       x: {
@@ -38,7 +55,15 @@ class XYPad extends Component {
   }
 
   render() {
-    const { width, height, cursorX, cursorY, xAxisLabel, yAxisLabel } = this.props;
+    const {
+      width,
+      height,
+      isPressed,
+      cursorX,
+      cursorY,
+      xAxisLabel,
+      yAxisLabel,
+    } = this.props;
 
     return (
       <div className="x-y-pad">
@@ -51,17 +76,12 @@ class XYPad extends Component {
             height={height}
             onMouseUp={this.handleRelease}
             onMouseDown={this.calculateAndUpdatePosition}
-            onMouseMove={this.calculateAndUpdatePosition}
-            draw={({ canvas, ctx }) => {
-              ctx.clearRect(0, 0, width, height);
-
-              ctx.beginPath();
-              ctx.arc(cursorX, cursorY, 15, 0, 2 * Math.PI, false);
-
-              // If the effect is active, we want a filled circle.
-              // Otherwise, we want an outlined one.
-              ctx.fillStyle = 'green';
-              ctx.fill();
+            onMouseDrag={this.calculateAndUpdatePosition}
+            draw={({ ctx }) => {
+              ctx.globalAlpha = 0.2;
+              ctx.fillStyle = '#FFF';
+              ctx.fillRect(0, 0, width, height);
+              ctx.globalAlpha = 1;
             }}
           />
         </div>
