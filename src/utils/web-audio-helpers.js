@@ -78,14 +78,16 @@ export const createDelayWithContext = tuna => ({
   feedback,
   delayTime,
   cutoff,
+  dryLevel,
+  wetLevel,
   output,
 }) => {
   const delayNode = new tuna.Delay({
     feedback,
     delayTime,
     cutoff,
-    wetLevel: 0,
-    dryLevel: 1,
+    wetLevel,
+    dryLevel,
   });
 
   delayNode.connect(output);

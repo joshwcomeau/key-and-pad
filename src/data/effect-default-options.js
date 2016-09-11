@@ -10,8 +10,9 @@ export default {
     cutoff: 20000,
   },
   delay: {
-    feedback: 0.45,
-    delayTime: 150,
+    dryLevel: 0.8,
+    wetLevel: 0.8,
+    delayTime: 450,
     cutoff: 2000,
   },
   distortion: {

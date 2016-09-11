@@ -70,8 +70,6 @@ class AxisControls extends Component {
                 { value: 'lowpass', label: 'low pass' },
                 { value: 'highpass', label: 'high pass' },
                 { value: 'bandpass', label: 'band pass' },
-                { value: 'allpass', label: 'all pass' },
-                { value: 'notch', label: 'notch' },
               ]}
             />
 
@@ -79,7 +77,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={50}
-              step={0.1}
               value={effect.options.resonance}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -100,7 +97,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={1.25}
-              step={0.05}
               value={effect.options.clarity}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -117,22 +113,6 @@ class AxisControls extends Component {
       case 'delay': {
         return (
           <div className="effect-controls">
-            <h5>feedback</h5>
-            <Slider
-              min={0}
-              max={1}
-              step={0.05}
-              value={effect.options.feedback}
-              onChange={val => {
-                // Debounce the actual action-dispatch since it's kinda
-                // slow, and doesn't need to be low-latency.
-                this.tweakAxisParameter({
-                  axis,
-                  options: { feedback: val },
-                });
-              }}
-            />
-
             <h5>time</h5>
             <Slider
               min={25}
@@ -151,8 +131,7 @@ class AxisControls extends Component {
             <h5>filter cutoff</h5>
             <Slider
               min={100}
-              max={22000}
-              step={100}
+              max={4000}
               value={effect.options.cutoff}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -173,7 +152,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={8}
-              step={0.1}
               value={effect.options.time}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -189,7 +167,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={20000}
-              step={1}
               value={effect.options.cutoff}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -211,7 +188,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={1}
-              step={0.1}
               value={effect.options.feedback}
               onChange={val => {
                 this.tweakAxisParameter({
@@ -225,7 +201,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={100}
-              step={0.1}
               value={effect.options.rate}
               onChange={val => {
                 this.tweakAxisParameter({
@@ -239,7 +214,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={180}
-              step={10}
               value={effect.options.stereoPhase}
               onChange={val => {
                 this.tweakAxisParameter({
@@ -272,7 +246,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={180}
-              step={10}
               value={effect.options.stereoPhase}
               onChange={val => {
                 this.tweakAxisParameter({

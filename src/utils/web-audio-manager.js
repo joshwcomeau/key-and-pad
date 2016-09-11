@@ -300,8 +300,7 @@ export const webAudioManagerFactory = context => {
           break;
 
         case 'delay':
-          effects.delay.node.wetLevel = amount;
-          effects.delay.node.dryLevel = 1 - amount * 0.25;
+          effects.delay.node.feedback = amount * 0.95;
           break;
 
         case 'distortion':
@@ -335,7 +334,6 @@ export const webAudioManagerFactory = context => {
           break;
 
         case 'delay':
-          effects.delay.node.feedback = options.feedback;
           effects.delay.node.delayTime = options.delayTime;
           effects.delay.node.cutoff = options.cutoff;
           break;
