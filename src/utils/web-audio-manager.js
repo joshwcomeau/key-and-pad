@@ -171,12 +171,12 @@ export const webAudioManagerFactory = context => {
           const merger = context.createChannelMerger(2);
 
           const gainL = createGain({
-            value: gain,
+            value: 1,
             output: merger,
             outputChannels: [0, 0],
           });
           const gainR = createGain({
-            value: gain,
+            value: 1,
             output: merger,
             outputChannels: [0, 1],
           });
