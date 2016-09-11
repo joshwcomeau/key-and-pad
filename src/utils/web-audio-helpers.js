@@ -109,7 +109,7 @@ export const createDistortionWithContext = context => ({
   // This is because distortion can get FUCKING LOUD, and I don't wish to
   // deafen users :)
   const compressorNode = context.createDynamicsCompressor();
-  compressorNode.threshold.value = -20;
+  compressorNode.threshold.value = -40;
   compressorNode.knee.value = 0;
   compressorNode.ratio.value = 3;
   compressorNode.attack.value = 0;
@@ -133,7 +133,7 @@ export const createDistortionWithContext = context => ({
     },
     updateCurve() {
       // Lower clarities are louder, so we want to match our compressor to it.
-      const newCompressorRatio = 3 + this.clarity * -2;
+      const newCompressorRatio = 6 + this.clarity * -2;
       compressorNode.ratio.value = newCompressorRatio;
 
       distortionNode.curve = calculateDistortionCurve({
@@ -175,9 +175,6 @@ export const createTremoloWithContext = tuna => ({
   output,
 }) => {
   const tremoloNode = new tuna.Tremolo({ intensity, stereoPhase });
-
-  // TEMP debuging
-  window.trem = tremoloNode;
 
   tremoloNode.connect(output);
 
