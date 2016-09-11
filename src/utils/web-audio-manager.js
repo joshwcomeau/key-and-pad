@@ -85,10 +85,10 @@ export const webAudioManagerFactory = context => {
   const createOscillator = createOscillatorWithContext(context);
   const createGain = createGainWithContext(context);
   const createFilter = createFilterWithContext(context);
-  const createDelay = createDelayWithContext(context);
   const createReverb = createReverbWithContext(context);
   const createDistortion = createDistortionWithContext(context);
-  const createPhaser = createPhaserWithContext(context, tuna);
+  const createDelay = createDelayWithContext(tuna);
+  const createPhaser = createPhaserWithContext(tuna);
 
   const fade = fadeWithContext(context);
   const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
@@ -257,51 +257,61 @@ export const webAudioManagerFactory = context => {
     },
 
     updateEffectAmount({ effect }) {
+      // While this method could be "rolled into" updateEffectParameters,
+      // I like having the value that the X/Y pad controls distinct. We want
+      // this method to be as lean as possible, since it happens many times
+      // a second.
+
       const { name, amount } = effect;
 
       // `amount` will be a number from 0 to 1.
       // Each effect will have its own way of mapping that value to one that
       // makes sense.
       switch (name) {
-        case 'filter': {
+        case 'filter':
           effects.filter.node.frequency.value = getLogarithmicFrequencyValue(amount);
           break;
-        }
-        case 'distortion': {
+
+        case 'distortion':
           effects.distortion.amount = amount * 250;
           effects.distortion.updateCurve();
           break;
-        }
-        case 'delay': {
-          effects.delay.node.delayTime.value = amount * 10;
+
+        case 'delay':
+          effects.delay.node.wetLevel = amount;
+          effects.delay.node.dryLevel = 1 - amount * 0.25;
           break;
-        }
-        case 'reverb': {
+
+        case 'reverb':
           effects.reverb.node.wet.value = amount;
           effects.reverb.node.dry.value = 1 - amount * 0.25;
           break;
-        }
-        case 'phaser': {
+
+        case 'phaser':
           effects.phaser.node.depth = amount * 0.65;
           break;
-        }
-        default: {
+
+        default:
           // Do nothing
-        }
       }
     },
 
     updateEffectParameters({ name, options }) {
       switch (name) {
-        case 'filter': {
+        case 'filter':
           effects.filter.node.type = options.filterType;
           effects.filter.node.Q.value = options.resonance;
           break;
-        }
 
         case 'distortion':
           effects.distortion.clarity = options.clarity;
           effects.distortion.updateCurve();
+          break;
+
+        case 'delay':
+          effects.delay.node.feedback = options.feedback;
+          effects.delay.node.delayTime = options.delayTime;
+          effects.delay.node.cutoff = options.cutoff;
           break;
 
         case 'reverb':

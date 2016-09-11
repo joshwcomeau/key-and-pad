@@ -1,29 +1,15 @@
 /* eslint-disable no-mixed-operators */
 import soundbankReverb from 'soundbank-reverb';
 
-
-const calculateDistortionCurve = (context, amount, clarity) => {
-  const samples = 1000;
-  const curve = new Float32Array(samples);
-  const deg = Math.PI / 180;
-
-  for (let i = 0; i < samples; i++) {
-    const x = i * 2 / samples - 1;
-    curve[i] = (amount + 3) * x * 20 * deg / (Math.PI + amount * Math.abs(x) * clarity);
-  }
-
-  return curve;
-};
+import { calculateDistortionCurve } from './distortion-helpers';
 
 
-export const createGainWithContext = context => ({ value, output }) => {
-  const gainNode = context.createGain();
-  gainNode.gain.value = value;
-  gainNode.connect(output);
-
-  return gainNode;
-};
-
+// /////////////////////
+// Node Factories /////
+// ///////////////////
+// A set of factories that create Web Audio nodes (or, third-party pseudo-
+// nodes). Can be preloaded with the relevant context.
+// ////////////////
 export const createOscillatorWithContext = context => ({
   frequency,
   waveform,
@@ -40,22 +26,12 @@ export const createOscillatorWithContext = context => ({
   return oscillatorNode;
 };
 
-export const fadeWithContext = context => ({
-  direction, output, oscillator, maxAmplitude = 1, duration = 0.02,
-}) => {
-  const now = context.currentTime;
-  const end = now + duration;
-  output.gain.cancelScheduledValues(now);
+export const createGainWithContext = context => ({ value, output }) => {
+  const gainNode = context.createGain();
+  gainNode.gain.value = value;
+  gainNode.connect(output);
 
-  if (direction === 'in') {
-    output.gain.setValueAtTime(0, now);
-    output.gain.linearRampToValueAtTime(maxAmplitude, end);
-    oscillator.start(now);
-  } else if (direction === 'out') {
-    output.gain.setValueAtTime(output.gain.value, now);
-    output.gain.linearRampToValueAtTime(0, end);
-    oscillator.stop(end);
-  }
+  return gainNode;
 };
 
 export const createFilterWithContext = context => ({
@@ -115,25 +91,11 @@ export const createDistortionWithContext = context => ({
       const newCompressorRatio = 3 + this.clarity * -2;
       compressorNode.ratio.value = newCompressorRatio;
 
-      distortionNode.curve = calculateDistortionCurve(
-        context,
-        this.amount,
-        this.clarity
-      );
+      distortionNode.curve = calculateDistortionCurve({
+        amount: this.amount,
+        clarity: this.clarity,
+      });
     },
-  };
-};
-
-export const createDelayWithContext = context => ({ length, output }) => {
-  const delayNode = context.createDelay(length);
-
-  delayNode.connect(output);
-
-  return {
-    node: delayNode,
-    sustain: true,
-    connect(destination) { delayNode.connect(destination); },
-    disconnect() { delayNode.disconnect(); },
   };
 };
 
@@ -154,7 +116,31 @@ export const createReverbWithContext = context => ({ time, dry, wet, output }) =
   };
 };
 
-export const createPhaserWithContext = (context, tuna) => ({
+export const createDelayWithContext = tuna => ({
+  feedback,
+  delayTime,
+  cutoff,
+  output,
+}) => {
+  const delayNode = new tuna.Delay({
+    feedback,
+    delayTime,
+    cutoff,
+    wetLevel: 0,
+    dryLevel: 1,
+  });
+
+  delayNode.connect(output);
+
+  return {
+    node: delayNode,
+    sustain: true,
+    connect(destination) { delayNode.connect(destination); },
+    disconnect() { delayNode.disconnect(); },
+  };
+};
+
+export const createPhaserWithContext = tuna => ({
   rate,
   feedback,
   stereoPhase,
@@ -179,6 +165,47 @@ export const createPhaserWithContext = (context, tuna) => ({
   };
 };
 
+
+// /////////////////////
+// Misc Utilities /////
+// ///////////////////
+
+/** fadeWithContext
+  Fade in or out a specified oscillator. Useful to avoid clipping.
+  @param {object} context - curried, used to fetch time
+  @param {object} oscillator - The oscillator to apply the fade to
+  @param {string} direction - either `in` or `out`
+  @param {object} output - The destination gain node
+  @param {number} maxAmplitude - For fading in, the amplitude to fade to.
+  @param {number} duration - the length of the fade, in seconds.
+*/
+export const fadeWithContext = context => ({
+  oscillator, direction, output, maxAmplitude = 1, duration = 0.02,
+}) => {
+  const now = context.currentTime;
+  const end = now + duration;
+  output.gain.cancelScheduledValues(now);
+
+  if (direction === 'in') {
+    output.gain.setValueAtTime(0, now);
+    output.gain.linearRampToValueAtTime(maxAmplitude, end);
+    oscillator.start(now);
+  } else if (direction === 'out') {
+    output.gain.setValueAtTime(output.gain.value, now);
+    output.gain.linearRampToValueAtTime(0, end);
+    oscillator.stop(end);
+  }
+};
+
+/** getLogarithmicFrequencyValueWithContext
+  Allow for a non-linear frequency distribution, used for getting a
+  suitable cutoff frequency with a linear input (X/Y Pad).
+  @param {object} context - curried, used to fetch sampleRate
+  @param {object} n - the number to calculate a frequency for, from 0 to 1.
+                      Will transform it into a number between 40 and
+                      ~22,000 (half of the sample rate)
+  @returns the transformed frequency value.
+*/
 export const getLogarithmicFrequencyValueWithContext = context => n => {
   // Where `n` is a value from 0 to 1, compute what the current frequency
   // should be, using a pleasant log scale.

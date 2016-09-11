@@ -114,6 +114,58 @@ class AxisControls extends Component {
           </div>
         );
       }
+      case 'delay': {
+        return (
+          <div className="effect-controls">
+            <h5>feedback</h5>
+            <Slider
+              min={0}
+              max={1}
+              step={0.05}
+              value={effect.options.feedback}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: { feedback: val },
+                });
+              }}
+            />
+
+            <h5>time</h5>
+            <Slider
+              min={25}
+              max={1000}
+              value={effect.options.delayTime}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: { delayTime: val },
+                });
+              }}
+            />
+
+            <h5>filter cutoff</h5>
+            <Slider
+              min={100}
+              max={22000}
+              step={100}
+              value={effect.options.cutoff}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: { cutoff: val },
+                });
+              }}
+            />
+          </div>
+        );
+      }
       case 'reverb': {
         return (
           <div className="effect-controls">
