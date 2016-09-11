@@ -2,14 +2,14 @@
 import soundbankReverb from 'soundbank-reverb';
 
 
-const calculateDistortionCurve = (context, amount) => {
+const calculateDistortionCurve = (context, amount, clarity) => {
   const samples = 1000;
   const curve = new Float32Array(samples);
   const deg = Math.PI / 180;
 
   for (let i = 0; i < samples; i++) {
     const x = i * 2 / samples - 1;
-    curve[i] = (amount + 3) * x * 20 * deg / (Math.PI + amount * Math.abs(x));
+    curve[i] = (amount + 3) * x * 20 * deg / (Math.PI + amount * Math.abs(x) * clarity);
   }
 
   return curve;
@@ -78,11 +78,11 @@ export const createFilterWithContext = context => ({
 };
 
 export const createDistortionWithContext = context => ({
-  oversample = '4x',
+  amount = 0,
+  clarity = 1,
   output,
 }) => {
   const distortionNode = context.createWaveShaper();
-  distortionNode.oversample = oversample;
 
   // We also want to route the distortionNode through a compressor.
   // This is because distortion can get FUCKING LOUD, and I don't wish to
@@ -95,12 +95,13 @@ export const createDistortionWithContext = context => ({
   compressorNode.release.value = 0.25;
 
   compressorNode.connect(output);
-
   distortionNode.connect(compressorNode);
 
   return {
     node: distortionNode,
     sustain: false,
+    amount,
+    clarity,
     connect(destination) {
       compressorNode.connect(destination);
       distortionNode.connect(compressorNode);
@@ -109,8 +110,16 @@ export const createDistortionWithContext = context => ({
       compressorNode.disconnect();
       distortionNode.disconnect();
     },
-    updateCurve(amount) {
-      distortionNode.curve = calculateDistortionCurve(context, amount);
+    updateCurve() {
+      // Lower clarities are louder, so we want to match our compressor to it.
+      const newCompressorRatio = 3 + this.clarity * -2;
+      compressorNode.ratio.value = newCompressorRatio;
+
+      distortionNode.curve = calculateDistortionCurve(
+        context,
+        this.amount,
+        this.clarity
+      );
     },
   };
 };
@@ -179,21 +188,6 @@ export const getLogarithmicFrequencyValueWithContext = context => n => {
   const multiplier = Math.pow(2, numOfOctaves * (n - 1.0));
 
   return max * multiplier;
-};
-
-export const getDistortionOversample = ({ oversample }) => {
-  switch (oversample) {
-    case 0: return 'none';
-    case 2: return '2x';
-    case 4: return '4x';
-    default: {
-      console.error(`
-        Invalid oversample supplied for distortion.
-        Valid values are 0, 2, 4.
-        You provided ${oversample}
-      `);
-    }
-  }
 };
 
 /** getOctaveMultiplier

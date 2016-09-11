@@ -96,18 +96,18 @@ class AxisControls extends Component {
       case 'distortion': {
         return (
           <div className="effect-controls">
-            <h5>oversampling</h5>
+            <h5>clarity</h5>
             <Slider
               min={0}
-              max={4}
-              step={2}
-              value={effect.options.oversample}
+              max={1.25}
+              step={0.05}
+              value={effect.options.clarity}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
                 this.tweakAxisParameter({
                   axis,
-                  options: { oversample: val },
+                  options: { clarity: val },
                 });
               }}
             />

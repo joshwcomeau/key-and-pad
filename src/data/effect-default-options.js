@@ -4,7 +4,7 @@ export default {
     resonance: 10,
   },
   distortion: {
-    oversample: 2,
+    clarity: 1,
   },
   reverb: {
     dry: 1,
