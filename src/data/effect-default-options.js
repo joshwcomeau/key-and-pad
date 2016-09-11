@@ -29,11 +29,6 @@ export default {
     stereoPhase: 0,
   },
   wahWah: {
-    automode: false,
-    baseFrequency: 0.5,
     excursionOctaves: 2,
-    sweep: 0.8,
-    resonance: 10,
-    sensitivity: 0.5,
   },
 };

@@ -323,7 +323,7 @@ export const webAudioManagerFactory = context => {
           break;
 
         case 'wahWah':
-          effects.wahWah.baseFrequency = amount;
+          effects.wahWah.node.baseFrequency = amount;
           break;
 
         default:
@@ -362,6 +362,10 @@ export const webAudioManagerFactory = context => {
         case 'tremolo':
           effects.tremolo.node.intensity = options.intensity;
           effects.tremolo.node.stereoPhase = options.stereoPhase;
+          break;
+
+        case 'wahWah':
+          effects.wahWah.node.excursionOctaves = options.excursionOctaves;
           break;
 
         default: {
