@@ -13,6 +13,7 @@ import {
   createDistortionWithContext,
   createPhaserWithContext,
   createTremoloWithContext,
+  createWahWahWithContext,
   getLogarithmicFrequencyValueWithContext,
   getOctaveMultiplier,
 } from './web-audio-helpers';
@@ -91,6 +92,7 @@ export const webAudioManagerFactory = context => {
   const createDistortion = createDistortionWithContext(context);
   const createPhaser = createPhaserWithContext(tuna);
   const createTremolo = createTremoloWithContext(tuna);
+  const createWahWah = createWahWahWithContext(tuna);
 
   const fade = fadeWithContext(context);
   const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
@@ -119,6 +121,10 @@ export const webAudioManagerFactory = context => {
     }),
     tremolo: createTremolo({
       ...effectDefaultOptions.tremolo,
+      output: context.destination,
+    }),
+    wahWah: createWahWah({
+      ...effectDefaultOptions.wahWah,
       output: context.destination,
     }),
   };
@@ -314,6 +320,10 @@ export const webAudioManagerFactory = context => {
 
         case 'tremolo':
           effects.tremolo.node.rate = amount * 8;
+          break;
+
+        case 'wahWah':
+          effects.wahWah.baseFrequency = amount;
           break;
 
         default:

@@ -77,6 +77,7 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={50}
+              step={0.1}
               value={effect.options.resonance}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -97,6 +98,7 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={1.25}
+              step={0.05}
               value={effect.options.clarity}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -152,6 +154,7 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={8}
+              step={0.05}
               value={effect.options.time}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -188,6 +191,7 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={1}
+              step={0.01}
               value={effect.options.feedback}
               onChange={val => {
                 this.tweakAxisParameter({
@@ -233,6 +237,7 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={8}
+              step={0.05}
               value={effect.options.intensity}
               onChange={val => {
                 this.tweakAxisParameter({
@@ -251,6 +256,82 @@ class AxisControls extends Component {
                 this.tweakAxisParameter({
                   axis,
                   options: { stereoPhase: val },
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
+      case 'wahWah': {
+        return (
+          <div className="effect-controls">
+            <h5>base frequency</h5>
+            <Slider
+              min={0}
+              max={8}
+              step={0.05}
+              value={effect.options.baseFrequency}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { baseFrequency: val },
+                });
+              }}
+            />
+
+            <h5>excursion octaves</h5>
+            <Slider
+              min={0}
+              max={6}
+              step={1}
+              value={effect.options.excursionOctaves}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { excursionOctaves: val },
+                });
+              }}
+            />
+
+            <h5>sweep</h5>
+            <Slider
+              min={0}
+              max={1}
+              step={0.01}
+              value={effect.options.sweep}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { sweep: val },
+                });
+              }}
+            />
+
+            <h5>resonance</h5>
+            <Slider
+              min={1}
+              max={100}
+              value={effect.options.resonance}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { resonance: val },
+                });
+              }}
+            />
+
+          <h5>sensitivity</h5>
+            <Slider
+              min={-1}
+              max={1}
+              step={0.01}
+              withMidpoint
+              value={effect.options.sensitivity}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { sensitivity: val },
                 });
               }}
             />

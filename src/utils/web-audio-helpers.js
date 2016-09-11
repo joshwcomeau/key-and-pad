@@ -75,7 +75,6 @@ export const createReverbWithContext = context => ({
 };
 
 export const createDelayWithContext = tuna => ({
-  feedback,
   delayTime,
   cutoff,
   dryLevel,
@@ -83,7 +82,6 @@ export const createDelayWithContext = tuna => ({
   output,
 }) => {
   const delayNode = new tuna.Delay({
-    feedback,
     delayTime,
     cutoff,
     wetLevel,
@@ -188,6 +186,21 @@ export const createTremoloWithContext = tuna => ({
   };
 };
 
+export const createWahWahWithContext = tuna => ({
+  output,
+  ...wahWahArgs,
+}) => {
+  const wahWahNode = new tuna.WahWah(wahWahArgs);
+
+  wahWahNode.connect(output);
+
+  return {
+    node: wahWahNode,
+    sustain: false,
+    connect(destination) { wahWahNode.connect(destination); },
+    disconnect() { wahWahNode.disconnect(); },
+  };
+};
 
 // /////////////////////
 // Misc Utilities /////
