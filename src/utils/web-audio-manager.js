@@ -159,17 +159,38 @@ export const webAudioManagerFactory = context => {
         oscillators.forEach((oscillator, index) => {
           const { waveform, gain, detune, octaveAdjustment } = oscillator;
 
+          // Oscillators are monophonic, but we want to use stereo effects.
+          // We need to create a channel merger node, and merge 2 identical
+          // gain nodes. Bit of a rigamarole, but it works.
+          const merger = context.createChannelMerger(2);
+
+          const gainL = createGain({
+            value: gain,
+            output: merger,
+            outputChannels: [0, 0],
+          });
+          const gainR = createGain({
+            value: gain,
+            output: merger,
+            outputChannels: [0, 1],
+          });
+
           const output = createGain({
             value: gain,
             output: masterOscillatorOutput,
           });
 
+          merger.connect(output);
+
+
           const newOscillator = createOscillator({
             waveform,
             frequency: toFreq(value) * getOctaveMultiplier(octaveAdjustment),
             detune,
-            output,
           });
+
+          newOscillator.connect(gainL);
+          newOscillator.connect(gainR);
 
           // Add a brief fade-in to avoid clipping.
           fade({

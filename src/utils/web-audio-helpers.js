@@ -13,7 +13,6 @@ import { calculateDistortionCurve } from './distortion-helpers';
 export const createOscillatorWithContext = context => ({
   frequency,
   waveform,
-  output,
   detune = 0,
 }) => {
   const oscillatorNode = context.createOscillator();
@@ -21,15 +20,19 @@ export const createOscillatorWithContext = context => ({
   oscillatorNode.type = waveform;
   oscillatorNode.frequency.value = frequency;
   oscillatorNode.detune.value = detune;
-  oscillatorNode.connect(output);
 
   return oscillatorNode;
 };
 
-export const createGainWithContext = context => ({ value, output }) => {
+export const createGainWithContext = context => ({ value, output, outputChannels }) => {
   const gainNode = context.createGain();
   gainNode.gain.value = value;
-  gainNode.connect(output);
+
+  if (outputChannels) {
+    gainNode.connect(output, ...outputChannels);
+  } else {
+    gainNode.connect(output);
+  }
 
   return gainNode;
 };
