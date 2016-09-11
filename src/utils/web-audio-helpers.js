@@ -53,6 +53,47 @@ export const createFilterWithContext = context => ({
   };
 };
 
+export const createReverbWithContext = context => ({ time, dry, wet, output }) => {
+  const reverb = soundbankReverb(context);
+
+  reverb.connect(output);
+
+  reverb.time = time;
+  reverb.dry.value = dry;
+  reverb.wet.value = wet;
+
+  return {
+    node: reverb,
+    sustain: true,
+    connect(destination) { reverb.connect(destination); },
+    disconnect() { reverb.disconnect(); },
+  };
+};
+
+export const createDelayWithContext = tuna => ({
+  feedback,
+  delayTime,
+  cutoff,
+  output,
+}) => {
+  const delayNode = new tuna.Delay({
+    feedback,
+    delayTime,
+    cutoff,
+    wetLevel: 0,
+    dryLevel: 1,
+  });
+
+  delayNode.connect(output);
+
+  return {
+    node: delayNode,
+    sustain: true,
+    connect(destination) { delayNode.connect(destination); },
+    disconnect() { delayNode.disconnect(); },
+  };
+};
+
 export const createDistortionWithContext = context => ({
   amount = 0,
   clarity = 1,
@@ -96,47 +137,6 @@ export const createDistortionWithContext = context => ({
         clarity: this.clarity,
       });
     },
-  };
-};
-
-export const createReverbWithContext = context => ({ time, dry, wet, output }) => {
-  const reverb = soundbankReverb(context);
-
-  reverb.connect(output);
-
-  reverb.time = time;
-  reverb.dry.value = dry;
-  reverb.wet.value = wet;
-
-  return {
-    node: reverb,
-    sustain: true,
-    connect(destination) { reverb.connect(destination); },
-    disconnect() { reverb.disconnect(); },
-  };
-};
-
-export const createDelayWithContext = tuna => ({
-  feedback,
-  delayTime,
-  cutoff,
-  output,
-}) => {
-  const delayNode = new tuna.Delay({
-    feedback,
-    delayTime,
-    cutoff,
-    wetLevel: 0,
-    dryLevel: 1,
-  });
-
-  delayNode.connect(output);
-
-  return {
-    node: delayNode,
-    sustain: true,
-    connect(destination) { delayNode.connect(destination); },
-    disconnect() { delayNode.disconnect(); },
   };
 };
 

@@ -86,8 +86,8 @@ export const webAudioManagerFactory = context => {
   const createGain = createGainWithContext(context);
   const createFilter = createFilterWithContext(context);
   const createReverb = createReverbWithContext(context);
-  const createDistortion = createDistortionWithContext(context);
   const createDelay = createDelayWithContext(tuna);
+  const createDistortion = createDistortionWithContext(context);
   const createPhaser = createPhaserWithContext(tuna);
 
   const fade = fadeWithContext(context);
@@ -99,16 +99,16 @@ export const webAudioManagerFactory = context => {
       ...effectDefaultOptions.filter,
       output: context.destination,
     }),
-    distortion: createDistortion({
-      ...effectDefaultOptions.distortion,
+    reverb: createReverb({
+      ...effectDefaultOptions.reverb,
       output: context.destination,
     }),
     delay: createDelay({
       ...effectDefaultOptions.delay,
       output: context.destination,
     }),
-    reverb: createReverb({
-      ...effectDefaultOptions.reverb,
+    distortion: createDistortion({
+      ...effectDefaultOptions.distortion,
       output: context.destination,
     }),
     phaser: createPhaser({
@@ -272,9 +272,9 @@ export const webAudioManagerFactory = context => {
           effects.filter.node.frequency.value = getLogarithmicFrequencyValue(amount);
           break;
 
-        case 'distortion':
-          effects.distortion.amount = amount * 250;
-          effects.distortion.updateCurve();
+        case 'reverb':
+          effects.reverb.node.wet.value = amount;
+          effects.reverb.node.dry.value = 1 - amount * 0.25;
           break;
 
         case 'delay':
@@ -282,9 +282,9 @@ export const webAudioManagerFactory = context => {
           effects.delay.node.dryLevel = 1 - amount * 0.25;
           break;
 
-        case 'reverb':
-          effects.reverb.node.wet.value = amount;
-          effects.reverb.node.dry.value = 1 - amount * 0.25;
+        case 'distortion':
+          effects.distortion.amount = amount * 250;
+          effects.distortion.updateCurve();
           break;
 
         case 'phaser':
@@ -303,9 +303,9 @@ export const webAudioManagerFactory = context => {
           effects.filter.node.Q.value = options.resonance;
           break;
 
-        case 'distortion':
-          effects.distortion.clarity = options.clarity;
-          effects.distortion.updateCurve();
+        case 'reverb':
+          effects.reverb.node.time = options.time;
+          effects.reverb.node.cutoff.value = options.cutoff;
           break;
 
         case 'delay':
@@ -314,9 +314,9 @@ export const webAudioManagerFactory = context => {
           effects.delay.node.cutoff = options.cutoff;
           break;
 
-        case 'reverb':
-          effects.reverb.node.time = options.time;
-          effects.reverb.node.cutoff.value = options.cutoff;
+        case 'distortion':
+          effects.distortion.clarity = options.clarity;
+          effects.distortion.updateCurve();
           break;
 
         case 'phaser':
