@@ -184,27 +184,14 @@ class AxisControls extends Component {
         );
       }
 
-      case 'phaser': {
+      case 'chorus': {
         return (
           <div className="effect-controls">
-            <h5>feedback</h5>
-            <Slider
-              min={0}
-              max={1}
-              step={0.01}
-              value={effect.options.feedback}
-              onChange={val => {
-                this.tweakAxisParameter({
-                  axis,
-                  options: { feedback: val },
-                });
-              }}
-            />
-
             <h5>rate</h5>
             <Slider
-              min={0}
-              max={100}
+              min={0.05}
+              max={4}
+              step={0.01}
               value={effect.options.rate}
               onChange={val => {
                 this.tweakAxisParameter({
@@ -214,15 +201,16 @@ class AxisControls extends Component {
               }}
             />
 
-            <h5>stereo phase</h5>
+            <h5>delay</h5>
             <Slider
               min={0}
-              max={180}
-              value={effect.options.stereoPhase}
+              max={1}
+              step={0.01}
+              value={effect.options.delay}
               onChange={val => {
                 this.tweakAxisParameter({
                   axis,
-                  options: { stereoPhase: val },
+                  options: { delay: val },
                 });
               }}
             />

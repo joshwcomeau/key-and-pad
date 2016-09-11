@@ -11,7 +11,7 @@ import {
   createReverbWithContext,
   createDelayWithContext,
   createDistortionWithContext,
-  createPhaserWithContext,
+  createChorusWithContext,
   createTremoloWithContext,
   createWahWahWithContext,
   getLogarithmicFrequencyValueWithContext,
@@ -79,7 +79,7 @@ export const webAudioManagerFactory = context => {
 
   // Tuna is a library for web audio effects.
   // Simple effects are done with the vanilla Web Audio API, but certain ones
-  // (delay, phaser, etc) use Tuna, for simplicity.
+  // (delay, chorus, etc) use Tuna, for simplicity.
   const tuna = new Tuna(context);
 
   // All of our creation helpers can have the global audio context applied
@@ -90,7 +90,7 @@ export const webAudioManagerFactory = context => {
   const createReverb = createReverbWithContext(context);
   const createDelay = createDelayWithContext(tuna);
   const createDistortion = createDistortionWithContext(context);
-  const createPhaser = createPhaserWithContext(tuna);
+  const createChorus = createChorusWithContext(tuna);
   const createTremolo = createTremoloWithContext(tuna);
   const createWahWah = createWahWahWithContext(tuna);
 
@@ -115,8 +115,8 @@ export const webAudioManagerFactory = context => {
       ...effectDefaultOptions.distortion,
       output: context.destination,
     }),
-    phaser: createPhaser({
-      ...effectDefaultOptions.phaser,
+    chorus: createChorus({
+      ...effectDefaultOptions.chorus,
       output: context.destination,
     }),
     tremolo: createTremolo({
@@ -314,8 +314,8 @@ export const webAudioManagerFactory = context => {
           effects.distortion.updateCurve();
           break;
 
-        case 'phaser':
-          effects.phaser.node.depth = amount * 0.65;
+        case 'chorus':
+          effects.chorus.node.feedback = amount;
           break;
 
         case 'tremolo':
@@ -353,10 +353,9 @@ export const webAudioManagerFactory = context => {
           effects.distortion.updateCurve();
           break;
 
-        case 'phaser':
-          effects.phaser.node.rate = options.rate;
-          effects.phaser.node.feedback = options.feedback;
-          effects.phaser.node.stereoPhase = options.stereoPhase;
+        case 'chorus':
+          effects.chorus.node.rate = options.rate;
+          effects.chorus.node.delay = options.delay;
           break;
 
         case 'tremolo':

@@ -18,11 +18,9 @@ export default {
   distortion: {
     clarity: 1,
   },
-  phaser: {
-    rate: 1.2,
-    feedback: 0.4,
-    stereoPhase: 30,
-    baseModulationFrequency: 700,
+  chorus: {
+    rate: 0.2,
+    delay: 0.01,
   },
   tremolo: {
     intensity: 0.6,

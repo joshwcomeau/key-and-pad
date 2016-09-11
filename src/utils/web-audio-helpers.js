@@ -144,28 +144,19 @@ export const createDistortionWithContext = context => ({
   };
 };
 
-export const createPhaserWithContext = tuna => ({
-  rate,
-  feedback,
-  stereoPhase,
-  baseModulationFrequency,
+export const createChorusWithContext = tuna => ({
   output,
+  ...nodeOptions,
 }) => {
-  const phaserNode = new tuna.Phaser({
-    depth: 0, // this is the param we control with the XYPad
-    rate,
-    feedback,
-    stereoPhase,
-    baseModulationFrequency,
-  });
+  const chorusNode = new tuna.Chorus(nodeOptions);
 
-  phaserNode.connect(output);
+  chorusNode.connect(output);
 
   return {
-    node: phaserNode,
+    node: chorusNode,
     sustain: false,
-    connect(destination) { phaserNode.connect(destination); },
-    disconnect() { phaserNode.disconnect(); },
+    connect(destination) { chorusNode.connect(destination); },
+    disconnect() { chorusNode.disconnect(); },
   };
 };
 
