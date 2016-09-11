@@ -140,6 +140,28 @@ export const createDistortionWithContext = context => ({
   };
 };
 
+export const createBitcrusherWithContext = tuna => ({
+  bits,
+  normFrequency,
+  bufferSize = 4096,
+  output,
+}) => {
+  const bitcrusherNode = new tuna.Bitcrusher({
+    bits,
+    normfreq: normFrequency,
+    bufferSize,
+  });
+
+  bitcrusherNode.connect(output);
+
+  return {
+    node: bitcrusherNode,
+    sustain: false,
+    connect(destination) { bitcrusherNode.connect(destination); },
+    disconnect() { bitcrusherNode.disconnect(); },
+  };
+};
+
 export const createPhaserWithContext = tuna => ({
   rate,
   feedback,
@@ -147,7 +169,7 @@ export const createPhaserWithContext = tuna => ({
   baseModulationFrequency,
   output,
 }) => {
-  const phaser = new tuna.Phaser({
+  const phaserNode = new tuna.Phaser({
     depth: 0, // this is the param we control with the XYPad
     rate,
     feedback,
@@ -155,13 +177,13 @@ export const createPhaserWithContext = tuna => ({
     baseModulationFrequency,
   });
 
-  phaser.connect(output);
+  phaserNode.connect(output);
 
   return {
-    node: phaser,
+    node: phaserNode,
     sustain: false,
-    connect(destination) { phaser.connect(destination); },
-    disconnect() { phaser.disconnect(); },
+    connect(destination) { phaserNode.connect(destination); },
+    disconnect() { phaserNode.disconnect(); },
   };
 };
 
