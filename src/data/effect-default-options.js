@@ -17,10 +17,6 @@ export default {
   distortion: {
     clarity: 1,
   },
-  bitcrusher: {
-    bits: 4,
-    normFrequency: 0.1,
-  },
   phaser: {
     rate: 1.2,
     feedback: 0.4,

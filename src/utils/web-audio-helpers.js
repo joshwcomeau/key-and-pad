@@ -140,28 +140,6 @@ export const createDistortionWithContext = context => ({
   };
 };
 
-export const createBitcrusherWithContext = tuna => ({
-  bits,
-  normFrequency,
-  bufferSize = 4096,
-  output,
-}) => {
-  const bitcrusherNode = new tuna.Bitcrusher({
-    bits,
-    normfreq: normFrequency,
-    bufferSize,
-  });
-
-  bitcrusherNode.connect(output);
-
-  return {
-    node: bitcrusherNode,
-    sustain: false,
-    connect(destination) { bitcrusherNode.connect(destination); },
-    disconnect() { bitcrusherNode.disconnect(); },
-  };
-};
-
 export const createPhaserWithContext = tuna => ({
   rate,
   feedback,

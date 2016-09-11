@@ -11,7 +11,6 @@ import {
   createReverbWithContext,
   createDelayWithContext,
   createDistortionWithContext,
-  createBitcrusherWithContext,
   createPhaserWithContext,
   getLogarithmicFrequencyValueWithContext,
   getOctaveMultiplier,
@@ -78,7 +77,7 @@ export const webAudioManagerFactory = context => {
 
   // Tuna is a library for web audio effects.
   // Simple effects are done with the vanilla Web Audio API, but certain ones
-  // (delay, bitcrusher, phaser, etc) use Tuna, for simplicity.
+  // (delay, phaser, etc) use Tuna, for simplicity.
   const tuna = new Tuna(context);
 
   // All of our creation helpers can have the global audio context applied
@@ -89,7 +88,6 @@ export const webAudioManagerFactory = context => {
   const createReverb = createReverbWithContext(context);
   const createDelay = createDelayWithContext(tuna);
   const createDistortion = createDistortionWithContext(context);
-  const createBitcrusher = createBitcrusherWithContext(tuna);
   const createPhaser = createPhaserWithContext(tuna);
 
   const fade = fadeWithContext(context);
@@ -111,10 +109,6 @@ export const webAudioManagerFactory = context => {
     }),
     distortion: createDistortion({
       ...effectDefaultOptions.distortion,
-      output: context.destination,
-    }),
-    bitcrusher: createBitcrusher({
-      ...effectDefaultOptions.bitcrusher,
       output: context.destination,
     }),
     phaser: createPhaser({
@@ -293,10 +287,6 @@ export const webAudioManagerFactory = context => {
           effects.distortion.updateCurve();
           break;
 
-        case 'bitcrusher':
-          effects.bitcrusher.node.normfreq = amount;
-          break;
-
         case 'phaser':
           effects.phaser.node.depth = amount * 0.65;
           break;
@@ -327,10 +317,6 @@ export const webAudioManagerFactory = context => {
         case 'distortion':
           effects.distortion.clarity = options.clarity;
           effects.distortion.updateCurve();
-          break;
-
-        case 'bitcrusher':
-          effects.bitcrusher.node.normfreq = options.normFrequency;
           break;
 
         case 'phaser':
