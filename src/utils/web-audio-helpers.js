@@ -36,7 +36,7 @@ export const createGainWithContext = context => ({ value, output }) => {
 
 export const createFilterWithContext = context => ({
   filterType,
-  resonance = 0,
+  resonance,
   output,
 }) => {
   const filterNode = context.createBiquadFilter();
@@ -53,14 +53,15 @@ export const createFilterWithContext = context => ({
   };
 };
 
-export const createReverbWithContext = context => ({ time, dry, wet, output }) => {
+export const createReverbWithContext = context => ({
+  time,
+  output,
+}) => {
   const reverb = soundbankReverb(context);
 
   reverb.connect(output);
 
   reverb.time = time;
-  reverb.dry.value = dry;
-  reverb.wet.value = wet;
 
   return {
     node: reverb,
@@ -115,10 +116,10 @@ export const createDistortionWithContext = context => ({
   distortionNode.connect(compressorNode);
 
   return {
-    node: distortionNode,
-    sustain: false,
     amount,
     clarity,
+    node: distortionNode,
+    sustain: false,
     connect(destination) {
       compressorNode.connect(destination);
       distortionNode.connect(compressorNode);

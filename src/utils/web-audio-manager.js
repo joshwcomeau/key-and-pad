@@ -244,14 +244,9 @@ export const webAudioManagerFactory = context => {
 
       // IF both axes are part of the same effect (eg. filter res/freq),
       // then obviously it is just routed through one effect.
-      if (xEffect === yEffect) {
-        masterOscillatorOutput.connect(xEffect.node);
-        xEffect.connect(context.destination);
-      } else {
-        masterOscillatorOutput.connect(xEffect.node);
-        xEffect.connect(yEffect.node);
-        yEffect.connect(context.destination);
-      }
+      masterOscillatorOutput.connect(xEffect.node);
+      xEffect.connect(yEffect.node);
+      yEffect.connect(context.destination);
 
       return this;
     },
