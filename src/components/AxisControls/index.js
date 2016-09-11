@@ -252,6 +252,39 @@ class AxisControls extends Component {
         );
       }
 
+      case 'tremolo': {
+        return (
+          <div className="effect-controls">
+            <h5>intensity</h5>
+            <Slider
+              min={0}
+              max={8}
+              value={effect.options.intensity}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { intensity: val },
+                });
+              }}
+            />
+
+            <h5>stereo phase</h5>
+            <Slider
+              min={0}
+              max={180}
+              step={10}
+              value={effect.options.stereoPhase}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { stereoPhase: val },
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
       default: return <div />;
     }
   }

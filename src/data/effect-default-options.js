@@ -24,7 +24,7 @@ export default {
     baseModulationFrequency: 700,
   },
   tremolo: {
-    rate: 4,
+    intensity: 0.6,
     stereoPhase: 0,
   },
   wahWah: {

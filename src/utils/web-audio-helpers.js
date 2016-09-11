@@ -166,6 +166,26 @@ export const createPhaserWithContext = tuna => ({
   };
 };
 
+export const createTremoloWithContext = tuna => ({
+  intensity,
+  stereoPhase,
+  output,
+}) => {
+  const tremoloNode = new tuna.Tremolo({ intensity, stereoPhase });
+
+  // TEMP debuging
+  window.trem = tremoloNode;
+
+  tremoloNode.connect(output);
+
+  return {
+    node: tremoloNode,
+    sustain: false,
+    connect(destination) { tremoloNode.connect(destination); },
+    disconnect() { tremoloNode.disconnect(); },
+  };
+};
+
 
 // /////////////////////
 // Misc Utilities /////

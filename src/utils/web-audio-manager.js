@@ -12,6 +12,7 @@ import {
   createDelayWithContext,
   createDistortionWithContext,
   createPhaserWithContext,
+  createTremoloWithContext,
   getLogarithmicFrequencyValueWithContext,
   getOctaveMultiplier,
 } from './web-audio-helpers';
@@ -89,6 +90,7 @@ export const webAudioManagerFactory = context => {
   const createDelay = createDelayWithContext(tuna);
   const createDistortion = createDistortionWithContext(context);
   const createPhaser = createPhaserWithContext(tuna);
+  const createTremolo = createTremoloWithContext(tuna);
 
   const fade = fadeWithContext(context);
   const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
@@ -113,6 +115,10 @@ export const webAudioManagerFactory = context => {
     }),
     phaser: createPhaser({
       ...effectDefaultOptions.phaser,
+      output: context.destination,
+    }),
+    tremolo: createTremolo({
+      ...effectDefaultOptions.tremolo,
       output: context.destination,
     }),
   };
@@ -286,6 +292,10 @@ export const webAudioManagerFactory = context => {
           effects.phaser.node.depth = amount * 0.65;
           break;
 
+        case 'tremolo':
+          effects.tremolo.node.rate = amount * 8;
+          break;
+
         default:
           // Do nothing
       }
@@ -318,6 +328,11 @@ export const webAudioManagerFactory = context => {
           effects.phaser.node.rate = options.rate;
           effects.phaser.node.feedback = options.feedback;
           effects.phaser.node.stereoPhase = options.stereoPhase;
+          break;
+
+        case 'tremolo':
+          effects.tremolo.node.intensity = options.intensity;
+          effects.tremolo.node.stereoPhase = options.stereoPhase;
           break;
 
         default: {
