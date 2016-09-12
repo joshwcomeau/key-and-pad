@@ -18,6 +18,7 @@ class Canvas extends PureComponent {
     this.onMouseMove = this.handleMouseEvent('onMouseMove');
     this.onMouseEnter = this.handleMouseEvent('onMouseEnter');
     this.onMouseLeave = this.handleMouseEvent('onMouseLeave');
+    this.onMouseRightClick = this.handleMouseEvent('onMouseRightClick');
 
     this.draw = this.draw.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -60,12 +61,12 @@ class Canvas extends PureComponent {
   draw(shape) {
     switch (shape.type) {
       case 'circle': {
-        const { x, y, radius } = shape;
+        const { x, y, color, radius } = shape;
 
         this.ctx.beginPath();
         this.ctx.arc(x, y, radius, false, Math.PI * 2, false);
         this.ctx.closePath();
-        this.ctx.fillStyle = '#F3A84E';
+        this.ctx.fillStyle = color;
         this.ctx.fill();
 
         break;
@@ -80,6 +81,9 @@ class Canvas extends PureComponent {
   handleMouseEvent(eventHandlerName) {
     return event => {
       if (eventHandlerName === 'onMouseDown') {
+        this.setState({ mouseDown: true });
+      } else if (eventHandlerName === 'onMouseRightClick') {
+        event.preventDefault();
         this.setState({ mouseDown: true });
       } else if (eventHandlerName === 'onMouseUp') {
         this.setState({ mouseDown: false });
@@ -123,6 +127,7 @@ class Canvas extends PureComponent {
         onMouseMove={this.handleMouseMove}
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}
+        onContextMenu={this.onMouseRightClick}
       />
     );
   }
@@ -144,6 +149,7 @@ Canvas.propTypes = {
   onMouseDrag: PropTypes.func,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
+  onMouseRightClick: PropTypes.func,
 };
 
 const noop = () => {};
@@ -155,6 +161,7 @@ Canvas.defaultProps = {
   onMouseDrag: noop,
   onMouseEnter: noop,
   onMouseLeave: noop,
+  onMouseRightClick: noop,
 };
 
 export default Canvas;

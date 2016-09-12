@@ -23,7 +23,11 @@ import './index.scss';
 //
 // Everything happens in the same update cycle, and it's surprisingly performant!
 
-const cursorRadius = 6;
+const cursorShape = {
+  type: 'circle',
+  radius: 6,
+  color: '#F3CA4F',
+};
 
 class XYPad extends Component {
   constructor(props) {
@@ -54,8 +58,7 @@ class XYPad extends Component {
 
     if (!showTrail) {
       nextCursorTrail.push({
-        type: 'circle',
-        radius: cursorRadius,
+        ...cursorShape,
         x: nextX,
         y: nextY,
       });
@@ -67,8 +70,7 @@ class XYPad extends Component {
 
       for (let i = 0; i <= dist; i += 5) {
         nextCursorTrail.push({
-          type: 'circle',
-          radius: cursorRadius,
+          ...cursorShape,
           x: currentPoint.x + (Math.sin(angle) * i),
           y: currentPoint.y + (Math.cos(angle) * i),
         });
@@ -118,6 +120,7 @@ class XYPad extends Component {
           onMouseUp={this.handleRelease}
           onMouseDown={this.handlePress}
           onMouseDrag={this.handlePress}
+          onMouseRightClick={this.handlePress}
           shapes={this.state.cursorTrail}
         />
         <XYPadAxisLabel
