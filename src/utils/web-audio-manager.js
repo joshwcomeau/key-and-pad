@@ -7,14 +7,11 @@ import {
   fadeWithContext,
   createGainWithContext,
   createOscillatorWithContext,
-  createFilterWithContext,
-  createReverbWithContext,
-  createDelayWithContext,
-  createDistortionWithContext,
-  createChorusWithContext,
-  createTremoloWithContext,
-  createWahWahWithContext,
-  getLogarithmicFrequencyValueWithContext,
+  createFilter,
+  createReverb,
+  createDistortion,
+  createTunaNode,
+  getLogarithmicFrequencyValue,
   getOctaveMultiplier,
 } from './web-audio-helpers';
 import effectDefaultOptions from '../data/effect-default-options.js';
@@ -82,50 +79,52 @@ export const webAudioManagerFactory = context => {
   // (delay, chorus, etc) use Tuna, for simplicity.
   const tuna = new Tuna(context);
 
-  // All of our creation helpers can have the global audio context applied
-  // early, to save us some typing.
   const createOscillator = createOscillatorWithContext(context);
   const createGain = createGainWithContext(context);
-  const createFilter = createFilterWithContext(context);
-  const createReverb = createReverbWithContext(context);
-  const createDelay = createDelayWithContext(tuna);
-  const createDistortion = createDistortionWithContext(context);
-  const createChorus = createChorusWithContext(tuna);
-  const createTremolo = createTremoloWithContext(tuna);
-  const createWahWah = createWahWahWithContext(tuna);
 
   const fade = fadeWithContext(context);
-  const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
 
   // Create some effect nodes
   const effects = {
     filter: createFilter({
-      ...effectDefaultOptions.filter,
+      context,
       output: context.destination,
+      ...effectDefaultOptions.filter,
     }),
     reverb: createReverb({
+      context,
+      output: context.destination,
       ...effectDefaultOptions.reverb,
-      output: context.destination,
     }),
-    delay: createDelay({
-      ...effectDefaultOptions.delay,
+    delay: createTunaNode({
+      tuna,
+      nodeType: 'Delay',
+      sustain: true,
       output: context.destination,
+      ...effectDefaultOptions.delay,
     }),
     distortion: createDistortion({
+      context,
+      output: context.destination,
       ...effectDefaultOptions.distortion,
-      output: context.destination,
     }),
-    chorus: createChorus({
+    chorus: createTunaNode({
+      tuna,
+      nodeType: 'Chorus',
+      output: context.destination,
       ...effectDefaultOptions.chorus,
-      output: context.destination,
     }),
-    tremolo: createTremolo({
+    tremolo: createTunaNode({
+      tuna,
+      nodeType: 'Tremolo',
+      output: context.destination,
       ...effectDefaultOptions.tremolo,
-      output: context.destination,
     }),
-    wahWah: createWahWah({
-      ...effectDefaultOptions.wahWah,
+    wahWah: createTunaNode({
+      tuna,
+      nodeType: 'WahWah',
       output: context.destination,
+      ...effectDefaultOptions.wahWah,
     }),
   };
 
@@ -297,7 +296,7 @@ export const webAudioManagerFactory = context => {
       // makes sense.
       switch (name) {
         case 'filter':
-          effects.filter.node.frequency.value = getLogarithmicFrequencyValue(amount);
+          effects.filter.node.frequency.value = getLogarithmicFrequencyValue(context, amount);
           break;
 
         case 'reverb':

@@ -8,7 +8,7 @@ import { calculateDistortionCurve } from './distortion-helpers';
 // Node Factories /////
 // ///////////////////
 // A set of factories that create Web Audio nodes (or, third-party pseudo-
-// nodes). Can be preloaded with the relevant context.
+// nodes).
 // ////////////////
 export const createOscillatorWithContext = context => ({
   frequency,
@@ -37,7 +37,8 @@ export const createGainWithContext = context => ({ value, output, outputChannels
   return gainNode;
 };
 
-export const createFilterWithContext = context => ({
+export const createFilter = ({
+  context,
   filterType,
   resonance,
   output,
@@ -56,8 +57,10 @@ export const createFilterWithContext = context => ({
   };
 };
 
-export const createReverbWithContext = context => ({
+export const createReverb = ({
+  context,
   time,
+  cutoff,
   output,
 }) => {
   const reverb = soundbankReverb(context);
@@ -65,6 +68,7 @@ export const createReverbWithContext = context => ({
   reverb.connect(output);
 
   reverb.time = time;
+  reverb.cutoff.value = cutoff;
 
   return {
     node: reverb,
@@ -74,33 +78,10 @@ export const createReverbWithContext = context => ({
   };
 };
 
-export const createDelayWithContext = tuna => ({
-  delayTime,
-  cutoff,
-  dryLevel,
-  wetLevel,
-  output,
-}) => {
-  const delayNode = new tuna.Delay({
-    delayTime,
-    cutoff,
-    wetLevel,
-    dryLevel,
-  });
-
-  delayNode.connect(output);
-
-  return {
-    node: delayNode,
-    sustain: true,
-    connect(destination) { delayNode.connect(destination); },
-    disconnect() { delayNode.disconnect(); },
-  };
-};
-
-export const createDistortionWithContext = context => ({
-  amount = 0,
-  clarity = 1,
+export const createDistortion = ({
+  context,
+  amount,
+  clarity,
   output,
 }) => {
   const distortionNode = context.createWaveShaper();
@@ -144,54 +125,28 @@ export const createDistortionWithContext = context => ({
   };
 };
 
-export const createChorusWithContext = tuna => ({
+// This generic factory creates Delay, Tremolo, Chorus, and WahWah nodes.
+// These effects use Tuna, and the Tuna API is consistent enough between
+// nodes for this to work.
+export const createTunaNode = ({
+  tuna,
+  nodeType,
+  sustain = false,
   output,
   ...nodeOptions,
 }) => {
-  const chorusNode = new tuna.Chorus(nodeOptions);
+  const node = new tuna[nodeType](nodeOptions);
 
-  chorusNode.connect(output);
+  node.connect(output);
 
   return {
-    node: chorusNode,
-    sustain: false,
-    connect(destination) { chorusNode.connect(destination); },
-    disconnect() { chorusNode.disconnect(); },
+    node,
+    sustain,
+    connect(destination) { node.connect(destination); },
+    disconnect() { node.disconnect(); },
   };
 };
 
-export const createTremoloWithContext = tuna => ({
-  intensity,
-  stereoPhase,
-  output,
-}) => {
-  const tremoloNode = new tuna.Tremolo({ intensity, stereoPhase });
-
-  tremoloNode.connect(output);
-
-  return {
-    node: tremoloNode,
-    sustain: false,
-    connect(destination) { tremoloNode.connect(destination); },
-    disconnect() { tremoloNode.disconnect(); },
-  };
-};
-
-export const createWahWahWithContext = tuna => ({
-  output,
-  ...wahWahArgs,
-}) => {
-  const wahWahNode = new tuna.WahWah(wahWahArgs);
-
-  wahWahNode.connect(output);
-
-  return {
-    node: wahWahNode,
-    sustain: false,
-    connect(destination) { wahWahNode.connect(destination); },
-    disconnect() { wahWahNode.disconnect(); },
-  };
-};
 
 // /////////////////////
 // Misc Utilities /////
@@ -233,7 +188,7 @@ export const fadeWithContext = context => ({
                       ~22,000 (half of the sample rate)
   @returns the transformed frequency value.
 */
-export const getLogarithmicFrequencyValueWithContext = context => n => {
+export const getLogarithmicFrequencyValue = (context, n) => {
   // Where `n` is a value from 0 to 1, compute what the current frequency
   // should be, using a pleasant log scale.
   const [min, max] = [40, context.sampleRate / 2];

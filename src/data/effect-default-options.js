@@ -4,8 +4,6 @@ export default {
     resonance: 10,
   },
   reverb: {
-    dry: 1,
-    wet: 0,
     time: 3,
     cutoff: 20000,
   },
@@ -16,6 +14,7 @@ export default {
     cutoff: 2000,
   },
   distortion: {
+    amount: 0,
     clarity: 1,
   },
   chorus: {
