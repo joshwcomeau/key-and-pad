@@ -22,7 +22,7 @@ export default function buildMiddlewareArray({ adminMode }) {
     middlewares.push(
       createRetrieveMiddleware({ retrieveHandler, requiresAuth: false }),
       createReplayMiddleware({
-        maximumDelay: 100,
+        maximumDelay: 2000,
         // The cassette was not recorded in admin mode, but we need to replay
         // it in admin mode. Without this override, it switches modes on us,
         // and we lose our spiffy VCR :o
@@ -39,7 +39,9 @@ export default function buildMiddlewareArray({ adminMode }) {
 
     middlewares.push(createCaptureMiddleware({
       persistHandler,
+      blacklist: [{ matchingCriteria: 'startsWith', type: 'MODALS/' }],
       startTrigger: COMPLETE_ONBOARDING,
+      minimumActionsToPersist: 20,
     }));
   }
 
