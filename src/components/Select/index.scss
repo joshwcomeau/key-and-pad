@@ -27,12 +27,17 @@
     }
   }
 
+  .Select-menu {
+  	max-height: 248px !important;
+  }
+
   .Select-menu-outer {
     border: 0;
     font-size: 14px;
     border-radius: 0 0 $border-radius-large $border-radius-large;
     box-shadow: 0px 1px 0px rgba(0,0,0,0.1) !important;
     z-index: 100;
+    max-height: 250px !important;
 
     .Select-option {
       color: $mediumgray;

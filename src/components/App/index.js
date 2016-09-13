@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Replay } from 'redux-vcr.replay';
+import { Replay } from 'redux-vcr';
 
 import Header from '../Header';
 import Footer from '../Footer';
@@ -112,7 +112,7 @@ const App = ({
           },
         ]}
       >
-        <XYPad />
+        <XYPad width={284} height={284} />
       </FeatureHighlight>
     </div>
 

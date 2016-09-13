@@ -102,3 +102,18 @@ export const isMobile = () => {
 
   return mobileRegex.test(navigator.userAgent) || window.innerWidth < 450;
 };
+
+
+export const distanceBetween = (p1, p2) => (
+  Math.sqrt(
+    Math.pow(p2.x - p1.x, 2) +
+    Math.pow(p2.y - p1.y, 2)
+  )
+);
+
+export const angleBetween = (p1, p2) => (
+  Math.atan2(
+    p2.x - p1.x,
+    p2.y - p1.y
+  )
+);

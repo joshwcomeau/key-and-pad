@@ -7,20 +7,18 @@ import {
   fadeWithContext,
   createGainWithContext,
   createOscillatorWithContext,
-  createFilterWithContext,
-  createDistortionWithContext,
-  createDelayWithContext,
-  createReverbWithContext,
-  createPhaserWithContext,
-  getLogarithmicFrequencyValueWithContext,
-  getDistortionOversample,
+  createFilter,
+  createReverb,
+  createDistortion,
+  createTunaNode,
+  getLogarithmicFrequencyValue,
   getOctaveMultiplier,
 } from './web-audio-helpers';
 import effectDefaultOptions from '../data/effect-default-options.js';
 
 
 // eslint-disable-next-line no-undef
-const audioContext = new (AudioContext || webkitAudioContext)();
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 
 /* ROUTING
@@ -77,45 +75,56 @@ export const webAudioManagerFactory = context => {
   ];
 
   // Tuna is a library for web audio effects.
-  // Trying it out for phasers and delays, effects that are a pain to
-  // create natively.
+  // Simple effects are done with the vanilla Web Audio API, but certain ones
+  // (delay, chorus, etc) use Tuna, for simplicity.
   const tuna = new Tuna(context);
 
-  // All of our creation helpers can have the global audio context applied
-  // early, to save us some typing.
   const createOscillator = createOscillatorWithContext(context);
   const createGain = createGainWithContext(context);
-  const createFilter = createFilterWithContext(context);
-  const createDelay = createDelayWithContext(context);
-  const createReverb = createReverbWithContext(context);
-  const createDistortion = createDistortionWithContext(context);
-  const createPhaser = createPhaserWithContext(context, tuna);
 
   const fade = fadeWithContext(context);
-  const getLogarithmicFrequencyValue = getLogarithmicFrequencyValueWithContext(context);
 
   // Create some effect nodes
   const effects = {
     filter: createFilter({
+      context,
+      output: context.destination,
       ...effectDefaultOptions.filter,
-      output: context.destination,
-    }),
-    distortion: createDistortion({
-      ...effectDefaultOptions.distortion,
-      oversample: getDistortionOversample(effectDefaultOptions.distortion),
-      output: context.destination,
-    }),
-    delay: createDelay({
-      ...effectDefaultOptions.delay,
-      output: context.destination,
     }),
     reverb: createReverb({
+      context,
+      output: context.destination,
       ...effectDefaultOptions.reverb,
-      output: context.destination,
     }),
-    phaser: createPhaser({
-      ...effectDefaultOptions.phaser,
+    delay: createTunaNode({
+      tuna,
+      nodeType: 'Delay',
+      sustain: true,
       output: context.destination,
+      ...effectDefaultOptions.delay,
+    }),
+    distortion: createDistortion({
+      context,
+      output: context.destination,
+      ...effectDefaultOptions.distortion,
+    }),
+    chorus: createTunaNode({
+      tuna,
+      nodeType: 'Chorus',
+      output: context.destination,
+      ...effectDefaultOptions.chorus,
+    }),
+    tremolo: createTunaNode({
+      tuna,
+      nodeType: 'Tremolo',
+      output: context.destination,
+      ...effectDefaultOptions.tremolo,
+    }),
+    wahWah: createTunaNode({
+      tuna,
+      nodeType: 'WahWah',
+      output: context.destination,
+      ...effectDefaultOptions.wahWah,
     }),
   };
 
@@ -155,17 +164,38 @@ export const webAudioManagerFactory = context => {
         oscillators.forEach((oscillator, index) => {
           const { waveform, gain, detune, octaveAdjustment } = oscillator;
 
+          // Oscillators are monophonic, but we want to use stereo effects.
+          // We need to create a channel merger node, and merge 2 identical
+          // gain nodes. Bit of a rigamarole, but it works.
+          const merger = context.createChannelMerger(2);
+
+          const gainL = createGain({
+            value: 1,
+            output: merger,
+            outputChannels: [0, 0],
+          });
+          const gainR = createGain({
+            value: 1,
+            output: merger,
+            outputChannels: [0, 1],
+          });
+
           const output = createGain({
             value: gain,
             output: masterOscillatorOutput,
           });
 
+          merger.connect(output);
+
+
           const newOscillator = createOscillator({
             waveform,
             frequency: toFreq(value) * getOctaveMultiplier(octaveAdjustment),
             detune,
-            output,
           });
+
+          newOscillator.connect(gainL);
+          newOscillator.connect(gainR);
 
           // Add a brief fade-in to avoid clipping.
           fade({
@@ -246,62 +276,65 @@ export const webAudioManagerFactory = context => {
 
       // IF both axes are part of the same effect (eg. filter res/freq),
       // then obviously it is just routed through one effect.
-      if (xEffect === yEffect) {
-        masterOscillatorOutput.connect(xEffect.node);
-        xEffect.connect(context.destination);
-      } else {
-        masterOscillatorOutput.connect(xEffect.node);
-        xEffect.connect(yEffect.node);
-        yEffect.connect(context.destination);
-      }
+      masterOscillatorOutput.connect(xEffect.node);
+      xEffect.connect(yEffect.node);
+      yEffect.connect(context.destination);
 
       return this;
     },
 
     updateEffectAmount({ effect }) {
+      // While this method could be "rolled into" updateEffectParameters,
+      // I like having the value that the X/Y pad controls distinct. We want
+      // this method to be as lean as possible, since it happens many times
+      // a second.
+
       const { name, amount } = effect;
 
       // `amount` will be a number from 0 to 1.
       // Each effect will have its own way of mapping that value to one that
       // makes sense.
       switch (name) {
-        case 'filter': {
-          effects.filter.node.frequency.value = getLogarithmicFrequencyValue(amount);
+        case 'filter':
+          effects.filter.node.frequency.value = getLogarithmicFrequencyValue(context, amount);
           break;
-        }
-        case 'distortion': {
-          effects.distortion.updateCurve(amount * 250);
-          break;
-        }
-        case 'delay': {
-          effects.delay.node.delayTime.value = amount * 10;
-          break;
-        }
-        case 'reverb': {
+
+        case 'reverb':
           effects.reverb.node.wet.value = amount;
           effects.reverb.node.dry.value = 1 - amount * 0.25;
           break;
-        }
-        case 'phaser': {
-          effects.phaser.node.depth = amount * 0.65;
+
+        case 'delay':
+          effects.delay.node.feedback = amount * 0.95;
           break;
-        }
-        default: {
+
+        case 'distortion':
+          effects.distortion.amount = amount * 250;
+          effects.distortion.updateCurve();
+          break;
+
+        case 'chorus':
+          effects.chorus.node.feedback = amount;
+          break;
+
+        case 'tremolo':
+          effects.tremolo.node.rate = amount * 8;
+          break;
+
+        case 'wahWah':
+          effects.wahWah.node.baseFrequency = amount;
+          break;
+
+        default:
           // Do nothing
-        }
       }
     },
 
     updateEffectParameters({ name, options }) {
       switch (name) {
-        case 'filter': {
+        case 'filter':
           effects.filter.node.type = options.filterType;
           effects.filter.node.Q.value = options.resonance;
-          break;
-        }
-
-        case 'distortion':
-          effects.distortion.node.oversample = getDistortionOversample(options);
           break;
 
         case 'reverb':
@@ -309,10 +342,28 @@ export const webAudioManagerFactory = context => {
           effects.reverb.node.cutoff.value = options.cutoff;
           break;
 
-        case 'phaser':
-          effects.phaser.node.rate = options.rate;
-          effects.phaser.node.feedback = options.feedback;
-          effects.phaser.node.stereoPhase = options.stereoPhase;
+        case 'delay':
+          effects.delay.node.delayTime = options.delayTime;
+          effects.delay.node.cutoff = options.cutoff;
+          break;
+
+        case 'distortion':
+          effects.distortion.clarity = options.clarity;
+          effects.distortion.updateCurve();
+          break;
+
+        case 'chorus':
+          effects.chorus.node.rate = options.rate;
+          effects.chorus.node.delay = options.delay;
+          break;
+
+        case 'tremolo':
+          effects.tremolo.node.intensity = options.intensity;
+          effects.tremolo.node.stereoPhase = options.stereoPhase;
+          break;
+
+        case 'wahWah':
+          effects.wahWah.node.excursionOctaves = options.excursionOctaves;
           break;
 
         default: {

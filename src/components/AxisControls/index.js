@@ -70,8 +70,6 @@ class AxisControls extends Component {
                 { value: 'lowpass', label: 'low pass' },
                 { value: 'highpass', label: 'high pass' },
                 { value: 'bandpass', label: 'band pass' },
-                { value: 'allpass', label: 'all pass' },
-                { value: 'notch', label: 'notch' },
               ]}
             />
 
@@ -96,18 +94,53 @@ class AxisControls extends Component {
       case 'distortion': {
         return (
           <div className="effect-controls">
-            <h5>oversampling</h5>
+            <h5>clarity</h5>
             <Slider
               min={0}
-              max={4}
-              step={2}
-              value={effect.options.oversample}
+              max={1.25}
+              step={0.05}
+              value={effect.options.clarity}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
                 // slow, and doesn't need to be low-latency.
                 this.tweakAxisParameter({
                   axis,
-                  options: { oversample: val },
+                  options: { clarity: val },
+                });
+              }}
+            />
+          </div>
+        );
+      }
+      case 'delay': {
+        return (
+          <div className="effect-controls">
+            <h5>time</h5>
+            <Slider
+              min={25}
+              max={1000}
+              value={effect.options.delayTime}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: { delayTime: val },
+                });
+              }}
+            />
+
+            <h5>filter cutoff</h5>
+            <Slider
+              min={100}
+              max={4000}
+              value={effect.options.cutoff}
+              onChange={val => {
+                // Debounce the actual action-dispatch since it's kinda
+                // slow, and doesn't need to be low-latency.
+                this.tweakAxisParameter({
+                  axis,
+                  options: { cutoff: val },
                 });
               }}
             />
@@ -121,7 +154,7 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={8}
-              step={0.1}
+              step={0.05}
               value={effect.options.time}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -137,7 +170,6 @@ class AxisControls extends Component {
             <Slider
               min={0}
               max={20000}
-              step={1}
               value={effect.options.cutoff}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda
@@ -152,28 +184,14 @@ class AxisControls extends Component {
         );
       }
 
-      case 'phaser': {
+      case 'chorus': {
         return (
           <div className="effect-controls">
-            <h5>feedback</h5>
-            <Slider
-              min={0}
-              max={1}
-              step={0.1}
-              value={effect.options.feedback}
-              onChange={val => {
-                this.tweakAxisParameter({
-                  axis,
-                  options: { feedback: val },
-                });
-              }}
-            />
-
             <h5>rate</h5>
             <Slider
-              min={0}
-              max={100}
-              step={0.1}
+              min={0.05}
+              max={4}
+              step={0.01}
               value={effect.options.rate}
               onChange={val => {
                 this.tweakAxisParameter({
@@ -183,16 +201,69 @@ class AxisControls extends Component {
               }}
             />
 
+            <h5>delay</h5>
+            <Slider
+              min={0}
+              max={1}
+              step={0.01}
+              value={effect.options.delay}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { delay: val },
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
+      case 'tremolo': {
+        return (
+          <div className="effect-controls">
+            <h5>intensity</h5>
+            <Slider
+              min={0}
+              max={8}
+              step={0.05}
+              value={effect.options.intensity}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { intensity: val },
+                });
+              }}
+            />
+
             <h5>stereo phase</h5>
             <Slider
               min={0}
               max={180}
-              step={10}
               value={effect.options.stereoPhase}
               onChange={val => {
                 this.tweakAxisParameter({
                   axis,
                   options: { stereoPhase: val },
+                });
+              }}
+            />
+          </div>
+        );
+      }
+
+      case 'wahWah': {
+        return (
+          <div className="effect-controls">
+            <h5>excursion octaves</h5>
+            <Slider
+              min={0}
+              max={3}
+              step={1}
+              value={effect.options.excursionOctaves}
+              onChange={val => {
+                this.tweakAxisParameter({
+                  axis,
+                  options: { excursionOctaves: val },
                 });
               }}
             />

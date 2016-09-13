@@ -1,68 +1,99 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import classNames from 'classnames';
 
 import { deactivateEffects, updateEffectsAmount } from '../../actions';
+import { distanceBetween, angleBetween } from '../../utils/misc-helpers';
 
 import XYPadAxisLabel from '../XYPadAxisLabel';
+import Canvas from '../Canvas';
 import './index.scss';
 
+
+// NOTE: The flow of events in this component is a little confusing at first,
+// but it's actually quite nice:
+//
+// - The user clicks on the pad
+// - `handlePress` dispatches `this.props.updateEffectsAmount`,
+//   triggering an update.
+// - We have a fancy cursor with trails. We can use the current and next
+//   props to calculate the cursor trails. We do this in
+//   `componentWillReceiveProps`, so that we can hook into this update cycle.
+// - We use local component state to store the new set of cursor trails.
+// - The Canvas component is given the set of shapes to render.
+//
+// Everything happens in the same update cycle, and it's surprisingly performant!
+
+const cursorShape = {
+  type: 'circle',
+  radius: 6,
+  color: '#F3CA4F',
+};
 
 class XYPad extends Component {
   constructor(props) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
-    this.handlePress = this.handlePress.bind(this);
+
     this.handleRelease = this.handleRelease.bind(this);
+    this.handlePress = this.handlePress.bind(this);
+
+    this.state = {
+      cursorTrail: [],
+    };
   }
 
-  componentDidMount() {
-    // Binding this to window instead of the pad itself so that we catch
-    // events that happen slightly outside the box.
-    window.addEventListener('mouseup', this.handleRelease);
+  componentWillReceiveProps(nextProps) {
+    this.updateCursor({
+      x: this.props.cursorX,
+      y: this.props.cursorY,
+      nextX: nextProps.cursorX,
+      nextY: nextProps.cursorY,
+      // If this is a 'drag', the current state would be pressed.
+      // We want to create a trail from it.
+      showTrail: this.props.isPressed,
+    });
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('mouseup', this.handleRelease);
+  updateCursor({ x, y, nextX, nextY, showTrail }) {
+    const nextCursorTrail = [];
+
+    if (!showTrail) {
+      nextCursorTrail.push({
+        ...cursorShape,
+        x: nextX,
+        y: nextY,
+      });
+    } else {
+      const currentPoint = { x, y };
+      const nextPoint = { x: nextX, y: nextY };
+      const dist = distanceBetween(currentPoint, nextPoint);
+      const angle = angleBetween(currentPoint, nextPoint);
+
+      for (let i = 0; i <= dist; i += 5) {
+        nextCursorTrail.push({
+          ...cursorShape,
+          x: currentPoint.x + (Math.sin(angle) * i),
+          y: currentPoint.y + (Math.cos(angle) * i),
+        });
+      }
+    }
+
+    this.setState({ cursorTrail: nextCursorTrail });
   }
 
-  calculateAndUpdatePosition(clientX, clientY) {
-    // We need to calculate the relative position of the event, and pass it
-    // onto our supplied touch handler.
-    const boundingBox = this.elem.getBoundingClientRect();
-
-    const cursorX = clientX - boundingBox.left;
-    const cursorY = clientY - boundingBox.top;
-
-    const amountX = cursorX / boundingBox.width;
-    const amountY = cursorY / boundingBox.height;
+  handlePress({ x, y }) {
+    const amountX = x / this.props.width;
+    const amountY = y / this.props.height;
 
     this.props.updateEffectsAmount({
       x: {
         amount: amountX,
-        cursorPosition: cursorX,
+        cursorPosition: x,
       },
       y: {
         amount: amountY,
-        cursorPosition: cursorY,
+        cursorPosition: y,
       },
     });
-  }
-
-  handleClick(ev) {
-    // If, and only if, the mouse button is held down, we want to delegate
-    // to the `touch` event.
-    if (ev.buttons === 1) {
-      this.handlePress(ev);
-    }
-  }
-
-  handlePress(ev) {
-    // This annoying workaround is because we can't directly throttle React
-    // event handlers. Their event pooling system makes it so that by the
-    // time the throttle fires, the event has been nullified.
-    // See https://facebook.github.io/react/docs/events.html#event-pooling
-    return this.calculateAndUpdatePosition(ev.clientX, ev.clientY);
   }
 
   handleRelease() {
@@ -72,31 +103,26 @@ class XYPad extends Component {
   }
 
   render() {
-    const svgClasses = classNames(
-      'pointer-indicator',
-      { 'is-pressed': this.props.isPressed }
-    );
-
-    const { xAxisLabel, yAxisLabel } = this.props;
+    const {
+      width,
+      height,
+      xAxisLabel,
+      yAxisLabel,
+    } = this.props;
 
     return (
       <div className="x-y-pad">
-        <div
+        <Canvas
           className="pad"
-          ref={elem => { this.elem = elem; }}
-          onTouchStart={this.handlePress}
+          width={width}
+          height={height}
+          fadeContentsAway
+          onMouseUp={this.handleRelease}
           onMouseDown={this.handlePress}
-          onMouseMove={this.handleClick}
-        >
-          <svg
-            width="100%"
-            height="100%"
-            className={svgClasses}
-          >
-            <circle cx={this.props.cursorX} cy={this.props.cursorY} r="10" />
-            <circle cx={this.props.cursorX} cy={this.props.cursorY} r="10" />
-          </svg>
-        </div>
+          onMouseDrag={this.handlePress}
+          onMouseRightClick={this.handlePress}
+          shapes={this.state.cursorTrail}
+        />
         <XYPadAxisLabel
           label={xAxisLabel}
           className="horizontal-axis"
@@ -113,6 +139,8 @@ class XYPad extends Component {
 }
 
 XYPad.propTypes = {
+  width: PropTypes.number,
+  height: PropTypes.number,
   cursorX: PropTypes.number,
   cursorY: PropTypes.number,
   xAxisLabel: PropTypes.string.isRequired,
