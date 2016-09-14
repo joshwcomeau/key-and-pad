@@ -1,6 +1,6 @@
 @import '../../variables';
 
-.mobile-notification {
+.error {
   position: absolute;
   top: 0;
   left: 0;
@@ -24,7 +24,7 @@
     padding: 0 2rem;
   }
 
-  .alternative {
+  .error-link {
     font-size: 16px;
     font-weight: 100;
     margin-top: 3rem;

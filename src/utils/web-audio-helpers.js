@@ -4,6 +4,18 @@ import soundbankReverb from 'soundbank-reverb';
 import { calculateDistortionCurve } from './distortion-helpers';
 
 
+/** chainAudio
+  Recursive helper to chain a bunch of WebAudio nodes together.
+*/
+function chainAudio(...nodes) {
+  const [source, destination] = nodes;
+
+  if (destination) {
+    source.connect(destination);
+    chainAudio(...nodes.slice(1));
+  }
+}
+
 // /////////////////////
 // Node Factories /////
 // ///////////////////
@@ -86,18 +98,23 @@ export const createDistortion = ({
 }) => {
   const distortionNode = context.createWaveShaper();
 
-  // We also want to route the distortionNode through a compressor.
+  // We want to route the distortionNode through a compressor.
   // This is because distortion can get FUCKING LOUD, and I don't wish to
   // deafen users :)
   const compressorNode = context.createDynamicsCompressor();
-  compressorNode.threshold.value = -40;
+  compressorNode.threshold.value = -50;
   compressorNode.knee.value = 0;
-  compressorNode.ratio.value = 3;
+  compressorNode.ratio.value = 20;
   compressorNode.attack.value = 0;
   compressorNode.release.value = 0.25;
 
-  compressorNode.connect(output);
-  distortionNode.connect(compressorNode);
+  // Sadly, the compressor has no built-in make-up gain. We need one of those.
+  const makeupGainNode = createGainWithContext(context)({
+    value: 1.5,
+    output,
+  });
+
+  chainAudio(distortionNode, compressorNode, makeupGainNode, output);
 
   return {
     amount,
@@ -105,12 +122,10 @@ export const createDistortion = ({
     node: distortionNode,
     sustain: false,
     connect(destination) {
-      compressorNode.connect(destination);
-      distortionNode.connect(compressorNode);
+      makeupGainNode.connect(destination);
     },
     disconnect() {
-      compressorNode.disconnect();
-      distortionNode.disconnect();
+      makeupGainNode.disconnect();
     },
     updateCurve() {
       // Lower clarities are louder, so we want to match our compressor to it.

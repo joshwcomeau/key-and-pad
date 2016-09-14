@@ -103,6 +103,15 @@ export const isMobile = () => {
   return mobileRegex.test(navigator.userAgent) || window.innerWidth < 450;
 };
 
+/** isModern
+  Returns whether the current device has a modern-enough browser to support
+  this application.
+*/
+export const isModern = () => {
+  const hasWebAudio = window.AudioContext || window.webkitAudioContext;
+
+  return hasWebAudio;
+};
 
 export const distanceBetween = (p1, p2) => (
   Math.sqrt(
