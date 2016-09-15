@@ -22,10 +22,8 @@ export function reconcile() {
   //   changing one of the effects, or tweaking one of the effect parameters.
   //
   // The changes should be independent; no single event should change both.
-  // That said, let's leave it open to the option, since we may want to
-  // throttle the subscribe callback.
 
-  // bind our two states to our convenience helper function, so that we can
+  // Bind our two states to our convenience helper function, so that we can
   // pass it a path and know if that path has changed in this state change.
   const updatedInNewState = updatedWithinPath(previousState, currentState);
 
@@ -46,11 +44,9 @@ export function reconcile() {
   //   - detune changes
   //   - gain changes
   //
-  // The reason is that the latter need to be smooth, as the user may change them
-  // several times a second, and a lot of clicking happens if we destroy and
-  // rebuild the oscillators on every mutation.
-
-  // If the notes changed, simply destroy all oscillators and rebuild.
+  // The reason is that the latter need to be smooth, as the user may change
+  // them several times a second, and there are audible clicks and pops
+  // if we destroy and rebuild the oscillators on every mutation.
   if (notesUpdated) {
     WebAudioManager
       .stopAllOscillators()
@@ -84,7 +80,7 @@ export function reconcile() {
 
     // Next, deal with changes to individual axes.
     ['x', 'y'].forEach(axis => {
-      // Skip this axis if it wasn't the one updated
+      // Skip this axis if it wasn't updated
       if (!updatedInNewState(['effects', axis])) { return; }
 
       // We know the axis has changed, but there are 3 possible axis changes:
