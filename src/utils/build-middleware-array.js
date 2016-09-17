@@ -13,7 +13,7 @@ import {
 } from '../actions';
 
 
-export default function buildMiddlewareArray({ adminMode }) {
+export default function buildMiddlewareArray({ adminMode = false } = {}) {
   const middlewares = [];
 
   if (adminMode) {
