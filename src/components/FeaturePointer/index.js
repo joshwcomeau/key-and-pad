@@ -21,20 +21,23 @@ const FeaturePointer = ({
     { centered, bubble },
   ]);
 
+  let pointerTriangle;
+  if (tipPosition) {
+    /* eslint-disable react/jsx-indent */
+    pointerTriangle = bubble
+      ? <div className="bubble-pointer-triangle" />
+      : (<div className="default-pointer-triangle">
+          <div className="triangle triangle-1" />
+          <div className="triangle triangle-2" />
+          <div className="triangle triangle-3" />
+        </div>);
+    /* eslint-enable */
+  }
+
   return (
     <div className={classes}>
       <div className="feature-pointer">
-        {
-          bubble
-          ? <div className="bubble-pointer-triangle" />
-          : (
-            <div className="default-pointer-triangle">
-              <div className="triangle triangle-1" />
-              <div className="triangle triangle-2" />
-              <div className="triangle triangle-3" />
-            </div>
-          )
-        }
+        {pointerTriangle}
         <Subheading
           background={bubble ? 'white' : 'offwhite'}
           underline="peach"
@@ -57,10 +60,14 @@ FeaturePointer.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string,
   position: PropTypes.oneOf(['top', 'bottom']),
-  tipPosition: PropTypes.oneOf(['left', 'center', 'right']),
+  tipPosition: PropTypes.oneOf(['left', 'center', 'right', null]),
   progress: PropTypes.number,
   centered: PropTypes.bool,
   bubble: PropTypes.bool,
+};
+
+FeaturePointer.defaultProps = {
+  tipPosition: null,
 };
 
 export default FeaturePointer;

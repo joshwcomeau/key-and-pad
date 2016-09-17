@@ -50,5 +50,6 @@ export default [
   'pad-introduced',
   'pad-confirmed',
   'control-panel-introduced',
+  'control-panel-confirmed',
   'completed',
 ];

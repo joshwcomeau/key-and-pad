@@ -129,6 +129,13 @@ const App = ({
           tipPosition: 'center',
           centered: true,
           bubble: true,
+        }, {
+          render: isSameStage('control-panel-confirmed'),
+          title: "You're all set!",
+          text: 'Make something wonderful.',
+          position: 'top',
+          centered: true,
+          bubble: true,
         },
       ]}
     >
