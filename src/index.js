@@ -6,6 +6,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './components/App';
 import Error from './components/Error';
 import { initializeWebAudio } from './utils/web-audio-reconciler';
+import WebAudioManager from './utils/web-audio-manager';
 import { isMobile, isModern } from './utils/misc-helpers';
 import { fadeElementAway } from './utils/dom-helpers';
 import configureStore from './store';
@@ -20,7 +21,7 @@ const store = configureStore();
 // This is how our sounds update in response to Redux state changes. A
 // `subscribe` function is passed which compares the old state to the new,
 // and makes any changes required.
-initializeWebAudio(store);
+initializeWebAudio({ store, manager: WebAudioManager });
 
 // Handle unsupported devices and browsers.
 let appComponent;
