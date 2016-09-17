@@ -246,6 +246,8 @@ export const webAudioManagerFactory = context => {
           }
         });
       });
+
+      return this;
     },
 
     destroyEffectChain({ rerouteOscillators = false, softRelease = false } = {}) {
@@ -328,6 +330,8 @@ export const webAudioManagerFactory = context => {
         default:
           // Do nothing
       }
+
+      return this;
     },
 
     updateEffectParameters({ name, options }) {
@@ -370,6 +374,8 @@ export const webAudioManagerFactory = context => {
           // Do nothing
         }
       }
+
+      return this;
     },
   };
 };
