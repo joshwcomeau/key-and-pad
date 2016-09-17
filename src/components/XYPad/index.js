@@ -23,10 +23,12 @@ import './index.scss';
 //
 // Everything happens in the same update cycle, and it's surprisingly performant!
 
+const ACTIVE_COLOR = '#f3ca4f';
+const INACTIVE_COLOR = '#edf2f3';
+
 const cursorShape = {
   type: 'circle',
   radius: 6,
-  color: '#F3CA4F',
 };
 
 class XYPad extends Component {
@@ -50,15 +52,17 @@ class XYPad extends Component {
       // If this is a 'drag', the current state would be pressed.
       // We want to create a trail from it.
       showTrail: this.props.isPressed,
+      color: nextProps.isActive ? ACTIVE_COLOR : INACTIVE_COLOR,
     });
   }
 
-  updateCursor({ x, y, nextX, nextY, showTrail }) {
+  updateCursor({ x, y, nextX, nextY, showTrail, color }) {
     const nextCursorTrail = [];
 
     if (!showTrail) {
       nextCursorTrail.push({
         ...cursorShape,
+        color,
         x: nextX,
         y: nextY,
       });
@@ -71,6 +75,7 @@ class XYPad extends Component {
       for (let i = 0; i <= dist; i += 5) {
         nextCursorTrail.push({
           ...cursorShape,
+          color,
           x: currentPoint.x + (Math.sin(angle) * i),
           y: currentPoint.y + (Math.cos(angle) * i),
         });
@@ -156,6 +161,7 @@ const mapStateToProps = state => ({
   xAxisLabel: state.effects.x.name,
   yAxisLabel: state.effects.y.name,
   isPressed: state.effects.x.active && state.effects.y.active,
+  isActive: state.notes.length > 0,
 });
 
 export const XYPadPresentational = XYPad;
