@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { take, call, put, select } from 'redux-saga/effects';
+import { take, put } from 'redux-saga/effects';
 
 import {
   experimentWithNotes,
@@ -136,6 +136,26 @@ describe('Onboarding sagas', () => {
         // Note: the delay length is not actually tested.
         // Not top-priority, but we should find a solution to this.
         delay(5000)
+      );
+    });
+
+    it('shows the final "Good to go" message', () => {
+      expect(
+        generator.next().value
+      ).to.deep.equal(
+        // Note: the delay length is not actually tested.
+        // Not top-priority, but we should find a solution to this.
+        put(goToNextStage())
+      );
+    });
+
+    it('waits a final 2000ms', () => {
+      expect(
+        generator.next().value
+      ).to.deep.equal(
+        // Note: the delay length is not actually tested.
+        // Not top-priority, but we should find a solution to this.
+        delay(2000)
       );
     });
 
