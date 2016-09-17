@@ -1,7 +1,7 @@
 import { updatedWithinPath } from './misc-helpers';
 
 
-export function initializeWebAudio({ store, manager }) {
+export default function initializeWebAudioReconciler({ store, manager }) {
   let currentState = store.getState();
 
   // This reconcile function is called whenever the store updates.
@@ -105,9 +105,7 @@ export function initializeWebAudio({ store, manager }) {
     }
   };
 
-  store.subscribe(reconcile);
-}
+  const unsubscribe = store.subscribe(reconcile);
 
-
-export function reconcile() {
+  return unsubscribe;
 }

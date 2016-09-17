@@ -151,6 +151,7 @@ XYPad.propTypes = {
   xAxisLabel: PropTypes.string.isRequired,
   yAxisLabel: PropTypes.string.isRequired,
   isPressed: PropTypes.bool,
+  isActive: PropTypes.bool,
   updateEffectsAmount: PropTypes.func.isRequired,
   deactivateEffects: PropTypes.func.isRequired,
 };

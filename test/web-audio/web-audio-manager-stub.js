@@ -12,7 +12,7 @@ const webAudioManagerFactory = (context = sinon.stub()) => {
     updateOscillators({ notes, oscillators }) {
       return this;
     },
-    destroyEffectChain({ rerouteOscillators, softRelease }) {
+    destroyEffectChain({ rerouteOscillators, softRelease } = {}) {
       return this;
     },
     rebuildEffectChain({ x, y }) {
