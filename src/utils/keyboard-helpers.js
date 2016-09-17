@@ -1,4 +1,4 @@
-import { toFreq } from 'tonal-freq'
+import { toFreq } from 'tonal-freq';
 import keycode from 'keycode';
 import keyboardNotes from '../data/keyboard-notes';
 
@@ -8,7 +8,7 @@ export const getNoteAndLetter = ev => {
   const noteValue = keyboardNotes[letter];
 
   return [noteValue, letter];
-}
+};
 
 export const shouldEventTriggerAction = ({ ev, noteValue, currentNotes, mode }) => {
   const frequency = toFreq(noteValue);
@@ -22,4 +22,4 @@ export const shouldEventTriggerAction = ({ ev, noteValue, currentNotes, mode }) 
   const isValidForMode = mode === 'release' ? isAlreadyPlaying : !isAlreadyPlaying;
 
   return isValidNote && isValidForMode && !isSpecialKeyPressed;
-}
+};
