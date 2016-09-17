@@ -96,9 +96,9 @@ class AxisControls extends Component {
           <div className="effect-controls">
             <h5>clarity</h5>
             <Slider
-              min={0}
+              min={0.25}
               max={1.25}
-              step={0.05}
+              step={0.01}
               value={effect.options.clarity}
               onChange={val => {
                 // Debounce the actual action-dispatch since it's kinda

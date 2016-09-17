@@ -104,9 +104,9 @@ export const createDistortion = ({
   const compressorNode = context.createDynamicsCompressor();
   compressorNode.threshold.value = -50;
   compressorNode.knee.value = 0;
-  compressorNode.ratio.value = 20;
+  compressorNode.ratio.value = 18;
   compressorNode.attack.value = 0;
-  compressorNode.release.value = 0.25;
+  compressorNode.release.value = 1;
 
   // Sadly, the compressor has no built-in make-up gain. We need one of those.
   const makeupGainNode = createGainWithContext(context)({
@@ -128,10 +128,6 @@ export const createDistortion = ({
       makeupGainNode.disconnect();
     },
     updateCurve() {
-      // Lower clarities are louder, so we want to match our compressor to it.
-      const newCompressorRatio = 6 + this.clarity * -2;
-      compressorNode.ratio.value = newCompressorRatio;
-
       distortionNode.curve = calculateDistortionCurve({
         amount: this.amount,
         clarity: this.clarity,
@@ -177,7 +173,7 @@ export const createTunaNode = ({
   @param {number} duration - the length of the fade, in seconds.
 */
 export const fadeWithContext = context => ({
-  oscillator, direction, output, maxAmplitude = 1, duration = 0.02,
+  oscillator, direction, output, maxAmplitude = 1, duration = 0,
 }) => {
   const now = context.currentTime;
   const end = now + duration;
