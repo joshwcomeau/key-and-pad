@@ -11,7 +11,7 @@ const Header = () => (
       className="octocat no-underline"
       target="_blank"
       rel="noopener noreferrer"
-      href="https://github.com/joshwcomeau/Key-Pad"
+      href="https://github.com/joshwcomeau/key-and-pad"
     >
       <img
         src={daftPunkImage}
