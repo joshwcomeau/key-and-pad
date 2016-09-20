@@ -20,14 +20,6 @@ function deploy(currentBranch) {
     `);
   }
 
-  // Before this script runs, the build script should have ran.
-  // Add the newly-built files.
-  exec('git add build');
-
-  // Amend the most recent commit; we just keep overwriting it, to avoid
-  // a huge chain of commits
-  exec('git commit --amend --no-edit');
-
   // Split the current repo into a new branch consisting only of the
   // `build` directory, and immediately force-push it to gh-pages branch.
   exec(`git push origin \`git subtree split --prefix build ${deployBranch}\`:${deployBranch} -f`);
