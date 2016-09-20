@@ -56,6 +56,11 @@ class XYPad extends Component {
     });
   }
 
+  shouldComponentUpdate(nextProps) {
+    // We only need to update when the XYPad is pressed, or becoming pressed.
+    return this.props.isPressed || nextProps.isPressed;
+  }
+
   updateCursor({ x, y, nextX, nextY, showTrail, color }) {
     const nextCursorTrail = [];
 
