@@ -8,6 +8,7 @@ export const TWEAK_AXIS_PARAMETER = 'EFFECTS/TWEAK_AXIS_PARAMETER';
 
 export const ADD_NOTE = 'NOTES/ADD_NOTE';
 export const REMOVE_NOTE = 'NOTES/REMOVE_NOTE';
+export const REMOVE_ALL_NOTES = 'NOTES/REMOVE_ALL_NOTES';
 
 export const UPDATE_OSCILLATOR = 'OSCILLATORS/UPDATE_OSCILLATOR';
 
@@ -61,6 +62,10 @@ export const addNote = ({ value, letter }) => ({
 export const removeNote = ({ value }) => ({
   type: REMOVE_NOTE,
   value,
+});
+
+export const removeAllNotes = () => ({
+  type: REMOVE_ALL_NOTES,
 });
 
 export const updateStage = ({ stage }) => ({

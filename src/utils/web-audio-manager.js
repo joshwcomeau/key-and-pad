@@ -14,7 +14,7 @@ import {
   getLogarithmicFrequencyValue,
   getOctaveMultiplier,
 } from './web-audio-helpers';
-import effectDefaultOptions from '../data/effect-default-options.js';
+import effectDefaultOptions from '../data/effect-default-options';
 
 
 // eslint-disable-next-line no-undef
@@ -45,7 +45,7 @@ In the above example, the signal routes through a filter and a delay,
 avoiding the other effects (distortion and reverb).
 */
 
-export const webAudioManagerFactory = context => {
+export const webAudioManagerFactory = (context) => {
   /*
   Store all currently-playing oscillators here.
   Shape is:
@@ -139,8 +139,7 @@ export const webAudioManagerFactory = context => {
   // return the WebAudioManager itself.
   return {
     stopAllOscillators() {
-      // TODO: Look into whether I need to kill the gains created for each osc.
-      activeOscillators.forEach(oscillatorArray => {
+      activeOscillators.forEach((oscillatorArray) => {
         oscillatorArray.forEach(({ oscillator, output }) => {
           // Add a brief release, to avoid clipping
           fade({

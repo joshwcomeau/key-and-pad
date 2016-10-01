@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import effectDefaultOptions from '../data/effect-default-options.js';
+import effectDefaultOptions from '../data/effect-default-options';
 
 import {
   DEACTIVATE_EFFECTS,
@@ -104,5 +104,5 @@ export const axisControlSelector = createSelector(
 
 export const otherAxisNameSelector = createSelector(
   otherAxisName,
-  (name) => name
+  name => name
 );
