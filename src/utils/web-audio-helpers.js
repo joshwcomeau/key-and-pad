@@ -110,7 +110,7 @@ export const createDistortion = ({
 
   // Sadly, the compressor has no built-in make-up gain. We need one of those.
   const makeupGainNode = createGainWithContext(context)({
-    value: 1.5,
+    value: 3,
     output,
   });
 
