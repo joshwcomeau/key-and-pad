@@ -173,7 +173,7 @@ export const createTunaNode = ({
   @param {number} duration - the length of the fade, in seconds.
 */
 export const fadeWithContext = context => ({
-  oscillator, direction, output, maxAmplitude = 1, duration = 0,
+  oscillator, direction, output, maxAmplitude = 1, duration = 0.015,
 }) => {
   const now = context.currentTime;
   const end = now + duration;
