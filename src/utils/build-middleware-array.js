@@ -45,17 +45,22 @@ export default function buildMiddlewareArray({ adminMode = false } = {}) {
       })
     );
   } else {
-    const persistHandler = createPersistHandler({
-      firebaseAuth,
-      debounceLength: 500,
-    });
+    /** NOTE March 2018
+     * My Firebase free plan is near-full, so I'm disabling
+     * additional recordings.
+     */
 
-    middlewares.push(createCaptureMiddleware({
-      persistHandler,
-      blacklist: [{ matchingCriteria: 'startsWith', type: 'MODALS/' }],
-      startTrigger: COMPLETE_ONBOARDING,
-      minimumActionsToPersist: 20,
-    }));
+    // const persistHandler = createPersistHandler({
+    //   firebaseAuth,
+    //   debounceLength: 500,
+    // });
+
+    // middlewares.push(createCaptureMiddleware({
+    //   persistHandler,
+    //   blacklist: [{ matchingCriteria: 'startsWith', type: 'MODALS/' }],
+    //   startTrigger: COMPLETE_ONBOARDING,
+    //   minimumActionsToPersist: 20,
+    // }));
   }
 
   return middlewares;
